@@ -120,16 +120,19 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
 <style>
 .moving-approved-hero{position:relative;overflow:hidden}
 .moving-approved-hero img{
-  width:112%;
+  width:118%;
   max-width:none;
-  margin-left:-6%;
+  margin-left:-9%;
   transform-origin:center center;
-  animation:approvedHeroMotion 6s ease-in-out infinite alternate;
+  animation:approvedHeroMotion 5.4s ease-in-out infinite alternate;
   will-change:transform;
 }
 @keyframes approvedHeroMotion{
-  0%{transform:translate3d(-4.5%,0,0) scale(1.015)}
-  100%{transform:translate3d(4.5%,0,0) scale(1.015)}
+  0%{transform:translate3d(-6%,-2.2%,0) scale(1.025)}
+  25%{transform:translate3d(1.5%,2.0%,0) scale(1.03)}
+  50%{transform:translate3d(6%,-1.8%,0) scale(1.025)}
+  75%{transform:translate3d(-1.5%,2.2%,0) scale(1.03)}
+  100%{transform:translate3d(-6%,-2.2%,0) scale(1.025)}
 }
 </style>
 </head>
