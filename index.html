@@ -91,20 +91,18 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
 }
 </style>
 <style>
-.moving-approved-hero{position:relative;overflow:hidden;isolation:isolate;animation:heroScene 8s ease-in-out infinite alternate}
-.moving-approved-hero>img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
-@keyframes heroScene{0%{transform:translate3d(-.45%,0,0) scale(1.008)}50%{transform:translate3d(.35%,-.35%,0) scale(1.014)}100%{transform:translate3d(.55%,.25%,0) scale(1.01)}}
-.hero-bubble{position:absolute;border-radius:50%;pointer-events:none;z-index:3;overflow:hidden;filter:drop-shadow(0 8px 10px rgba(8,43,99,.12))}
+.moving-approved-hero{position:relative;overflow:hidden;isolation:isolate}
+.moving-approved-hero>img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;animation:none!important;transform:none!important}
+.hero-bubble{position:absolute;border-radius:50%;pointer-events:none;z-index:6;overflow:hidden;filter:drop-shadow(0 10px 14px rgba(8,43,99,.18));will-change:transform}
 .hero-bubble img{position:absolute;max-width:none!important;height:auto!important;animation:none!important;transform:none!important}
-.hero-bubble.b1{animation:bubbleOne 6.2s ease-in-out infinite alternate}
-.hero-bubble.b2{animation:bubbleTwo 7s ease-in-out infinite alternate}
-.hero-bubble.b3{animation:bubbleThree 6.6s ease-in-out infinite alternate}
-@keyframes bubbleOne{0%{transform:translate(0,0)}33%{transform:translate(34%,10%)}66%{transform:translate(72%,-8%)}100%{transform:translate(105%,7%)}}
-@keyframes bubbleTwo{0%{transform:translate(0,0)}35%{transform:translate(-30%,12%)}70%{transform:translate(-70%,-10%)}100%{transform:translate(-112%,6%)}}
-@keyframes bubbleThree{0%{transform:translate(0,0)}35%{transform:translate(-24%,-14%)}70%{transform:translate(-58%,8%)}100%{transform:translate(-92%,-10%)}}
+.hero-bubble.b1{animation:bubbleOne 4.8s ease-in-out infinite alternate}
+.hero-bubble.b2{animation:bubbleTwo 5.2s ease-in-out infinite alternate}
+.hero-bubble.b3{animation:bubbleThree 5s ease-in-out infinite alternate}
+@keyframes bubbleOne{0%{transform:translate3d(0,0,0)}25%{transform:translate3d(28%,10%,0)}55%{transform:translate3d(58%,-7%,0)}78%{transform:translate3d(82%,9%,0)}100%{transform:translate3d(102%,-4%,0)}}
+@keyframes bubbleTwo{0%{transform:translate3d(0,0,0)}25%{transform:translate3d(-26%,9%,0)}55%{transform:translate3d(-54%,-9%,0)}78%{transform:translate3d(-82%,7%,0)}100%{transform:translate3d(-108%,-5%,0)}}
+@keyframes bubbleThree{0%{transform:translate3d(0,0,0)}25%{transform:translate3d(-20%,-12%,0)}55%{transform:translate3d(-46%,7%,0)}78%{transform:translate3d(-70%,-9%,0)}100%{transform:translate3d(-88%,5%,0)}}
 @media(max-width:700px){
- .moving-approved-hero{animation-duration:7s}
- .hero-bubble.b1{animation-duration:5.8s}.hero-bubble.b2{animation-duration:6.4s}.hero-bubble.b3{animation-duration:6s}
+ .hero-bubble.b1{animation-duration:4.2s}.hero-bubble.b2{animation-duration:4.6s}.hero-bubble.b3{animation-duration:4.4s}
 }
 </style>
 </head>
