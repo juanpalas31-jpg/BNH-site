@@ -95,7 +95,7 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
 .moving-approved-hero>img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
 @keyframes heroScene{0%{transform:translate3d(-.45%,0,0) scale(1.008)}50%{transform:translate3d(.35%,-.35%,0) scale(1.014)}100%{transform:translate3d(.55%,.25%,0) scale(1.01)}}
 .hero-bubble-patch,.hero-bubble{position:absolute;border-radius:50%;pointer-events:none}
-.hero-bubble-patch{z-index:2;background:rgba(225,240,238,.78);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:inset 0 0 35px rgba(255,255,255,.8)}
+.hero-bubble-patch{z-index:2;background:rgba(236,246,244,.22);backdrop-filter:blur(16px) saturate(.92);-webkit-backdrop-filter:blur(16px) saturate(.92);box-shadow:inset 0 0 22px rgba(255,255,255,.32);transform:scale(.94);transform-origin:center}
 .hero-bubble{z-index:3;overflow:hidden;filter:drop-shadow(0 8px 10px rgba(8,43,99,.12))}
 .hero-bubble img{position:absolute;max-width:none!important;height:auto!important;animation:none!important;transform:none!important}
 .hero-bubble.b1{animation:bubbleOne 6.2s ease-in-out infinite alternate}
@@ -176,7 +176,7 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
   bubbles.forEach(b=>{
    const patch=document.createElement('div');
    patch.className='hero-bubble-patch';
-   Object.assign(patch.style,{left:b.x+'%',top:b.y+'%',width:b.w+'%',height:b.h+'%'});
+   Object.assign(patch.style,{left:(b.x+0.7)+'%',top:(b.y+0.8)+'%',width:(b.w-1.4)+'%',height:(b.h-1.6)+'%'});
    hero.appendChild(patch);
    const cut=document.createElement('div');
    cut.className='hero-bubble '+b.cls;
