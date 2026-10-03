@@ -90,6 +90,20 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
  .approved-services{padding:18px 8px 24px}
 }
 </style>
+<style>
+/* Tablet layout correction */
+@media (min-width:701px) and (max-width:1100px){
+  .hero{padding:28px 24px 32px}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:24px;max-width:100%}
+  .copy,.visual,.form,.approved-hero{grid-column:1!important;grid-row:auto!important;width:100%!important;max-width:none!important}
+  .approved-hero{border-radius:22px}
+  .approved-hero img{display:block;width:100%!important;height:auto!important;max-width:none!important;object-fit:cover}
+  .form{width:100%;max-width:760px;margin:0 auto}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .card:last-child{grid-column:1/-1}
+  .trust-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
 <body>
 <header>
