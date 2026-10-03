@@ -142,21 +142,10 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
  .rb1{left:1%;top:35%}.rb2{right:1%;top:10%}.rb3{right:2%;bottom:5%}
 }
 </style>
-<style id="bnh-bubble-fix">
-.moving-approved-hero{position:relative!important;overflow:hidden!important;animation:none!important;transform:none!important}
-.moving-approved-hero>img{display:block;width:100%!important;height:auto!important;animation:none!important;transform:none!important}
-.bnh-cut{position:absolute;z-index:5;border-radius:50%;overflow:hidden;pointer-events:none;will-change:transform;box-shadow:0 5px 16px rgba(8,44,92,.10)}
-.bnh-cut img{position:absolute!important;max-width:none!important;height:auto!important;animation:none!important}
-.bnh-cut.c1{left:4.2%;top:7.1%;width:27.4%;aspect-ratio:1}
-.bnh-cut.c2{left:70.3%;top:7.5%;width:27.4%;aspect-ratio:1}
-.bnh-cut.c3{left:68.3%;top:52.0%;width:27.4%;aspect-ratio:1}
-.bnh-cut.c1{animation:bnhc1 3.8s ease-in-out infinite}
-.bnh-cut.c2{animation:bnhc2 4.2s ease-in-out infinite}
-.bnh-cut.c3{animation:bnhc3 4s ease-in-out infinite}
-@keyframes bnhc1{0%,100%{transform:translate(0,0)}50%{transform:translate(5px,-5px)}}
-@keyframes bnhc2{0%,100%{transform:translate(0,0)}50%{transform:translate(-5px,5px)}}
-@keyframes bnhc3{0%,100%{transform:translate(0,0)}50%{transform:translate(5px,5px)}}
-@media(max-width:700px){.bnh-cut.c1,.bnh-cut.c2,.bnh-cut.c3{animation-duration:4.5s}}
+<style id="bnh-hero-clean">
+.moving-approved-hero{position:relative!important;overflow:hidden!important;transform:none!important;animation:none!important}
+.moving-approved-hero>img{display:block!important;width:100%!important;height:auto!important;transform:none!important;animation:none!important}
+.moving-approved-hero::before,.moving-approved-hero::after{content:none!important;display:none!important}
 </style>
 </head>
 <body>
@@ -256,29 +245,6 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
  };
  const go=()=>requestAnimationFrame(build);
  base.complete?go():base.addEventListener('load',go,{once:true});
- let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(build,120)},{passive:true});
-})();
-</script>
-<script id="bnh-bubble-fix-js">
-(function(){
- const hero=document.querySelector('.moving-approved-hero');
- const base=hero&&hero.querySelector(':scope > img');
- if(!hero||!base) return;
- function build(){
-   hero.querySelectorAll('.bnh-cut').forEach(e=>e.remove());
-   const W=base.clientWidth,H=base.clientHeight;
-   if(!W||!H) return;
-   const defs=[
-    ['c1',.042,.071,.274],['c2',.703,.075,.274],['c3',.683,.520,.274]
-   ];
-   defs.forEach(([cl,x,y,w])=>{
-     const d=document.createElement('span'); d.className='bnh-cut '+cl;
-     const im=document.createElement('img'); im.src=base.src; im.alt='';
-     im.style.width=W+'px'; im.style.left=(-x*W)+'px'; im.style.top=(-y*H)+'px';
-     d.appendChild(im); hero.appendChild(d);
-   });
- }
- if(base.complete) build(); else base.addEventListener('load',build,{once:true});
  let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(build,120)},{passive:true});
 })();
 </script>
