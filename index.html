@@ -139,36 +139,5 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
  </div>
 </section>
 </main>
-<script>
-(function(){
- const hero=document.querySelector('.moving-approved-hero');
- if(!hero||hero.dataset.bubblesReady)return;
- const base=hero.querySelector(':scope > img');
- if(!base)return;
- hero.dataset.bubblesReady='1';
- const bubbles=[
-  {x:4.0,y:20.7,w:27.4,h:36.9,cls:'b1'},
-  {x:70.7,y:22.3,w:26.3,h:36.0,cls:'b2'},
-  {x:68.3,y:60.8,w:27.0,h:36.2,cls:'b3'}
- ];
- function build(){
-  hero.querySelectorAll('.hero-bubble').forEach(n=>n.remove());
-  const W=hero.clientWidth,H=base.getBoundingClientRect().height;
-  bubbles.forEach(b=>{
-   const cut=document.createElement('div');
-   cut.className='hero-bubble '+b.cls;
-   Object.assign(cut.style,{left:b.x+'%',top:b.y+'%',width:b.w+'%',height:b.h+'%'});
-   const im=base.cloneNode(false);
-   im.removeAttribute('class');
-   im.style.width=W+'px';
-   im.style.left=(-(b.x/100)*W)+'px';
-   im.style.top=(-(b.y/100)*H)+'px';
-   cut.appendChild(im); hero.appendChild(cut);
-  });
- }
- const ready=()=>requestAnimationFrame(build);
- if(base.complete)ready(); else base.addEventListener('load',ready,{once:true});
- let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(build,140)},{passive:true});
-})();
-</script>
+
 </body></html>
