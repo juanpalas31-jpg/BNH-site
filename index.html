@@ -132,6 +132,13 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
    <input type="hidden" name="_template" value="table">
    <input type="hidden" name="_captcha" value="false">
    <input type="hidden" name="_next" value="https://bnh-site.vercel.app/merci.html">
+   <input type="hidden" name="Source" id="lead-source" value="Direct">
+   <input type="hidden" name="Canal" id="lead-medium" value="direct">
+   <input type="hidden" name="Campagne" id="lead-campaign" value="">
+   <input type="hidden" name="UTM source" id="lead-utm-source" value="">
+   <input type="hidden" name="UTM medium" id="lead-utm-medium" value="">
+   <input type="hidden" name="UTM campaign" id="lead-utm-campaign" value="">
+   <input type="hidden" name="Lead ID" id="lead-id" value="">
    <input required name="Nom" placeholder="Nom *" autocomplete="name">
    <input required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
    <input name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
@@ -167,4 +174,4 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
 .bnh-local-footer{padding:22px 16px;text-align:center;font-size:13px;line-height:1.8;color:#5d6b7e;background:#f7f9fc;border-top:1px solid #e6ebf2}
 .bnh-local-footer strong{color:#163b6d;font-size:13px}.bnh-local-footer a{color:#5d6b7e;text-decoration:none}.bnh-local-footer a:hover{text-decoration:underline}.footer-sep{margin:0 7px}
 </style>
-<script id="bnh-bubbles-final-js">(()=>{const h=document.querySelector('.moving-approved-hero'),b=h&&h.querySelector(':scope>img');if(!h||!b)return;h.querySelectorAll('.bnh-orig-bubble').forEach(x=>x.remove());['b1','b2','b3'].forEach(k=>{const s=document.createElement('span');s.className='bnh-orig-bubble '+k;const i=b.cloneNode(false);i.alt='';i.setAttribute('aria-hidden','true');s.appendChild(i);h.appendChild(s)})})();</script></body></html>
+<script id="bnh-bubbles-final-js">(()=>{const h=document.querySelector('.moving-approved-hero'),b=h&&h.querySelector(':scope>img');if(!h||!b)return;h.querySelectorAll('.bnh-orig-bubble').forEach(x=>x.remove());['b1','b2','b3'].forEach(k=>{const s=document.createElement('span');s.className='bnh-orig-bubble '+k;const i=b.cloneNode(false);i.alt='';i.setAttribute('aria-hidden','true');s.appendChild(i);h.appendChild(s)})})();</script><script id="bnh-lead-tracking">(()=>{const p=new URLSearchParams(location.search),g=k=>(p.get(k)||'').trim(),set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v};const us=g('utm_source'),um=g('utm_medium'),uc=g('utm_campaign');let source=us||'Direct',medium=um||'direct';if(!us&&document.referrer){try{const h=new URL(document.referrer).hostname.replace(/^www\./,'');source=h||'Referral';medium='referral'}catch(e){}}set('lead-source',source);set('lead-medium',medium);set('lead-campaign',uc);set('lead-utm-source',us);set('lead-utm-medium',um);set('lead-utm-campaign',uc);set('lead-id','BNH-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,7).toUpperCase())})();</script></body></html>
