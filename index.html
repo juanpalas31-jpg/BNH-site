@@ -204,4 +204,43 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
 .bnh-local-footer{padding:22px 16px;text-align:center;font-size:13px;line-height:1.6;color:#5d6b7e;background:#f7f9fc;border-top:1px solid #e6ebf2}
 .bnh-local-footer strong{color:#163b6d;font-size:14px}
 </style>
+<style>
+/* REAL BNH BUBBLES — tablet */
+@media (min-width:701px) and (max-width:1100px){
+ .moving-approved-hero{position:relative!important;overflow:hidden!important;animation:none!important}
+ .bnh-real-patch,.bnh-real-bubble{position:absolute;pointer-events:none;border-radius:50%}
+ .bnh-real-patch{z-index:2;background:rgba(229,240,239,.94);backdrop-filter:blur(34px);-webkit-backdrop-filter:blur(34px);box-shadow:inset 0 0 42px rgba(255,255,255,.9)}
+ .bnh-real-bubble{z-index:3;overflow:hidden;filter:drop-shadow(0 8px 14px rgba(8,43,99,.14));will-change:transform}
+ .bnh-real-bubble img{position:absolute!important;max-width:none!important;height:auto!important;transform:none!important;animation:none!important}
+ .bnh-real-bubble.b1{animation:bnhReal1 5.8s ease-in-out infinite alternate}
+ .bnh-real-bubble.b2{animation:bnhReal2 6.4s ease-in-out infinite alternate}
+ .bnh-real-bubble.b3{animation:bnhReal3 6.1s ease-in-out infinite alternate}
+}
+@keyframes bnhReal1{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(22%,8%,0)}100%{transform:translate3d(42%,-5%,0)}}
+@keyframes bnhReal2{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-20%,9%,0)}100%{transform:translate3d(-38%,-5%,0)}}
+@keyframes bnhReal3{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-18%,-9%,0)}100%{transform:translate3d(-34%,5%,0)}}
+</style>
+<script>
+(()=>{
+ const hero=document.querySelector('.moving-approved-hero'), base=hero&&hero.querySelector(':scope > img');
+ if(!hero||!base)return;
+ const specs=[{x:4.0,y:20.7,w:27.4,h:36.9,k:'b1'},{x:70.7,y:22.3,w:26.3,h:36.0,k:'b2'},{x:68.3,y:60.8,w:27.0,h:36.2,k:'b3'}];
+ const build=()=>{
+  hero.querySelectorAll('.bnh-real-patch,.bnh-real-bubble').forEach(n=>n.remove());
+  if(!matchMedia('(min-width:701px) and (max-width:1100px)').matches)return;
+  const W=hero.clientWidth,H=base.getBoundingClientRect().height;
+  specs.forEach(s=>{
+   const p=document.createElement('div'); p.className='bnh-real-patch';
+   Object.assign(p.style,{left:s.x+'%',top:s.y+'%',width:s.w+'%',height:s.h+'%'}); hero.appendChild(p);
+   const d=document.createElement('div'); d.className='bnh-real-bubble '+s.k;
+   Object.assign(d.style,{left:s.x+'%',top:s.y+'%',width:s.w+'%',height:s.h+'%'});
+   const im=base.cloneNode(false); im.style.width=W+'px'; im.style.left=(-(s.x/100)*W)+'px'; im.style.top=(-(s.y/100)*H)+'px';
+   d.appendChild(im); hero.appendChild(d);
+  });
+ };
+ const go=()=>requestAnimationFrame(build);
+ base.complete?go():base.addEventListener('load',go,{once:true});
+ let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(build,120)},{passive:true});
+})();
+</script>
 </body></html>
