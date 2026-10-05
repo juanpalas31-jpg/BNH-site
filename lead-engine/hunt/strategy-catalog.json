@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "principle": "adapt_to_environment_not_paid_attention",
+  "strategies": [
+    {
+      "id": "web",
+      "analogy": "orb/web builder",
+      "digital_use": "persistent SEO, guides, local pages and internal links",
+      "trigger": "informational or exploratory intent"
+    },
+    {
+      "id": "ambush",
+      "analogy": "burrow/trapdoor hunter",
+      "digital_use": "wait for strong intent signals then surface the most relevant next step",
+      "trigger": "simulator completion, repeated high-intent behavior or form start"
+    },
+    {
+      "id": "pursuit",
+      "analogy": "active hunter",
+      "digital_use": "rank fresh opportunities for human review",
+      "trigger": "new relevant opportunity with evidence"
+    },
+    {
+      "id": "interception",
+      "analogy": "rapid capture at decision moment",
+      "digital_use": "make booking, assessment or contact path immediately accessible",
+      "trigger": "booking intent, form submission or very high intent"
+    },
+    {
+      "id": "observe",
+      "analogy": "vibration sensing",
+      "digital_use": "collect aggregate signals and learn without contacting",
+      "trigger": "weak or ambiguous signal"
+    }
+  ],
+  "constraints": {
+    "paid_ads_required": false,
+    "spam": false,
+    "dark_patterns": false,
+    "fake_scarcity": false,
+    "automatic_contact_default": false
+  }
+}
