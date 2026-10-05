@@ -8,6 +8,12 @@ export default async function handler(req, res) {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
     const payload = {
+      record_type: 'lead',
+      schema_version: 1,
+      tenant_id: body.tenant_id || 'bnh',
+      project_id: body.project_id || 'bnh-site',
+      session_id: body.session_id || '',
+      content_page: body.content_page || body.path || '',
       lead_id: body.lead_id || body['Lead ID'] || '',
       nom: body.nom || body.Nom || '',
       telephone: body.telephone || body['Téléphone'] || '',
