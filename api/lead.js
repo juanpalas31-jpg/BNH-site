@@ -1,4 +1,8 @@
-// Lead relay: Google Sheets webhook is configured via BNH_SHEETS_WEBHOOK_URL in Vercel.
+// Lead relay: legacy storage remains configured via BNH_SHEETS_WEBHOOK_URL during migration.
+import { randomUUID } from 'node:crypto';
+
+const safeId = (prefix) => `${prefix}-${randomUUID()}`;
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok:false, error:'Method not allowed' });
 
@@ -7,14 +11,16 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+    const tenantId = body.tenant_id || 'bnh';
     const payload = {
       record_type: 'lead',
       schema_version: 1,
-      tenant_id: body.tenant_id || 'bnh',
+      tenant_id: tenantId,
       project_id: body.project_id || 'bnh-site',
       session_id: body.session_id || '',
       content_page: body.content_page || body.path || '',
-      lead_id: body.lead_id || body['Lead ID'] || `BNH-${Date.now()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`,
+      // Portable fallback: no BNH-specific identifier is embedded in engine-generated IDs.
+      lead_id: body.lead_id || body['Lead ID'] || safeId('LEAD'),
       nom: body.nom || body.Nom || '',
       telephone: body.telephone || body['Téléphone'] || '',
       email: body.email || body.Email || '',
