@@ -69,3 +69,41 @@ create index if not exists events_session_idx on events(session_id);
 
 insert into tenants(tenant_id,name) values ('bnh','BNH') on conflict (tenant_id) do nothing;
 insert into projects(project_id,tenant_id,name) values ('bnh-site','bnh','BNH Site') on conflict (project_id) do nothing;
+
+
+-- Spider Engine evolution + integrity
+-- Strategy fitness memory: lets the organism compare strategies using real outcomes.
+CREATE TABLE IF NOT EXISTS strategy_outcomes (
+  outcome_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id text NOT NULL REFERENCES tenants(tenant_id),
+  project_id text NOT NULL REFERENCES projects(project_id),
+  strategy text NOT NULL CHECK (strategy IN ('web','ambush','pursuit','interception','observe')),
+  context_key text NOT NULL DEFAULT 'default',
+  impressions bigint NOT NULL DEFAULT 0 CHECK (impressions >= 0),
+  qualified_leads bigint NOT NULL DEFAULT 0 CHECK (qualified_leads >= 0),
+  appointments bigint NOT NULL DEFAULT 0 CHECK (appointments >= 0),
+  sales bigint NOT NULL DEFAULT 0 CHECK (sales >= 0),
+  revenue numeric(14,2) NOT NULL DEFAULT 0 CHECK (revenue >= 0),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (tenant_id, project_id, strategy, context_key)
+);
+
+-- Regeneration memory: records verifiable engine snapshots without storing secrets.
+CREATE TABLE IF NOT EXISTS engine_snapshots (
+  snapshot_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id text NOT NULL REFERENCES tenants(tenant_id),
+  project_id text NOT NULL REFERENCES projects(project_id),
+  dna_version text NOT NULL,
+  schema_version integer NOT NULL,
+  checksum text NOT NULL,
+  storage_provider text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  metadata jsonb NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS projects_tenant_project_uidx ON projects(tenant_id, project_id);
+CREATE INDEX IF NOT EXISTS strategy_outcomes_tenant_idx ON strategy_outcomes(tenant_id, project_id, strategy);
+CREATE INDEX IF NOT EXISTS engine_snapshots_tenant_created_idx ON engine_snapshots(tenant_id, project_id, created_at DESC);
+
+-- Provider-neutral schema invariant: project and tenant must always belong together.
+-- Production migration also enforces this with composite foreign keys.
