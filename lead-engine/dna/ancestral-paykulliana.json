@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "genome_id": "SPIDER-ANCESTRAL-PAYKULLIANA",
+  "taxon": {
+    "species": "Steatoda paykulliana",
+    "family": "Theridiidae",
+    "role": "ancestral architectural baseline"
+  },
+  "evidence_boundary": "Species-specific facts and broader Theridiidae mechanics must remain distinguishable. Architecture may borrow family-level mechanics only when labelled as such.",
+  "ancestral_traits": [
+    {
+      "trait": "dry_habitat_resilience",
+      "biological_basis": "Species is reported mainly from dry/semi-dry habitats including dry grasslands, dunes, calcareous areas and rock crevices.",
+      "digital_expression": "Operate under scarce traffic/resources without fabricating conclusions; preserve core sensing, storage and recovery.",
+      "modules": ["fasting","thermal_hydric_stress","diapause"]
+    },
+    {
+      "trait": "protected_retreat",
+      "biological_basis": "Habitat association includes rock crevices; Theridiidae architecture motivates a protected core separated from exposed capture surfaces.",
+      "digital_expression": "Keep DNA, credentials, primary data and restore material behind public acquisition surfaces.",
+      "modules": ["defense","egg_guarding","territoriality"]
+    },
+    {
+      "trait": "tangle_web_leverage",
+      "biological_basis": "Theridiidae tangle-web mechanics are used as the family-level engineering analogy; do not overstate every mechanism as uniquely proven for this species.",
+      "digital_expression": "Many low-cost persistent threads combine into leverage: SEO assets, tools, internal links, local intent surfaces and measurement.",
+      "modules": ["web_building","orientation","web_repair"]
+    },
+    {
+      "trait": "vibration_first_sensing",
+      "biological_basis": "Web-building spiders use mechanical information from the web as a major information channel.",
+      "digital_expression": "Treat visits, engagement, simulator progress, forms, bookings, appointments, sales and revenue as graded vibrations.",
+      "modules": ["orientation","hunt","stridulation"]
+    },
+    {
+      "trait": "asymmetric_capture",
+      "biological_basis": "Theridiidae web architecture inspires mechanical leverage against challenges larger than the spider itself.",
+      "digital_expression": "Prefer accumulated infrastructure and repeatable leverage over expensive brute-force acquisition.",
+      "modules": ["ambush","predatory_leap","wrap"]
+    },
+    {
+      "trait": "distributed_threads",
+      "biological_basis": "A tangle web is structurally multi-threaded rather than a single capture line.",
+      "digital_expression": "Never depend on one acquisition channel, one page, one provider or one storage path.",
+      "modules": ["web_building","escape","regeneration","ballooning"]
+    }
+  ],
+  "inheritance": {
+    "immutable_origin": "Steatoda paykulliana",
+    "acquired_traits_allowed": true,
+    "promotion_rule": "Acquired traits enter durable Spider DNA only after measurable testing, evidence thresholds, policy checks and human review.",
+    "customer_data_inheritance": false
+  },
+  "prohibitions": [
+    "dark_patterns",
+    "fake_scarcity",
+    "spam",
+    "covert_manipulation",
+    "cross_tenant_customer_data",
+    "automatic_consequential_contact_without_policy"
+  ]
+}
