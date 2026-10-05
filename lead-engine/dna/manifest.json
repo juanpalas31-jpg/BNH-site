@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dna_version": "0.1.0",
+  "organism": "Spider Engine",
+  "ancestral_genome": "lead-engine/dna/ancestral-paykulliana.json",
+  "behavioral_states": "lead-engine/dna/behavioral-state-machine.json",
+  "heritable_modules": [
+    "senses/signal-engine.js",
+    "hunt/strategy-selector.js",
+    "evolution/strategy-fitness.js",
+    "evolution/mutation-guard.js",
+    "adaptation/thread-optimizer.js",
+    "defense/runtime-guard.js",
+    "resilience/circuit-breaker.js",
+    "resilience/idempotency.js",
+    "resilience/retry-policy.js",
+    "regeneration/restore-check.js",
+    "reproduction/structural-learning.js",
+    "memory/learning.js"
+  ],
+  "immutable_principles": [
+    "tenant_isolation",
+    "no_cross_tenant_customer_data_inheritance",
+    "no_dark_patterns",
+    "no_fake_scarcity",
+    "no_spam",
+    "no_automatic_consequential_contact_without_policy",
+    "evidence_before_durable_mutation",
+    "restore_before_destructive_cutover",
+    "provider_portability"
+  ],
+  "lineage": {
+    "generation": 0,
+    "parent": null,
+    "origin": "Steatoda paykulliana architectural baseline",
+    "offspring_inherits_customer_data": false
+  },
+  "expression_model": {
+    "genotype": "portable DNA, invariants, contracts and heritable modules",
+    "phenotype": "tenant-specific strategies and behavior expressed under current environment and evidence",
+    "environment_inputs": ["traffic","intent","outcomes","resource_pressure","provider_health","security_signals"]
+  },
+  "mutation_policy": {
+    "random_self_modification": false,
+    "proposal_allowed": true,
+    "evidence_gate": true,
+    "policy_gate": true,
+    "human_review_for_durable_promotion": true
+  }
+}
