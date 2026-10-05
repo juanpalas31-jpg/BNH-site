@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "migration": "legacy-webhook-to-postgres",
+  "principle": "no-loss-no-blind-cutover",
+  "phases": [
+    {
+      "id": "prepare",
+      "checks": [
+        "postgres_schema_applied",
+        "primary_healthcheck"
+      ]
+    },
+    {
+      "id": "shadow",
+      "checks": [
+        "dual_write_enabled",
+        "lead_ids_match",
+        "event_ids_match",
+        "sample_integrity_verified"
+      ]
+    },
+    {
+      "id": "promote",
+      "checks": [
+        "new_primary_enabled",
+        "legacy_mirror_enabled",
+        "error_rate_acceptable"
+      ]
+    },
+    {
+      "id": "prove_restore",
+      "checks": [
+        "json_export_verified",
+        "csv_export_verified",
+        "restore_test_passed",
+        "tenant_isolation_verified"
+      ]
+    },
+    {
+      "id": "retire_legacy",
+      "checks": [
+        "observation_window_complete",
+        "rollback_path_documented"
+      ]
+    }
+  ],
+  "automatic_cutover": false,
+  "rollback_required": true
+}
