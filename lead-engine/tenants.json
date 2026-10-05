@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "engine": "portable-lead-engine",
+  "tenants": {
+    "bnh": {
+      "project_id": "bnh-site",
+      "name": "BNH",
+      "timezone": "Europe/Paris",
+      "locale": "fr-FR",
+      "status": "active"
+    }
+  },
+  "retention": {
+    "exports": ["json", "csv"],
+    "restore_test_required": true
+  }
+}
