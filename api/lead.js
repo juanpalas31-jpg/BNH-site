@@ -27,7 +27,8 @@ export default async function handler(req, res) {
       headers:{'content-type':'application/json'},
       body:JSON.stringify(payload)
     });
-    if (!upstream.ok) throw new Error('Storage webhook rejected request');
+    const result = await upstream.json().catch(() => ({}));
+    if (!upstream.ok || result.ok !== true) throw new Error(result.error || 'Storage webhook rejected request');
     return res.status(200).json({ ok:true, lead_id:payload.lead_id });
   } catch (e) {
     return res.status(500).json({ ok:false, error:'Lead relay failed' });
