@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       project_id: body.project_id || 'bnh-site',
       session_id: body.session_id || '',
       content_page: body.content_page || body.path || '',
-      lead_id: body.lead_id || body['Lead ID'] || '',
+      lead_id: body.lead_id || body['Lead ID'] || `BNH-${Date.now()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`,
       nom: body.nom || body.Nom || '',
       telephone: body.telephone || body['Téléphone'] || '',
       email: body.email || body.Email || '',
@@ -25,7 +25,8 @@ export default async function handler(req, res) {
       utm_source: body.utm_source || '',
       utm_medium: body.utm_medium || '',
       utm_campaign: body.utm_campaign || '',
-      received_at: new Date().toISOString()
+      received_at: new Date().toISOString(),
+      engine_version: '1'
     };
 
     const upstream = await fetch(webhook, {
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
     });
     const result = await upstream.json().catch(() => ({}));
     if (!upstream.ok || result.ok !== true) throw new Error(result.error || 'Storage webhook rejected request');
-    return res.status(200).json({ ok:true, lead_id:payload.lead_id });
+    return res.status(200).json({ ok:true, lead_id:payload.lead_id, tenant_id:payload.tenant_id, project_id:payload.project_id, schema_version:payload.schema_version });
   } catch (e) {
     return res.status(500).json({ ok:false, error:'Lead relay failed' });
   }
