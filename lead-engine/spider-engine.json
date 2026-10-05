@@ -1,0 +1,18 @@
+{
+  "engine": "spider-engine",
+  "version": "0.1.0",
+  "loop": ["sense","understand","attract","qualify","convert","measure","learn","protect","restore","reproduce"],
+  "modules": {
+    "web": {"role":"organic acquisition and internal mesh","status":"active"},
+    "senses": {"role":"page/session/event telemetry","status":"building"},
+    "hunt": {"role":"opportunity detection","status":"planned"},
+    "qualify": {"role":"forms and simulators","status":"building"},
+    "memory": {"role":"portable primary storage","status":"building"},
+    "defense": {"role":"validation, isolation, access control, anomaly detection","status":"building"},
+    "regeneration": {"role":"backup, export, restore verification","status":"building"},
+    "reproduction": {"role":"tenant provisioning from configuration","status":"building"}
+  },
+  "tenant_isolation": true,
+  "provider_independence": true,
+  "dark_patterns": false
+}
