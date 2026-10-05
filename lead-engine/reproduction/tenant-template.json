@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "template": "spider-tenant-v1",
+  "inheritance": {
+    "allowed": [
+      "engine_schema",
+      "security_policy",
+      "event_taxonomy",
+      "storage_contract",
+      "backup_policy",
+      "conversion_measurement"
+    ],
+    "forbidden": [
+      "leads",
+      "events",
+      "customers",
+      "credentials",
+      "private_notes",
+      "tenant_secrets"
+    ]
+  },
+  "required": [
+    "tenant_id",
+    "project_id",
+    "brand",
+    "territory",
+    "locale",
+    "timezone"
+  ],
+  "defaults": {
+    "locale": "fr-FR",
+    "timezone": "Europe/Paris",
+    "status": "provisioning",
+    "storage": {
+      "provider": "unconfigured",
+      "isolation": "tenant_scoped",
+      "exports": [
+        "json",
+        "csv"
+      ],
+      "restore_test_required": true
+    },
+    "tracking": {
+      "enabled": true,
+      "consent_aware": true
+    },
+    "defense": {
+      "runtime_guard": true,
+      "least_privilege": true,
+      "secrets_in_repository": false
+    }
+  },
+  "activation_gates": [
+    "unique_tenant_id",
+    "storage_healthcheck",
+    "tenant_isolation_verified",
+    "backup_export_verified",
+    "restore_test_passed"
+  ]
+}
