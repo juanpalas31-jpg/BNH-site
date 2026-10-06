@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "id": "SPIDER-LEGACY-CONSTITUTION",
+  "immutable_principles": [
+    "recipient_remains_free",
+    "founder_history_is_not_silently_rewritten",
+    "lineage_proof_is_separate_from_legal_inheritance",
+    "no_single_building_provider_or_guardian_is_a_single_point_of_failure",
+    "private_branch_data_does_not_cross_branches_by_default",
+    "future_generations_may_evolve_without_impersonating_the_founder",
+    "knowledge_may_be_inherited_without_forcing_identity_or_mission",
+    "human_life_safety_overrides_ceremony_automation"
+  ],
+  "amendment_policy": {
+    "operational_rules_may_evolve": true,
+    "immutable_principles_may_not_be_silently_removed": true,
+    "amendments_are_versioned_and_attributed": true
+  }
+}
