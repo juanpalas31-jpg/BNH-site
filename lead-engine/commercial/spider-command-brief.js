@@ -1,16 +1,37 @@
-export function commandBrief({threads=[],weakest=null,period="current"}={}){
- const top=[...threads].sort((a,b)=>Number(b.verifiedRevenue||0)-Number(a.verifiedRevenue||0))[0]||null;
+import { attilaDecision } from './attila-feeding-engine.js';
+import { foodMemory, nextHunt } from './attila-assimilation.js';
+
+export function commandBrief({threads=[],weakest=null,period='current',leads=[],outcomes=[],open_leads=0,capacity=1}={}){
+ const top=[...threads].sort((a,b)=>Number(b.collectedRevenue??b.verifiedRevenue??0)-Number(a.collectedRevenue??a.verifiedRevenue??0))[0]||null;
+ const memory=foodMemory(outcomes);
+ const hunt=nextHunt(memory);
+ const attila=attilaDecision({leads,open_leads,capacity});
+
  return {
   period,
-  northStar:"verified_revenue_from_qualified_organic_demand",
+  northStar:'collected_revenue_and_realized_margin_from_qualified_demand',
   topRevenueThread:top,
   weakestTransition:weakest,
+  attila:{
+   state:attila.hunger,
+   hunt_mode:attila.hunt_mode,
+   feed_quality_index:attila.feed_quality.fqi,
+   assimilated_revenue:attila.feed_quality.assimilated_revenue,
+   assimilated_margin:attila.feed_quality.assimilated_margin,
+   priority_prey:attila.priority_prey,
+   next_hunt:hunt,
+   explanation:hunt.reason
+  },
   priorities:[
-   top?"protect_and_learn_from_top_thread":"collect_verified_outcomes",
-   weakest?"repair_weakest_transition":"measure_full_funnel",
-   "avoid_vanity_traffic_optimization"
+   attila.hunt_mode==='CONVERT_EXISTING'?'digest_and_convert_open_pipeline':'hunt_high_quality_demand',
+   top?'protect_and_learn_from_top_thread':'collect_verified_outcomes',
+   weakest?'repair_weakest_transition':'measure_full_funnel'
   ],
-  automaticSpend:false,
-  automaticPublication:false
+  guardrails:{
+   avoid_vanity_traffic_optimization:true,
+   automaticSpend:false,
+   automaticPublication:false,
+   automaticConsequentialContact:false
+  }
  };
 }
