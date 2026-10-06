@@ -1,0 +1,11 @@
+{
+  "warning": "TEMPLATE ONLY - DO NOT COMMIT REAL NAMES, ADDRESSES, PHONES, IDS, SIGNATURES OR LEGAL DOCUMENTS",
+  "guardian_ref": "GUARDIAN-01",
+  "full_identity": null,
+  "contact_details": null,
+  "legal_role": null,
+  "identity_proof_ref": null,
+  "notary_or_legal_record_ref": null,
+  "accepted_mission_at": null,
+  "status": "unbound"
+}
