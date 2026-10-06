@@ -40,7 +40,12 @@ export class RecoveryLedger {
     if(!this.deadLetter.some(x=>x.key===op.key)) this.deadLetter.push({key:op.key,failure:op.failure||null});
     continue;
    }
-   const result=await this.process(op.record,handler);\n   recovered.push(result);\n   if(result.state===OPERATION_STATES.FAILED && result.attempts>=maxAttempts){\n    result.state=OPERATION_STATES.QUARANTINED;\n    if(!this.deadLetter.some(x=>x.key===result.key)) this.deadLetter.push({key:result.key,failure:result.failure||null});\n   }
+   const result=await this.process(op.record,handler);
+   recovered.push(result);
+   if(result.state===OPERATION_STATES.FAILED && result.attempts>=maxAttempts){
+    result.state=OPERATION_STATES.QUARANTINED;
+    if(!this.deadLetter.some(x=>x.key===result.key)) this.deadLetter.push({key:result.key,failure:result.failure||null});
+   }
   }
   return recovered;
  }
