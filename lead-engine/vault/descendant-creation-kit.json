@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "DESCENDANT-CREATION-KIT",
+  "inherited": [
+    "spider_dna_spec",
+    "lineage_protocol",
+    "reconstruction_docs",
+    "armor_g0_archive",
+    "safety_principles"
+  ],
+  "blank_by_design": [
+    "new_armor",
+    "new_projects",
+    "new_mission",
+    "new_egg_branch"
+  ],
+  "creation_rules": [
+    "recipient_controls_personal_direction",
+    "ancestor_history_remains_immutable",
+    "new_generation_is_traceable_to_source",
+    "private_data_does_not_cross_branches_by_default",
+    "unsafe_or_coercive_capabilities_are_not_inherited_as_requirements"
+  ]
+}
