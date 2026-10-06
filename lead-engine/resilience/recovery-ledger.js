@@ -10,7 +10,7 @@ export class RecoveryLedger {
  receive(record={}){
   const key=idempotencyKey(record);
   const existing=this.operations.get(key);
-  if(existing) return {...existing,duplicate:true};
+  if(existing) return existing;
   const op={key,state:OPERATION_STATES.RECEIVED,attempts:0,record,duplicate:false};
   this.operations.set(key,op); return op;
  }
@@ -37,10 +37,10 @@ export class RecoveryLedger {
   for(const op of this.pending()){
    if(op.attempts>=maxAttempts){
     op.state=OPERATION_STATES.QUARANTINED;
-    this.deadLetter.push({key:op.key,failure:op.failure||null});
+    if(!this.deadLetter.some(x=>x.key===op.key)) this.deadLetter.push({key:op.key,failure:op.failure||null});
     continue;
    }
-   recovered.push(await this.process(op.record,handler));
+   const result=await this.process(op.record,handler);\n   recovered.push(result);\n   if(result.state===OPERATION_STATES.FAILED && result.attempts>=maxAttempts){\n    result.state=OPERATION_STATES.QUARANTINED;\n    if(!this.deadLetter.some(x=>x.key===result.key)) this.deadLetter.push({key:result.key,failure:result.failure||null});\n   }
   }
   return recovered;
  }
