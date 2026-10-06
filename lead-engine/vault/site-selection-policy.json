@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "objective": "select a durable physical source anchor without creating a single point of failure",
+  "criteria": [
+    "legal_and_insurance_feasibility",
+    "low_environmental_risk",
+    "physical_security",
+    "reliable_power_and_backup_power",
+    "network_connectivity_plus_offline_operation",
+    "climate_control_for_archives_and_hardware",
+    "maintainability_over_decades",
+    "accessibility_for_authorized_family",
+    "room_for_future_reconstruction_and_ceremonies"
+  ],
+  "prohibited_public_data": [
+    "street_address",
+    "access_codes",
+    "security_layout",
+    "key_locations",
+    "private_guardian_identity"
+  ],
+  "decision_status": "future_human_and_professional_review"
+}
