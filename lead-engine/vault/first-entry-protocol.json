@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "VAULT-FIRST-ENTRY",
+  "principle": "The recipient enters as a free adult, not as a captive participant.",
+  "stages": [
+    {
+      "id": "ARRIVAL",
+      "requires": [
+        "guardian_or_legal_handoff_complete"
+      ],
+      "doors": "normal_safe_access"
+    },
+    {
+      "id": "ORIENTATION",
+      "requires": [
+        "identity_check"
+      ],
+      "message": "You may stop at any time."
+    },
+    {
+      "id": "CONSENT",
+      "requires": [
+        "explicit_consent"
+      ],
+      "on_decline": "preserve_egg_and_exit_safely"
+    },
+    {
+      "id": "AWAKENING",
+      "requires": [
+        "ceremony_integrity_pass"
+      ]
+    },
+    {
+      "id": "AFTERCARE",
+      "requires": [
+        "exportable_personal_archive",
+        "human_contact_option"
+      ]
+    }
+  ],
+  "prohibited": [
+    "forced_lock_in",
+    "hidden_coercion",
+    "single_exit_dependency",
+    "undisclosed_recording"
+  ]
+}
