@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { evaluateInbound } from '../lead-engine/orchestrator.js';
 import { createRuntimeStorage } from '../lead-engine/runtime.js';
+import { evaluateBnhOpportunity } from '../lead-engine/adapters/bnh-opportunity-adapter.js';
 
 const safeId = (prefix) => `${prefix}-${randomUUID()}`;
 
@@ -14,6 +15,9 @@ export default async function handler(req,res){
     const {primary,provider}=createRuntimeStorage();
     if(!primary) return res.status(503).json({ok:false,error:'Lead storage not configured'});
     await primary.saveLead(payload);
-    return res.status(200).json({ok:true,lead_id:payload.lead_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider});
+    const commercial=payload.tenant_id==='bnh'&&payload.project_id==='bnh-site'
+      ? evaluateBnhOpportunity({...body,...payload})
+      : null;
+    return res.status(200).json({ok:true,lead_id:payload.lead_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider,commercial});
   }catch{return res.status(500).json({ok:false,error:'Lead storage failed'});}
 }
