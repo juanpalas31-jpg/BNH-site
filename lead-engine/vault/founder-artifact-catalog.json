@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "catalog_id": "FOUNDER-ARTIFACTS",
+  "public_repo_contains_private_media": false,
+  "classes": [
+    {
+      "id": "VOICE",
+      "examples": [
+        "personal_messages",
+        "ceremony_opening"
+      ],
+      "authenticity_required": true
+    },
+    {
+      "id": "VISUAL",
+      "examples": [
+        "founder_capture",
+        "armor_g0_render"
+      ],
+      "authenticity_required": true
+    },
+    {
+      "id": "DESIGN",
+      "examples": [
+        "armor_g0_plans",
+        "spider_architecture"
+      ],
+      "authenticity_required": false
+    },
+    {
+      "id": "HISTORY",
+      "examples": [
+        "milestones",
+        "selected_failures",
+        "selected_successes"
+      ],
+      "authenticity_required": true
+    },
+    {
+      "id": "ORIGIN",
+      "examples": [
+        "source_anchor_proofs",
+        "signed_dna_snapshots"
+      ],
+      "authenticity_required": true
+    }
+  ],
+  "storage_rule": "private encrypted archive; repository stores schemas and references only"
+}
