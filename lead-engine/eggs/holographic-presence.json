@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "module": "FOUNDER-PRESENCE",
+  "role": "primary_ceremony_presence",
+  "presentation_priority": [
+    "holographic_or_spatial_presence",
+    "AR_or_VR_presence",
+    "screen_spatial_audio",
+    "audio_text_safe_mode"
+  ],
+  "source_policy": {
+    "founder_capture_required": true,
+    "authenticated_source_material": true,
+    "synthetic_reconstruction_allowed_only_if_explicitly_authorized": true,
+    "synthetic_content_must_be_disclosed": true,
+    "unapproved_new_founder_statements": false
+  },
+  "capture_manifest": {
+    "video": [
+      "front",
+      "three_quarter_left",
+      "three_quarter_right",
+      "full_body"
+    ],
+    "audio": [
+      "clean_voice",
+      "emotional_messages",
+      "names_and_personal_greetings"
+    ],
+    "optional_future": [
+      "volumetric_capture",
+      "depth_capture",
+      "motion_capture"
+    ],
+    "transcripts": true,
+    "integrity_signature_at_sealing": true
+  },
+  "ceremony": {
+    "appear_after_spider_boot": true,
+    "address_verified_recipient": true,
+    "recipient_specific_message": true,
+    "may_pause": true,
+    "may_replay": true
+  }
+}
