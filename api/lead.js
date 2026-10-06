@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { evaluateInbound } from '../lead-engine/orchestrator.js';
 import { createRuntimeStorage } from '../lead-engine/runtime.js';
 import { evaluateBnhOpportunity } from '../lead-engine/adapters/bnh-opportunity-adapter.js';
+import { huntingCard } from '../lead-engine/commercial/hunting-board.js';
 
 const safeId = (prefix) => `${prefix}-${randomUUID()}`;
 
@@ -18,6 +19,7 @@ export default async function handler(req,res){
     const commercial=payload.tenant_id==='bnh'&&payload.project_id==='bnh-site'
       ? evaluateBnhOpportunity({...body,...payload})
       : null;
-    return res.status(200).json({ok:true,lead_id:payload.lead_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider,commercial});
+    const hunting_card=commercial?huntingCard({lead:{...body,...payload},opportunity:commercial}):null;
+    return res.status(200).json({ok:true,lead_id:payload.lead_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider,commercial,hunting_card});
   }catch{return res.status(500).json({ok:false,error:'Lead storage failed'});}
 }
