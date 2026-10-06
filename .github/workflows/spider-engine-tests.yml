@@ -1,0 +1,36 @@
+name: Spider Engine Tests
+
+on:
+  push:
+    paths:
+      - 'lead-engine/**'
+      - 'api/**'
+      - '.github/workflows/spider-engine-tests.yml'
+  pull_request:
+    paths:
+      - 'lead-engine/**'
+      - 'api/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lead-engine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: lead-engine/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Test Spider Engine
+        run: npm test
