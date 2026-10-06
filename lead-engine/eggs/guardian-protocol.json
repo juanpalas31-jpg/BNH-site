@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "protocol": "SLP-draft-0.2",
+  "schema_version": 2,
+  "protocol": "SLP-draft-0.3",
   "module": "guardian_transmission",
   "principles": {
     "guardian_is_not_beneficiary": true,
@@ -69,5 +69,14 @@
     "self_propagation": false,
     "coercion": false,
     "secret_surveillance": false
+  },
+  "implementation": {
+    "state_machine": "lead-engine/eggs/guardian-state-machine.js",
+    "tests": "lead-engine/eggs/guardian-state-machine.test.js",
+    "minimum_independent_verifiers": 2,
+    "append_only_hash_chained_receipts": true,
+    "evidence_is_allowlisted": true,
+    "reward_unlocks_capsule_only": true,
+    "automatic_payment_authorized": false
   }
 }
