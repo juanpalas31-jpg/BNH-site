@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "fields": [
+    "episode_id",
+    "branch_id",
+    "title",
+    "source_refs",
+    "release_class",
+    "mission_ref",
+    "minimum_age",
+    "founder_priority",
+    "fallback_release"
+  ],
+  "release_classes": [
+    "TIME",
+    "MISSION",
+    "MILESTONE",
+    "SHARED_TRAME",
+    "COMPASSIONATE"
+  ],
+  "founder_priority": [
+    "ESSENTIAL",
+    "IMPORTANT",
+    "BONUS"
+  ],
+  "fallback_release": [
+    "NORMAL_ONLY",
+    "ACCELERATABLE",
+    "ALWAYS_RELEASE_IF_COMPASSIONATE"
+  ],
+  "rules": [
+    "original_media_preserved",
+    "synthetic_restoration_labeled",
+    "recipient_may_pause",
+    "no_episode_destroyed_after_failed_mission"
+  ]
+}
