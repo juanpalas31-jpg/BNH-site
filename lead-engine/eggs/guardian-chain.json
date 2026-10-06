@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "protocol": "SLP-draft-0.1",
+  "status": "design",
+  "privacy_rule": "Real guardian identities, contact details and legal documents must remain off the public repository.",
+  "guardians": [
+    {
+      "guardian_ref": "GUARDIAN-01",
+      "priority": 1,
+      "identity_binding": "OFF_REPO_PRIVATE_BINDING_REQUIRED",
+      "role": "primary_transmission_guardian",
+      "scope": [
+        "G1-A",
+        "G1-B"
+      ],
+      "may_open_egg": false,
+      "may_change_recipient": false,
+      "may_change_inheritance": false
+    },
+    {
+      "guardian_ref": "GUARDIAN-02",
+      "priority": 2,
+      "identity_binding": "OFF_REPO_PRIVATE_BINDING_REQUIRED",
+      "role": "fallback_guardian",
+      "scope": [
+        "G1-A",
+        "G1-B"
+      ],
+      "may_open_egg": false,
+      "may_change_recipient": false,
+      "may_change_inheritance": false
+    },
+    {
+      "guardian_ref": "GUARDIAN-03",
+      "priority": 3,
+      "identity_binding": "OFF_REPO_PRIVATE_BINDING_REQUIRED",
+      "role": "fallback_guardian",
+      "scope": [
+        "G1-A",
+        "G1-B"
+      ],
+      "may_open_egg": false,
+      "may_change_recipient": false,
+      "may_change_inheritance": false
+    }
+  ],
+  "failover": {
+    "reasons": [
+      "deceased",
+      "incapacitated",
+      "unreachable",
+      "declined",
+      "legally_unable"
+    ],
+    "next_guardian_activation": "verified_failover_only",
+    "single_guardian_can_seize_control": false
+  },
+  "delivery": {
+    "target_age_source": "recipient_egg_manifest",
+    "recipient_identity_verification_required": true,
+    "egg_integrity_verification_required": true,
+    "legal_authority_check_required": true,
+    "recipient_consent_required": true
+  }
+}
