@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "ATILA-TRAME-SERVICE",
+  "organism": "ATILA",
+  "owner_system": "SPIDER_ENGINE",
+  "serves": "TRAME",
+  "trigger": "END_OF_EVERY_EXECUTION",
+  "duties": [
+    "hunt_lost_code",
+    "verify_against_canonical_inventory",
+    "clean_duplicate_references_without_deleting_source",
+    "prepare_controlled_restoration_plan",
+    "create_bounded_successor_for_next_cycle",
+    "emit_recovery_report"
+  ],
+  "replication": {
+    "mode": "BOUNDED_SUCCESSOR",
+    "max_generation": 32,
+    "uncontrolled_replication": false
+  },
+  "safety": {
+    "destructive_cleanup": false,
+    "automatic_overwrite": false,
+    "automatic_execution_of_recovered_code": false,
+    "human_review_for_restoration": true
+  }
+}
