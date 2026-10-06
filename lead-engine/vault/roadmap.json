@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "phases": [
+    {
+      "id": "V0",
+      "name": "digital_source_anchor",
+      "trigger": "now",
+      "deliverables": [
+        "architecture",
+        "offline_recovery_spec",
+        "ceremony_spec"
+      ]
+    },
+    {
+      "id": "V1",
+      "name": "property_requirements",
+      "trigger": "verified_capital_progress",
+      "deliverables": [
+        "budget_envelope",
+        "risk_screen",
+        "legal_ownership_review"
+      ]
+    },
+    {
+      "id": "V2",
+      "name": "property_acquisition",
+      "trigger": "financial_and_legal_clearance",
+      "deliverables": [
+        "durable_site",
+        "insurance",
+        "utilities"
+      ]
+    },
+    {
+      "id": "V3",
+      "name": "vault_buildout",
+      "trigger": "site_owned",
+      "deliverables": [
+        "hatching_chamber",
+        "source_archive",
+        "spider_core",
+        "armor_archive",
+        "recovery_lab"
+      ]
+    },
+    {
+      "id": "V4",
+      "name": "continuity_validation",
+      "trigger": "systems_installed",
+      "deliverables": [
+        "offline_test",
+        "restore_test",
+        "media_authenticity_test",
+        "multi_copy_recovery_test"
+      ]
+    }
+  ],
+  "no_fixed_purchase_date": true,
+  "target_horizon_context": "1_to_2_years_if_financially_realistic"
+}
