@@ -28,9 +28,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: lead-engine/package-lock.json
-      - name: Install
-        run: npm ci
       - name: Test Spider Engine
         run: npm test
