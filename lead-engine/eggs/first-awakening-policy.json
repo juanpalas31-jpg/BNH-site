@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "policy": "FIRST-AWAKENING",
+  "first_activation": {
+    "one_time_event": true,
+    "preserve_event_record": true,
+    "cinematic_sequence": true,
+    "personalized": true,
+    "recipient_control_after_recognition": true
+  },
+  "replay": {
+    "founder_message": true,
+    "ceremony_reconstruction": true,
+    "mark_replay_as_replay": true
+  },
+  "authenticity": {
+    "preserve_original_founder_media": true,
+    "preserve_original_spider_version": true,
+    "never_rewrite_historical_message": true
+  }
+}
