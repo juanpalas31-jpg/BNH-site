@@ -64,7 +64,7 @@ export const SPIDER_INSTINCTS=Object.freeze({
   }
 });
 
-export function selectSpiderInstinct(context={}){
+export function territoryAuthorized(context={}){\n const territory=String(context.territory||"").toUpperCase();\n const authorized=Array.isArray(context.authorized_territories)?context.authorized_territories.map(x=>String(x).toUpperCase()):[];\n return Boolean(context.authorization===true || authorized.includes(territory));\n}\n\nexport function selectSpiderInstinct(context={}){
  const territory=String(context.territory||"").toUpperCase();
  const precise=Number(context.signal_strength||0)>=80;
  const complex=Number(context.path_count||0)>1;
