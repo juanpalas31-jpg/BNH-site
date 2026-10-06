@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "VAULT-OFFLINE-RECOVERY",
+  "principle": "The ceremony may depend on the Vault experience; the lineage must not.",
+  "minimum_recovery_set": [
+    "signed_spider_dna_snapshot",
+    "egg_manifests",
+    "founder_media_authenticity_proofs",
+    "armor_g0_design_archive",
+    "reconstruction_documentation",
+    "portable_open_formats",
+    "integrity_checks"
+  ],
+  "copies": {
+    "minimum_recommended": 3,
+    "geographically_separated": true,
+    "encrypted": true,
+    "same_failure_domain": false
+  },
+  "secrets": {
+    "stored_in_public_repo": false,
+    "split_authority": true
+  },
+  "periodic_validation": {
+    "required": true,
+    "automatic_destructive_repair": false
+  }
+}
