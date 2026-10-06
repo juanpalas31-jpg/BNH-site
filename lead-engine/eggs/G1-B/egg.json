@@ -8,7 +8,7 @@
   "recipient_identity": "OFF_REPO_PRIVATE_BINDING_REQUIRED",
   "activation": {
     "mode": "age_milestone_with_verified_recipient",
-    "target_age_years": 19,
+    "target_age_years": 24,
     "date": null,
     "founder_alive_or_deceased": "either",
     "conditions": [
@@ -21,7 +21,8 @@
     "fallback_if_milestone_missed": "deliver_as_soon_as_verified_after_target_age",
     "coercive_activation": false,
     "device_locking": false,
-    "self_propagation": false
+    "self_propagation": false,
+    "sequence_note": "G1-B is intentionally later than G1-A in family chronology; milestone is recipient age 24."
   },
   "payload": {
     "minimum_viable_genome": true,
