@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "objective": "Keep the Vault usable across technology generations without rewriting its history.",
+  "refresh_domains": [
+    "storage_media",
+    "compute",
+    "display",
+    "projection",
+    "audio",
+    "power_backup",
+    "networking",
+    "file_formats"
+  ],
+  "rules": [
+    "preserve_original_bitstream_where_possible",
+    "create_verified_migrations_before_media_obsolescence",
+    "retain open_documented_fallback_formats",
+    "verify hashes_after_migration",
+    "never replace authenticated founder meaning with generated content",
+    "keep at least one offline-readable recovery path"
+  ],
+  "review_interval_years": 3,
+  "destructive_automatic_migration": false
+}
