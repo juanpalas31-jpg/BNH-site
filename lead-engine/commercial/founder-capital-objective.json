@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "objective_id": "FOUNDER-CAPITAL-01",
+  "horizon": "1_to_2_years",
+  "goal": "build enough verified business cash generation to make a future Spider Vault property financially realistic",
+  "engine_role": "increase qualified commercial outcomes through organic acquisition and measured learning",
+  "principles": [
+    "no_revenue_guarantee",
+    "no_mandatory_paid_ads",
+    "qualified_outcomes_over_vanity_traffic",
+    "reinvest_only_from_verified_results",
+    "do_not_mix_business_assets_with_family_legacy_assets_without_legal_and_tax_review"
+  ],
+  "funnel": [
+    "organic_visibility",
+    "useful_content",
+    "intent",
+    "qualification",
+    "appointment",
+    "quote",
+    "sale",
+    "measured_outcome",
+    "learning"
+  ],
+  "capital_gate": {
+    "property_purchase_automatic": false,
+    "requires_verified_finances": true,
+    "requires_legal_tax_review": true
+  }
+}
