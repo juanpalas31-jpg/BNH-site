@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "protocol": "SLP-draft-0.1",
+  "egg_id": "SPIDER-EGG-ANNOBON-01",
+  "generation": "special_non_lineage",
+  "status": "design",
+  "purpose": "One exceptional Spider branch intended for a consenting adult in Annobón, Equatorial Guinea, outside the founder lineage.",
+  "geography": {
+    "required_country": "Equatorial Guinea",
+    "required_location": "Annobón",
+    "location_verification_required": true
+  },
+  "selection": {
+    "mode": "ethical_candidate_selection",
+    "adult_only": true,
+    "self_application_or_lawful_nomination": true,
+    "secret_surveillance": false,
+    "biometric_scraping": false,
+    "protected_trait_scoring": false,
+    "covert_psychological_profiling": false,
+    "criteria_source": "OFF_REPO_FOUNDER_CRITERIA_REQUIRED",
+    "evaluation_principles": [
+      "observable_actions_over_identity",
+      "consent",
+      "fair_opportunity",
+      "human_review",
+      "documented_reasons",
+      "appeal_or_decline_without_penalty"
+    ]
+  },
+  "activation": {
+    "automatic_targeting": false,
+    "automatic_contact": false,
+    "recipient_consent_required": true,
+    "identity_verified": true,
+    "egg_integrity_verified": true
+  },
+  "inheritance": {
+    "founder_lineage_required": false,
+    "customer_data": false,
+    "raw_human_dna": false,
+    "secrets_embedded": false
+  },
+  "spider": {
+    "dedicated_to_recipient": true,
+    "phenotype": "generated_for_verified_recipient",
+    "structural_dna_inherited": true,
+    "recipient_private_profile": "OFF_REPO_ENCRYPTED_AND_CONSENT_BASED"
+  },
+  "safeguards": {
+    "no_claim_of_worth_based_on_race_ethnicity_religion_politics_health_or_other_protected_traits": true,
+    "no_coercion": true,
+    "no_device_takeover": true,
+    "no_self_propagation": true
+  }
+}
