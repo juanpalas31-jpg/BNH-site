@@ -1,34 +1,99 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "title":"Portable Lead Engine Event",
-  "type":"object",
-  "required":["record_type","tenant_id","project_id","received_at"],
-  "properties":{
-    "record_type":{"enum":["lead","event"]},
-    "tenant_id":{"type":"string"},
-    "project_id":{"type":"string"},
-    "lead_id":{"type":"string"},
-    "event_id":{"type":"string"},
-    "session_id":{"type":"string"},
-    "received_at":{"type":"string","format":"date-time"},
-    "browser_timestamp":{"type":"string"},
-    "nom":{"type":"string"},
-    "telephone":{"type":"string"},
-    "email":{"type":"string"},
-    "code_postal":{"type":"string"},
-    "source":{"type":"string"},
-    "canal":{"type":"string"},
-    "campagne":{"type":"string"},
-    "utm_source":{"type":"string"},
-    "utm_medium":{"type":"string"},
-    "utm_campaign":{"type":"string"},
-    "content_page":{"type":"string"},
-    "path":{"type":"string"},
-    "event":{"type":"string"},
-    "local_day":{},
-    "local_hour":{},
-    "target":{"type":"string"},
-    "duration_sec":{}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable Lead Engine Event",
+  "type": "object",
+  "required": [
+    "record_type",
+    "tenant_id",
+    "project_id",
+    "received_at"
+  ],
+  "properties": {
+    "record_type": {
+      "enum": [
+        "lead",
+        "event"
+      ]
+    },
+    "tenant_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "lead_id": {
+      "type": "string"
+    },
+    "event_id": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "browser_timestamp": {
+      "type": "string"
+    },
+    "nom": {
+      "type": "string"
+    },
+    "telephone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "code_postal": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "canal": {
+      "type": "string"
+    },
+    "campagne": {
+      "type": "string"
+    },
+    "utm_source": {
+      "type": "string"
+    },
+    "utm_medium": {
+      "type": "string"
+    },
+    "utm_campaign": {
+      "type": "string"
+    },
+    "content_page": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "event": {
+      "type": "string"
+    },
+    "local_day": {},
+    "local_hour": {},
+    "target": {
+      "type": "string"
+    },
+    "duration_sec": {},
+    "intervention_id": {
+      "type": "string"
+    },
+    "client_id": {
+      "type": "string"
+    },
+    "qr_id": {
+      "type": "string"
+    },
+    "review_id": {
+      "type": "string"
+    }
   },
-  "additionalProperties":true
+  "additionalProperties": true
 }
