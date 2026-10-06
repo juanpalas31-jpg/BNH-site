@@ -1,0 +1,51 @@
+{
+  "cluster": "dpe",
+  "tenant": "bnh",
+  "goal": "organic_qualified_assessment_leads",
+  "source_policy": "official_sources_required_for_regulatory_claims",
+  "articles": [
+    {
+      "slug": "dpe-obligatoire-vente-location-2026",
+      "title": "DPE en 2026 : quand est-il obligatoire pour vendre ou louer ?",
+      "intent": "regulatory_information",
+      "cta": "Faire le point sur la performance énergétique de mon logement",
+      "funnel_target": "bilan_residentiel_gratuit"
+    },
+    {
+      "slug": "dpe-g-f-e-consequences-proprietaire",
+      "title": "DPE G, F ou E : quelles conséquences pour un propriétaire ?",
+      "intent": "high_intent_owner",
+      "cta": "Identifier les postes de mon logement à étudier",
+      "funnel_target": "bilan_residentiel_gratuit"
+    },
+    {
+      "slug": "comprendre-dpe-a-g",
+      "title": "DPE de A à G : comprendre son étiquette énergie et climat",
+      "intent": "educational",
+      "cta": "Préparer mon bilan résidentiel",
+      "funnel_target": "bilan_residentiel_gratuit"
+    },
+    {
+      "slug": "ameliorer-dpe-logement-travaux",
+      "title": "Comment améliorer le DPE d'un logement : quels postes étudier ?",
+      "intent": "renovation",
+      "cta": "Demander un bilan résidentiel gratuit",
+      "funnel_target": "bilan_residentiel_gratuit"
+    },
+    {
+      "slug": "dpe-electricite-changement-2026",
+      "title": "DPE 2026 : ce qui change pour les logements chauffés à l'électricité",
+      "intent": "regulatory_update",
+      "cta": "Vérifier quels travaux restent pertinents pour mon logement",
+      "funnel_target": "bilan_residentiel_gratuit"
+    }
+  ],
+  "conversion_rules": {
+    "no_fake_urgency": true,
+    "no_guaranteed_dpe_gain": true,
+    "no_guaranteed_savings": true,
+    "diagnostic_not_replaced_by_bnh_assessment": true,
+    "contextual_cta_after_explanation": true,
+    "track": ["article_view","content_engaged","assessment_cta_click","form_start","form_submit"]
+  }
+}
