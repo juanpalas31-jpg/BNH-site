@@ -6,8 +6,12 @@
   "status": "design",
   "purpose": "One exceptional Spider branch intended for a consenting adult in Annobón, Equatorial Guinea, outside the founder lineage.",
   "geography": {
-    "required_country": "Equatorial Guinea",
-    "required_location": "Annobón",
+    "anchor_type": "physical_island",
+    "canonical_place_name": "Annobón",
+    "current_country_context": "Equatorial Guinea",
+    "jurisdiction_independent_anchor": true,
+    "rule": "Target the physical island of Annobón regardless of future sovereignty, country name, borders, or political status.",
+    "future_status_change_must_not_block_selection": true,
     "location_verification_required": true
   },
   "selection": {
@@ -26,7 +30,13 @@
       "human_review",
       "documented_reasons",
       "appeal_or_decline_without_penalty"
-    ]
+    ],
+    "criteria_evolution": {
+      "current_criteria_are_baseline": true,
+      "additional_founder_criteria_allowed": true,
+      "criteria_must_be_versioned_and_documented": true,
+      "protected_trait_scoring_prohibited": true
+    }
   },
   "activation": {
     "automatic_targeting": false,
