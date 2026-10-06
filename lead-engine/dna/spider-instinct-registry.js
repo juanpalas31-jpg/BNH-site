@@ -64,7 +64,13 @@ export const SPIDER_INSTINCTS=Object.freeze({
   }
 });
 
-export function territoryAuthorized(context={}){\n const territory=String(context.territory||"").toUpperCase();\n const authorized=Array.isArray(context.authorized_territories)?context.authorized_territories.map(x=>String(x).toUpperCase()):[];\n return Boolean(context.authorization===true || authorized.includes(territory));\n}\n\nexport function selectSpiderInstinct(context={}){
+export function territoryAuthorized(context={}){
+ const territory=String(context.territory||"").toUpperCase();
+ const authorized=Array.isArray(context.authorized_territories)?context.authorized_territories.map(x=>String(x).toUpperCase()):[];
+ return Boolean(context.authorization===true || authorized.includes(territory));
+}
+
+export function selectSpiderInstinct(context={}){
  const territory=String(context.territory||"").toUpperCase();
  const precise=Number(context.signal_strength||0)>=80;
  const complex=Number(context.path_count||0)>1;
@@ -78,6 +84,11 @@ export function territoryAuthorized(context={}){\n const territory=String(contex
 }
 
 export function instinctDecision(context={}){
+ const authorized=territoryAuthorized(context);
+ if(!authorized) return {
+   organism:"ATTILA",territory:context.territory||"UNKNOWN",authorized:false,blocked:true,
+   reason:"TERRITORY_NOT_AUTHORIZED",automatic_contact:false,authorization_required:true,synthetic:false
+ };
  const instinct=selectSpiderInstinct(context);
  return {
    organism:"ATTILA",
@@ -87,6 +98,8 @@ export function instinctDecision(context={}){
    biological_pattern:instinct.biological_pattern,
    sequence:instinct.sequence,
    automatic_contact:false,
+   authorized:true,
+   blocked:false,
    authorization_required:true,
    synthetic:false
  };
