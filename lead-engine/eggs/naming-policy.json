@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "SPIDER-NAMING-RITE",
+  "sequence": [
+    "identity_verified",
+    "first_contact",
+    "naming_mission",
+    "reflection",
+    "name_proposal",
+    "recipient_confirmation",
+    "spider_activation"
+  ],
+  "principles": [
+    "the recipient chooses the name",
+    "the Spider may ask for deeper reflection before activation",
+    "a name is not rejected merely for being humorous, unusual or culturally unfamiliar",
+    "the system does not diagnose psychological state",
+    "private reflections are not exposed to siblings or the public repository",
+    "the purpose is agency, meaning and future orientation, not obedience"
+  ],
+  "rejection_scope": [
+    "empty_or_unusable_name",
+    "recipient_has_not_explained_personal_meaning",
+    "reflection_step_not_completed"
+  ],
+  "permanent_rejection_by_ai": false
+}
