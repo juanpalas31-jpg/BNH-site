@@ -1,5 +1,7 @@
 import { validateInboundRecord } from './defense/runtime-guard.js';
 import { detectOpportunity } from './senses/signal-engine.js';
+import { strategyDecision } from './hunt/strategy-selector.js';
+import { buildOpportunityQueue } from './hunt/opportunity-queue.js';
 
 export function evaluateInbound(record) {
   const guard = validateInboundRecord(record);
@@ -16,11 +18,32 @@ export function evaluateInbound(record) {
 
 export function evaluateSession(session) {
   const opportunity = detectOpportunity(session);
-  return {
-    phase: 'sense_understand_qualify',
+  const events = session.events || [];
+  const last = events.at(-1) || {};
+  const strategy = strategyDecision({
     ...opportunity,
+    event: last.event || last.type || '',
+    last_event: last.event || last.type || '',
+    opportunity: opportunity.intent === 'high' || opportunity.intent === 'medium'
+  });
+
+  return {
+    phase: 'sense_understand_hunt_qualify',
+    ...opportunity,
+    hunt: strategy,
     autonomous_action_allowed: false,
-    // Human/commercial action remains explicit until a policy authorizes automation.
+    automatic_contact: false,
     requires_policy: opportunity.intent === 'high'
+  };
+}
+
+export function prioritizeSessions(sessions = []) {
+  const evaluated = sessions.map(evaluateSession);
+  const queue = buildOpportunityQueue(evaluated);
+  return {
+    evaluated,
+    queue,
+    next: queue[0] || null,
+    automatic_contact: false
   };
 }
