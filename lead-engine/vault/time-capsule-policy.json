@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "SPIDER-TIME-CAPSULE",
+  "purpose": "preserve authentic founder context across generations",
+  "preserve": [
+    "authenticated_voice",
+    "authenticated_video",
+    "written_messages",
+    "selected_project_history",
+    "armor_g0_origin",
+    "spider_engine_origin",
+    "historical_technology_context"
+  ],
+  "rules": [
+    "originals_are_never_silently_rewritten",
+    "restorations_are_labeled",
+    "ai_reconstructions_are_labeled",
+    "new_synthetic_founder_statements_require_explicit_prior_authorization",
+    "future_descendants_can_distinguish_original_from_reconstruction"
+  ],
+  "public_repo_contains_media": false
+}
