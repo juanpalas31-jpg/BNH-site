@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "protocol": "SLP-draft-0.2",
+  "module": "guardian_transmission",
+  "principles": {
+    "guardian_is_not_beneficiary": true,
+    "mission_is_voluntary": true,
+    "guardian_may_refuse": true,
+    "reward_disclosed_before_completion": false,
+    "reward_must_not_influence_acceptance": true,
+    "no_single_guardian_controls_succession": true,
+    "no_automatic_financial_transfer": true
+  },
+  "states": [
+    "dormant",
+    "guardian_candidate",
+    "mission_offered",
+    "accepted",
+    "custody_active",
+    "transmission_pending",
+    "transmission_verified",
+    "mission_complete",
+    "reward_capsule_eligible",
+    "declined",
+    "fallback_guardian"
+  ],
+  "transitions": {
+    "mission_offered": {
+      "accept": "accepted",
+      "decline": "fallback_guardian",
+      "no_response": "fallback_guardian"
+    },
+    "accepted": {
+      "custody_confirmed": "custody_active",
+      "withdrawal": "fallback_guardian"
+    },
+    "custody_active": {
+      "authorized_recipient_found": "transmission_pending",
+      "guardian_unavailable": "fallback_guardian"
+    },
+    "transmission_pending": {
+      "independent_verification_passed": "transmission_verified",
+      "verification_failed": "custody_active"
+    },
+    "transmission_verified": {
+      "recipient_accepts": "mission_complete",
+      "recipient_declines": "custody_active"
+    },
+    "mission_complete": {
+      "reward_review_passed": "reward_capsule_eligible"
+    }
+  },
+  "reward": {
+    "existence_hidden_until_verified_completion": true,
+    "amount_or_asset": "PRIVATE_OFF_REPO",
+    "vehicle": "LEGAL_AND_FINANCIAL_STRUCTURE_REQUIRED",
+    "automatic_payment": false,
+    "independent_validation_required": true,
+    "purpose": "gratitude_for_completed_custody_and_transmission_not_purchase_of_loyalty"
+  },
+  "privacy": {
+    "guardian_names_in_public_repo": false,
+    "recipient_names_in_public_repo": false,
+    "financial_terms_in_public_repo": false,
+    "private_registry_required": true
+  },
+  "safety": {
+    "device_interference": false,
+    "self_propagation": false,
+    "coercion": false,
+    "secret_surveillance": false
+  }
+}
