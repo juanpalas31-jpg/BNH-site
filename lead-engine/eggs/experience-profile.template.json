@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "privacy": "PRIVATE_BINDING_OFF_REPO",
+  "recipient_ref": "RECIPIENT_PRIVATE",
+  "experience": {
+    "visual_language": null,
+    "sound_language": null,
+    "spider_form": null,
+    "greeting_style": null,
+    "reveal_intensity": null,
+    "preferred_media": null
+  },
+  "personalization_sources": {
+    "founder_authored_material": true,
+    "recipient_consented_profile": true,
+    "fabricated_memories": false
+  },
+  "evolution": {
+    "may_adapt_to_future_technology": true,
+    "preserve_founder_intent": true,
+    "preserve_recipient_choice": true
+  }
+}
