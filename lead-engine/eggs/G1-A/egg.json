@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "protocol": "SLP-draft-0.1",
+  "egg_id": "SPIDER-EGG-G1-A",
+  "generation": 1,
+  "parent_lineage": "SPIDER-ANCESTRAL-PAYKULLIANA",
+  "status": "preparation",
+  "recipient_identity": "OFF_REPO_PRIVATE_BINDING_REQUIRED",
+  "activation": {
+    "mode": "dormant_until_verified_claim",
+    "date": null,
+    "conditions": [
+      "recipient_authorization_verified",
+      "egg_integrity_verified",
+      "supported_runtime_available"
+    ],
+    "coercive_activation": false,
+    "device_locking": false,
+    "self_propagation": false
+  },
+  "payload": {
+    "minimum_viable_genome": true,
+    "ancestral_dna": "lead-engine/dna/ancestral-paykulliana.json",
+    "dna_manifest": "lead-engine/dna/manifest.json",
+    "behavioral_states": "lead-engine/dna/behavioral-state-machine.json",
+    "instincts": "lead-engine/dna/instincts.js",
+    "reconstruction_goal": "rebuild_compatible_spider_ecosystem_from_structural_dna"
+  },
+  "inheritance": {
+    "structural_learning": true,
+    "customer_data": false,
+    "raw_human_dna": false,
+    "secrets_embedded": false
+  },
+  "reunion": {
+    "lineage_recognition": true,
+    "authenticated_merge_required": true,
+    "blind_merge": false,
+    "preserve_branch_history": true
+  },
+  "integrity": {
+    "checksum": "TO_BE_GENERATED_AT_SEALING",
+    "signature": "TO_BE_CREATED_WITH_OFF_REPO_KEY_AT_SEALING"
+  }
+}
