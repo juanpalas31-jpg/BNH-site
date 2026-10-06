@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "organism": "Spider Engine",
+  "module": "minimum_viable_embryo",
+  "purpose": "Preserve the smallest self-describing structural package capable of guiding a compatible reconstruction.",
+  "immutable_origin": "SPIDER-ANCESTRAL-PAYKULLIANA",
+  "required_components": [
+    {
+      "id": "ancestral_genome",
+      "ref": "../dna/ancestral-paykulliana.json",
+      "critical": true
+    },
+    {
+      "id": "dna_manifest",
+      "ref": "../dna/manifest.json",
+      "critical": true
+    },
+    {
+      "id": "instincts",
+      "ref": "../dna/instincts.js",
+      "critical": true
+    },
+    {
+      "id": "behavioral_states",
+      "ref": "../dna/behavioral-state-machine.json",
+      "critical": true
+    },
+    {
+      "id": "organ_registry",
+      "ref": "../dna/organ-registry.js",
+      "critical": true
+    },
+    {
+      "id": "reconstruction_plan",
+      "ref": "./reconstruction-plan.js",
+      "critical": true
+    },
+    {
+      "id": "integrity",
+      "ref": "./egg-integrity.js",
+      "critical": true
+    },
+    {
+      "id": "lineage",
+      "ref": "./lineage-ledger.js",
+      "critical": true
+    }
+  ],
+  "reconstruction_order": [
+    "verify_package",
+    "read_origin",
+    "load_invariants",
+    "map_available_environment",
+    "restore_minimum_organs",
+    "run_self_checks",
+    "request_authorized_human_consent",
+    "enter_juvenile_observation_mode"
+  ],
+  "invariants": [
+    "never_require_original_provider",
+    "never_inherit_customer_data",
+    "never_embed_raw_human_dna",
+    "never_embed_secret_keys_in_public_package",
+    "never_self_propagate",
+    "never_execute_consequential_actions_without_policy_and_authorization"
+  ],
+  "fallback": "If executable code is obsolete, the manifest and documentation remain the reconstruction specification."
+}
