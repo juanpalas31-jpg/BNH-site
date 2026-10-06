@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "objective": "publish useful high-intent content that feeds the BNH assessment funnel",
+  "active": [
+    {
+      "slug": "dpe-electricite-changement-2026",
+      "state": "DRAFT_REVIEW",
+      "intent": "high"
+    },
+    {
+      "slug": "ameliorer-dpe-logement-travaux",
+      "state": "DRAFT_REVIEW",
+      "intent": "high"
+    }
+  ],
+  "next": [
+    {
+      "slug": "dpe-obligatoire-vente-location-2026",
+      "priority": 1
+    },
+    {
+      "slug": "dpe-g-f-e-consequences-proprietaire",
+      "priority": 2
+    },
+    {
+      "slug": "comprendre-dpe-a-g",
+      "priority": 3
+    }
+  ],
+  "rules": [
+    "official_sources_for_regulatory_claims",
+    "no_fake_urgency",
+    "no_guaranteed_savings",
+    "no_mass_low_value_pages",
+    "cta_to_free_assessment",
+    "human_review_before_publication"
+  ]
+}
