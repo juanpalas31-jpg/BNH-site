@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "ceremony_id": "SPIDER-HATCH-CEREMONY-V1",
+  "principle": "cinematic_but_authentic",
+  "states": [
+    "dormant",
+    "recipient_recognition",
+    "authorization",
+    "awakening",
+    "personal_greeting",
+    "founder_message",
+    "hatch",
+    "spider_bonding",
+    "legacy_unlock"
+  ],
+  "rules": {
+    "recipient_specific": true,
+    "same_sequence_same_experience": false,
+    "founder_words_must_be_authentic_recordings_or_authored_text": true,
+    "ai_may_not_invent_founder_memories_or_claims": true,
+    "future_display_technology_adaptable": true,
+    "recipient_can_pause_or_decline": true
+  },
+  "presentation": {
+    "progressive_boot_sequence": true,
+    "integrity_and_lineage_status": true,
+    "personalized_visual_identity": true,
+    "personalized_voice_style": true,
+    "compatible_future_media": [
+      "screen",
+      "spatial_audio",
+      "projection",
+      "AR",
+      "VR",
+      "future_supported_interface"
+    ]
+  }
+}
