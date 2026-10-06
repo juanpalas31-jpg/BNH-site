@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "privacy": "PRIVATE_CONTENT_OFF_PUBLIC_REPOSITORY",
+  "slots": [
+    {
+      "id": "opening",
+      "required": true,
+      "content_ref": "OFF_REPO"
+    },
+    {
+      "id": "why_i_built_spider",
+      "required": true,
+      "content_ref": "OFF_REPO"
+    },
+    {
+      "id": "what_i_see_in_you",
+      "required": true,
+      "content_ref": "OFF_REPO"
+    },
+    {
+      "id": "family_history",
+      "required": false,
+      "content_ref": "OFF_REPO"
+    },
+    {
+      "id": "responsibility_of_power",
+      "required": true,
+      "content_ref": "OFF_REPO"
+    },
+    {
+      "id": "closing",
+      "required": true,
+      "content_ref": "OFF_REPO"
+    }
+  ],
+  "authenticity": {
+    "founder_authored_or_recorded": true,
+    "integrity_signature_at_sealing": true,
+    "ai_fabricated_founder_testimony": false
+  }
+}
