@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "scene_id": "FOUNDER-ARMOR-REVEAL",
+  "sequence": [
+    "voice_before_image",
+    "founder_appears_in_ARMOR_G0",
+    "helmet_reveal",
+    "armor_progressive_disassembly",
+    "founder_visible_without_armor",
+    "authentic_personal_message",
+    "ARMOR_G0_design_archive_unlock",
+    "recipient_future_armor_workspace_unlock"
+  ],
+  "final_state": {
+    "founder_armor": "ARCHIVED",
+    "recipient_armor": "UNWRITTEN",
+    "message": "You inherit the knowledge, not the obligation to become me."
+  },
+  "rendering": {
+    "ai_generated_visuals_allowed": true,
+    "authentic_founder_source_required": true,
+    "synthetic_rendering_disclosed": true
+  }
+}
