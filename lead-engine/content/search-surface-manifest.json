@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "cluster": "DPE",
+  "pages": [
+    "dpe-electricite-changement-2026",
+    "ameliorer-dpe-logement-travaux",
+    "dpe-obligatoire-vente-location-2026",
+    "comprendre-dpe-a-g",
+    "dpe-f-g-consequences-proprietaire"
+  ],
+  "required_before_live": [
+    "canonical",
+    "title",
+    "meta_description",
+    "internal_silk",
+    "cta",
+    "analytics_events",
+    "sitemap_entry",
+    "source_review"
+  ],
+  "goal": "create a connected useful search surface, not isolated articles",
+  "auto_publish": false
+}
