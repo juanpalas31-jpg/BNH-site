@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "principle": "The physical Vault creates presence; the digital lineage preserves continuity.",
+  "physical": [
+    "building",
+    "ceremony_room",
+    "archive_hardware",
+    "display_and_audio",
+    "optional_armor_artifacts"
+  ],
+  "digital": [
+    "spider_dna",
+    "egg_manifests",
+    "integrity_proofs",
+    "founder_media_refs",
+    "reconstruction_docs",
+    "generation_ledger"
+  ],
+  "separation_rules": [
+    "physical_loss_must_not_destroy_lineage",
+    "digital_compromise_must_not_control_life_safety",
+    "legal_title_is_external_to_spider",
+    "real_security_layout_stays_private_off_repo"
+  ]
+}
