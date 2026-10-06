@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "lineage_id": "SPIDER-ARMOR-LINEAGE",
+  "founder_armor": {
+    "armor_id": "ARMOR-G0-FOUNDER",
+    "generation": 0,
+    "status": "canonical_founder_design",
+    "meaning": [
+      "founder_journey",
+      "constructed_legacy",
+      "responsibility",
+      "transmission"
+    ],
+    "immutable_history": true
+  },
+  "inheritance_rule": {
+    "descendants_inherit": "design_knowledge_and_architectural_dna",
+    "descendants_do_not_inherit": "mandatory_final_form",
+    "independent_design_required": true,
+    "preserve_ancestry": true
+  },
+  "motto": "The founder armor is history. The next armor is unwritten."
+}
