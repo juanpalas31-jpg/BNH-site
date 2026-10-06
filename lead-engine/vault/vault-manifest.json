@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "id": "SPIDER-VAULT-SOURCE-ANCHOR",
+  "purpose": "physical continuity, ceremony and reconstruction site",
+  "property_policy": {
+    "long_term_family_asset": true,
+    "sale_requires_separate_legal_governance": true,
+    "legal_structure": "TO_BE_VALIDATED_WITH_NOTARY",
+    "repository_is_not_legal_title": true
+  },
+  "zones": [
+    "arrival",
+    "hatching_chamber",
+    "founder_reveal_stage",
+    "source_archive",
+    "armor_g0_archive",
+    "spider_core",
+    "reconstruction_lab",
+    "future_generation_workspace"
+  ],
+  "continuity": {
+    "vault_is_not_single_point_of_failure": true,
+    "geographically_separated_encrypted_eggs_required": true,
+    "offline_recovery_required": true,
+    "cloud_optional_not_authoritative": true
+  },
+  "privacy": {
+    "real_address_in_public_repo": false,
+    "access_credentials_in_public_repo": false,
+    "private_family_records_in_public_repo": false
+  }
+}
