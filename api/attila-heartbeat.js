@@ -11,7 +11,8 @@ async function readJson(url,secret){
 export default async function handler(req,res){
  const expected=process.env.ATTILA_CRON_SECRET;
  const supplied=String(req.headers.authorization||"").replace(/^Bearer\s+/i,"");
- if(expected&&supplied!==expected)return res.status(401).json({ok:false,error:"Unauthorized"});
+ if(!expected)return res.status(503).json({ok:false,error:"Attila heartbeat not configured"});
+ if(supplied!==expected)return res.status(401).json({ok:false,error:"Unauthorized"});
  try{
   let result;
   const heart=createAttilaHeartbeat({
