@@ -44,3 +44,7 @@ Not claimed as production proof:
 - external deployment success
 
 These require configured external infrastructure/provider evidence, not additional speculative V1 organs.
+
+
+## Production activation retry
+Core launch wiring completed. This marker intentionally triggers the existing Git-connected deployment pipeline; no runtime behavior changes.
