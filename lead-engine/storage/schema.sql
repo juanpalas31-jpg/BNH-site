@@ -123,3 +123,15 @@ CREATE TABLE IF NOT EXISTS attila_states (
   PRIMARY KEY (tenant_id, project_id)
 );
 CREATE INDEX IF NOT EXISTS attila_states_updated_idx ON attila_states(updated_at DESC);
+
+
+-- Durable client mission continuity.
+CREATE TABLE IF NOT EXISTS attila_missions (
+  mission_id text PRIMARY KEY,
+  client_id text NOT NULL,
+  phase text NOT NULL,
+  state jsonb NOT NULL DEFAULT '{}'::jsonb,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS attila_missions_phase_idx ON attila_missions(phase);
