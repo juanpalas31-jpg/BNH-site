@@ -1,0 +1,20 @@
+{
+  "organism":"ATILA_DIGITAL_ARACHNID",
+  "version":1,
+  "design":"homeostatic-drive-system",
+  "drives":["hunger","satiety","energy","vigilance","curiosity","confidence","frustration","social_drive"],
+  "behavioral_modes":["WEB_LISTEN","HUNT_ACTIVE","HUNT_SMALL_SAFE_PREY","EXPLORE_NEW_WEB","FREEZE_OBSERVE","SEEK_CONSPECIFIC_SIGNAL","LOW_ACTIVITY","REST_REPAIR"],
+  "biological_inspirations":{
+    "hunger":"increases sensitivity to smaller prey and changes foraging investment",
+    "risk_learning":"dangerous prey cues can be learned and avoided",
+    "extended_cognition":"web state participates in sensing and decision thresholds",
+    "memory":"capture type, size and location can influence later foraging",
+    "sociality":"some social spiders coordinate responses to prey cues"
+  },
+  "invariants":{
+    "legal_policy_overrides_drive":true,
+    "no_self_modification_without_review":true,
+    "no_claim_of_consciousness":true,
+    "no_destructive_action":true
+  }
+}
