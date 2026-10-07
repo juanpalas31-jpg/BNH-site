@@ -30,9 +30,9 @@ export function plannerInputFromMemory(){
  const s=snapshotAttilaMemory();
  const events=[],leads=[],pages=[];
  for(const [intent,b] of Object.entries(s.by_intent)) {
-  for(let i=0;i<b.views;i++)events.push({event:"page_view",intent});
-  for(let i=0;i<b.starts;i++)events.push({event:"form_start",intent});
-  for(let i=0;i<b.leads;i++)leads.push({intent,score:i<b.highIntent?80:60});
+  for(let i=0;i<Math.min(b.views,100);i++)events.push({event:"page_view",intent});
+  for(let i=0;i<Math.min(b.starts,50);i++)events.push({event:"form_start",intent});
+  for(let i=0;i<Math.min(b.leads,50);i++)leads.push({intent,score:i<Math.min(b.highIntent,50)?80:60});
  }
  return {pages,events,leads,previous:{target:s.last_hunt?.plan?.target_intent||null}};
 }
