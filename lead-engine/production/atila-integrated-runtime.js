@@ -19,6 +19,8 @@ import { aggregatePerformance,rankThreads } from "../memory/learning.js";
 import { synapticWeight } from "../memory/synaptic-plasticity.js";
 import { evaluateMutation } from "../evolution/mutation-guard.js";
 import { buildStructuralInheritance,assertNoTenantData } from "../reproduction/structural-learning.js";
+import { operationalMetrics,healthFromMetrics } from "../observability/metrics.js";
+import { attributeFunnel,summarizeAttribution } from "../observability/funnel-attribution.js";
 
 /**
  * Production integration boundary.
@@ -86,6 +88,11 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   event_taxonomy:"runtime-v1",storage_contract_version:2,validated_patterns:ranked_threads.slice(0,5).map(x=>x.campagne)
  });
  const inheritance_safety=assertNoTenantData(inheritance);
+ const normalizedEvents=events.map(e=>({...e,type:e.type||e.event}));
+ const metrics=operationalMetrics({leads,events:normalizedEvents,errors:[]});
+ const metrics_health=healthFromMetrics(metrics);
+ const journeys=attributeFunnel(normalizedEvents);
+ const attribution=summarizeAttribution(journeys);
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -115,6 +122,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   policy,
   defense_metabolism:{state:defense_state,throttle:defense_throttle},
   colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
+  observability:{metrics,health:metrics_health,journeys,attribution},
   commercial,
   content,
   hunt:blocked?{...hunt,state:"BODY_SURVIVAL_OVERRIDE",execute:false,commercial_reveal:false}:hunt,
