@@ -19,8 +19,8 @@ export function createRuntimeStorage(env = process.env) {
  const execute=httpPostgresExecutor(env);
  if(execute){
   const primary=new PostgresStorageAdapter({query:createQueryBridge(execute)});
-  return {primary,mirror:legacy,provider:'postgres',durable_attila:true};
+  return {primary,mirror:legacy,provider:'postgres',durable_attila:true,missionStorage:primary.missionPersistenceAdapter()};
  }
- if(legacy)return {primary:legacy,mirror:null,provider:'legacy_webhook',durable_attila:false};
- return {primary:null,mirror:null,provider:'unconfigured',durable_attila:false};
+ if(legacy)return {primary:legacy,mirror:null,provider:'legacy_webhook',durable_attila:false,missionStorage:null};
+ return {primary:null,mirror:null,provider:'unconfigured',durable_attila:false,missionStorage:null};
 }
