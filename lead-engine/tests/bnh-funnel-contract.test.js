@@ -24,3 +24,13 @@ test('BNH lead carries consent, assessment intent and session attribution',()=>{
  assert.match(html,/utm_medium/);
  assert.match(html,/utm_campaign/);
 });
+
+
+test('BNH API endpoints enforce tenant isolation',()=>{
+ const lead=fs.readFileSync(new URL('../../api/lead.js',import.meta.url),'utf8');
+ const event=fs.readFileSync(new URL('../../api/event.js',import.meta.url),'utf8');
+ assert.match(lead,/tenant_id:'bnh',project_id:'bnh-site'/);
+ assert.doesNotMatch(lead,/tenant_id:body\.tenant_id\|\|'bnh'/);
+ assert.match(event,/tenant_id:'bnh',project_id:'bnh-site'/);
+ assert.doesNotMatch(event,/tenant_id:b\.tenant_id\|\|'bnh'/);
+});
