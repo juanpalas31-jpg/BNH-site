@@ -17,9 +17,11 @@ test('BNH confirmation follows active deployment origin',()=>{
 });
 
 test('BNH lead carries consent, assessment intent and session attribution',()=>{
- assert.match(html,/name="contact_consent" value="true"/);
+ assert.match(html,/required type="checkbox" name="contact_consent" value="true"/);
  assert.match(html,/name="requested_assessment" value="true"/);
  assert.match(html,/id="lead-session-id"/);
+ assert.match(html,/id="lead-content-page"/);
+ assert.match(html,/set\('lead-content-page',location\.pathname\)/);
  assert.match(html,/utm_source/);
  assert.match(html,/utm_medium/);
  assert.match(html,/utm_campaign/);
