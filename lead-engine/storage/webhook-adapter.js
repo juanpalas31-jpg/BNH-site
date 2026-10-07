@@ -20,5 +20,7 @@ export class WebhookStorageAdapter extends StorageAdapter {
   async saveLead(lead){ return this.post(lead); }
   async saveEvent(event){ return this.post(event); }
   async saveAttilaState(state){ return this.post({record_type:'attila_state',schema_version:1,tenant_id:'bnh',project_id:'bnh-site',...state}); }
+  // Legacy webhook is currently write-only. Do not fake durable Attila memory.
+  // A read implementation must be verified against the downstream endpoint first.
   async healthcheck(){ return {ok:Boolean(this.url),provider:'webhook'}; }
 }
