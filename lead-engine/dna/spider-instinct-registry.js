@@ -9,6 +9,22 @@ export const SPIDER_INSTINCTS=Object.freeze({
     digital_mode:"ACTIVE_HUNT",
     trigger:["authorized_territory","high_signal_target","direct_search_useful"],
     sequence:["SCAN","LOCK_TARGET","APPROACH","VERIFY","PRIORITIZE"],
+    hunting_repertoire:[
+      "DECOY_PREY_VIBRATION","VIBRATORY_LURE","FOREIGN_WEB_MANIPULATION","STILL_AMBUSH",
+      "STEALTH_APPROACH","DETOUR","BLIND_SPOT_APPROACH","ENVIRONMENTAL_COVER",
+      "STEPWISE_APPROACH","VIBRATION_VARIATION_TEST","POST_LURE_WAIT","INTERCEPTION",
+      "ABOVE_BELOW_APPROACH","AMBUSH_POUNCE","SILK_SAFETY_LINE","FOREIGN_WEB_ENTRY",
+      "DISTRACTED_TARGET_WINDOW","ADAPTIVE_LURE"
+    ],
+    software_translation:{
+      observe:["SCAN","ENVIRONMENTAL_COVER","BLIND_SPOT_APPROACH"],
+      probe:["VIBRATION_VARIATION_TEST","STEPWISE_APPROACH","ADAPTIVE_LURE"],
+      position:["DETOUR","INTERCEPTION","ABOVE_BELOW_APPROACH"],
+      wait:["STILL_AMBUSH","POST_LURE_WAIT"],
+      safety:["SILK_SAFETY_LINE"],
+      capture:["AMBUSH_POUNCE"],
+      constraints:"Digital translations only: no impersonation, deception of people, access bypass, or unsolicited consequential contact."
+    },
     allowed:["read_authorized_sources","score_opportunity","recommend_action"],
     forbidden:["bypass_access","automatic_consequential_contact"]
   },
