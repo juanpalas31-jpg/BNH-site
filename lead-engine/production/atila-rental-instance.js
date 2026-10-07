@@ -46,3 +46,18 @@ export function rentalStatus(instance,now=new Date()){
  return{ok:true,state:expired?"EXPIRED":"ACTIVE",expires_at:instance.lease.expires_at,
   action:expired?"CLOSE_AND_DISSOLVE":"CONTINUE_AUTHORIZED_MISSION"};
 }
+
+
+export function continuePaidMission({instance,mission_state,now=new Date()}={}){
+ const status=rentalStatus(instance,now);
+ if(!status.ok)return status;
+ if(status.state!=="ACTIVE")return{ok:false,state:"LEASE_EXPIRED",action:"CLOSE_AND_DISSOLVE"};
+ if(!mission_state?.ok)return{ok:false,state:"MISSION_STATE_REQUIRED"};
+ return{
+  ok:true,state:"AUTHORIZED_TO_CONTINUE",
+  instance_id:instance.instance_id,
+  mission_id:mission_state.mission_id,
+  phase:mission_state.phase,
+  action:"RUN_NEXT_EVIDENCE_GATED_MISSION_STEP"
+ };
+}
