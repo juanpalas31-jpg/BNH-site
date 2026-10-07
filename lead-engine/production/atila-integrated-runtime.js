@@ -37,6 +37,10 @@ import { anticipatoryPosture } from "../senses/atila-threat-forecast.js";
 import { scoreSession } from "../senses/signal-engine.js";
 import { threadPulse } from "../senses/thread-pulse.js";
 import { compareThreads } from "../web/thread-value.js";
+import { buildThreadGraph } from "../web/thread-graph.js";
+import { proposeWebRepairs } from "../web/web-repair.js";
+import { bottleneckAction } from "../commercial/bottleneck-controller.js";
+import { publicationGate } from "../content/publication-gate.js";
 
 /**
  * Production integration boundary.
@@ -156,6 +160,24 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  const thread_values=compareThreads(Object.entries(attribution).map(([id,x])=>({id,metrics:{
   visits:x.sessions,qualified:x.leads,appointments:x.appointments,sales:x.sales,revenue:x.revenue
  }})));
+ const graphNodes=pages.map((p,i)=>({id:p.slug||p.path||("page-"+i)}));
+ const graphIds=new Set(graphNodes.map(n=>n.id));
+ const graphThreads=[];
+ for(const p of pages){
+  const from=p.slug||p.path;
+  if(!from||!graphIds.has(from)) continue;
+  for(const to of (p.related||[])) if(graphIds.has(to)) graphThreads.push({from,to});
+ }
+ const graph=buildThreadGraph(graphNodes,graphThreads);
+ const repairs=proposeWebRepairs(graph,thread_values.map(x=>({
+  id:x.id,views:x.visits,engagement_rate:0,cta_rate:0,lead_rate:x.qualification_rate
+ })));
+ const weakest=repairs[0]||null;
+ const bottleneck=weakest?bottleneckAction({from:"organic_entry",to:"content_engaged"}):bottleneckAction({});
+ const publish_gate=publicationGate({
+  usefulContent:true,claimsSourced:false,noFakeUrgency:true,noGuaranteedSavings:true,
+  canonicalReady:false,internalLinksReady:repairs.length===0,measurementReady:true,humanReviewed:false
+ });
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -192,6 +214,8 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   damage:{signal:damage,scar},
   observers,
   web_weaving,
+  web_integrity:{graph:{nodes:graph.nodes.length,threads:graph.threads.length,invalid_threads:graph.invalid_threads},repairs,bottleneck},
+  publication_gate:publish_gate,
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial,
   content,
