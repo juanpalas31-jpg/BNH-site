@@ -9,6 +9,10 @@ import { aggregateVibrations,webState } from "../senses/web-vibration-aggregator
 import { assessThreat,immuneResponse as coreImmuneResponse } from "../defense/atila-immune-system.js";
 import { consolidateMemory } from "../memory/consolidation.js";
 import { defaultPolicy } from "../policy/action-policy.js";
+import { routeHighIntentThread } from "../commercial/high-intent-thread-router.js";
+import { leadQuality } from "../commercial/lead-quality.js";
+import { contentNextAction } from "../content/content-next-action.js";
+import { internalSilk } from "../content/internal-silk.js";
 
 /**
  * Production integration boundary.
@@ -58,6 +62,20 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   contains_customer_data:false,policy_ok:true
  }]);
  const policy=defaultPolicy();
+ const commercial={
+  threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
+  lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
+   serviceArea:Boolean(l.code_postal),projectIdentified:Boolean(l.intent||l.service),
+   timelineKnown:Boolean(l.timeline),requestedAssessment:true
+  })}))
+ };
+ const content={
+  actions:pages.slice(0,50).map(p=>contentNextAction({
+   cluster:p.intent||p.cluster||"unknown",views:p.views||0,engaged:p.engaged||0,
+   cta_clicks:p.starts||0,leads:p.leads||0,appointments:p.appointments||0,sales:p.sales||0
+  })),
+  silk:pages.filter(p=>p.slug).slice(0,20).map(p=>internalSilk(p.slug))
+ };
  const hunt=runAttilaHuntCycle({pages,events,leads,previous});
  const blocked=organism.autonomic?.mode==="SURVIVAL"||homeostasis.response==="survival_mode"||immunity.mode==="QUARANTINE";
  return {
@@ -70,6 +88,8 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   immunity,
   learning,
   policy,
+  commercial,
+  content,
   hunt:blocked?{...hunt,state:"BODY_SURVIVAL_OVERRIDE",execute:false,commercial_reveal:false}:hunt,
   doctrine:arachnidDoctrineSnapshot(),
   guardrails:{autonomous_contact:false,autonomous_publish:false,autonomous_spend:false,
