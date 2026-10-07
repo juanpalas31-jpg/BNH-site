@@ -46,3 +46,10 @@ test('BNH conversion event is emitted only after persisted lead capture',()=>{
  assert.ok(html.indexOf(apiCheck) < html.indexOf(captured));
  assert.ok(html.indexOf(captured) < html.lastIndexOf("f.submit()"));
 });
+
+
+test('BNH lead API rejects missing contact consent server-side',()=>{
+ const lead=fs.readFileSync(new URL('../../api/lead.js',import.meta.url),'utf8');
+ assert.match(lead,/contact_consent/);
+ assert.match(lead,/if\(!consent\) return res\.status\(400\)\.json\(\{ok:false,error:'Contact consent required'\}\)/);
+});
