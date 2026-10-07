@@ -9,7 +9,11 @@ The BNH funnel is allowed to receive a real prospect only when every item below 
 - Required lead fields are validated server-side.
 - Lead fields and attribution values are sanitized/normalized.
 - BNH Opportunity + Attila hunting card are built after successful persistence.
-- Consent, requested-assessment intent, session ID and UTM attribution travel with the lead.
+- Explicit contact consent is required in the browser and enforced again server-side.
+- Requested-assessment intent, session ID, content-page and UTM attribution travel with the lead.
+- BNH tenant/project isolation is enforced server-side for both leads and events.
+- Analytics payloads are sanitized/bounded and only persisted lead captures count as `lead_captured` conversions.
+- Webhook storage writes have a bounded 8-second timeout and fail closed.
 - Confirmation redirect uses the active deployment origin.
 - Automated BNH funnel contract passes Spider Engine CI.
 
@@ -23,6 +27,8 @@ The BNH funnel is allowed to receive a real prospect only when every item below 
 6. The browser lands on `/merci.html` on the same production origin.
 7. A page-view/event can be persisted through `/api/event`.
 8. No duplicate lead is created by one form submission.
+9. A controlled submission without `contact_consent` is rejected with HTTP 400.
+10. A controlled payload attempting to override tenant/project remains `bnh` / `bnh-site`.
 
 ## Status vocabulary
 
