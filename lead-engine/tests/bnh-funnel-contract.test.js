@@ -36,3 +36,13 @@ test('BNH API endpoints enforce tenant isolation',()=>{
  assert.match(event,/tenant_id:'bnh',project_id:'bnh-site'/);
  assert.doesNotMatch(event,/tenant_id:b\.tenant_id\|\|'bnh'/);
 });
+
+
+test('BNH conversion event is emitted only after persisted lead capture',()=>{
+ const apiCheck="if(!r.ok||!j.ok)throw";
+ const captured="event:'lead_captured'";
+ assert.match(html,/event:'lead_captured'/);
+ assert.doesNotMatch(html,/send\('form_submit'\)/);
+ assert.ok(html.indexOf(apiCheck) < html.indexOf(captured));
+ assert.ok(html.indexOf(captured) < html.lastIndexOf("f.submit()"));
+});
