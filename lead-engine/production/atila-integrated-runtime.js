@@ -34,6 +34,9 @@ import { proposeThreadAdjustments } from "../adaptation/thread-optimizer.js";
 import { evolutionRecommendation } from "../evolution/strategy-fitness.js";
 import { deduplicate } from "../resilience/idempotency.js";
 import { anticipatoryPosture } from "../senses/atila-threat-forecast.js";
+import { scoreSession } from "../senses/signal-engine.js";
+import { threadPulse } from "../senses/thread-pulse.js";
+import { compareThreads } from "../web/thread-value.js";
 
 /**
  * Production integration boundary.
@@ -141,6 +144,18 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   appointments:x.appointments,sales:x.sales,revenue:x.revenue,realized_margin:0
  })));
  const threat_forecast=anticipatoryPosture(events.slice(-24).map(e=>({type:e.event||e.type,risk:e.risk||0})));
+ const session_signal=scoreSession(events);
+ const pulse=threadPulse({
+  impressions:events.filter(e=>(e.event||e.type)==="impression").length,
+  clicks:events.filter(e=>(e.event||e.type)==="organic_click").length,
+  engaged:events.filter(e=>(e.event||e.type)==="content_engaged").length,
+  forms:events.filter(e=>["form_start","form_submit","lead_captured"].includes(e.event||e.type)).length,
+  appointments:events.filter(e=>(e.event||e.type)==="appointment").length,
+  sales:events.filter(e=>(e.event||e.type)==="sale").length
+ });
+ const thread_values=compareThreads(Object.entries(attribution).map(([id,x])=>({id,metrics:{
+  visits:x.sessions,qualified:x.leads,appointments:x.appointments,sales:x.sales,revenue:x.revenue
+ }})));
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -161,7 +176,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   identity:"ATTILA_INTEGRATED_RUNTIME",
   health,
   organism,
-  senses:{vibration,web_state},
+  senses:{vibration,web_state,session_signal,pulse,thread_values},
   homeostasis,
   metabolism,
   immunity,
