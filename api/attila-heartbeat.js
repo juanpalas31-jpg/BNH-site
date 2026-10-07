@@ -43,6 +43,7 @@ export default async function handler(req,res){
   const plannerInput=plannerInputFromMemory();
   const integrated=await runIntegratedAttilaCycle({
    storage:storage.primary,
+   missionStorage:storage.missionStorage,
    ...plannerInput,
    context:{source:"heartbeat",durable_storage:storage.durable_attila}
   });
