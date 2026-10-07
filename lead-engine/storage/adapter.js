@@ -7,10 +7,26 @@
 export class StorageAdapter {
   async saveLead(_lead) { throw new Error('saveLead not implemented'); }
   async saveEvent(_event) { throw new Error('saveEvent not implemented'); }
+
+  // Attila aggregate state contains no raw PII. A provider is only considered
+  // durable for Attila when it implements BOTH write and read.
+  async saveAttilaState(_state) { throw new Error('saveAttilaState not implemented'); }
+  async loadAttilaState(_tenantId, _projectId) { throw new Error('loadAttilaState not implemented'); }
+
   async healthcheck() { throw new Error('healthcheck not implemented'); }
   async stats(_tenantId, _projectId) { throw new Error('stats not implemented'); }
   async exportLeads(_tenantId, _projectId) { throw new Error('exportLeads not implemented'); }
   async exportEvents(_tenantId, _projectId) { throw new Error('exportEvents not implemented'); }
+}
+
+export function hasDurableAttilaMemory(adapter){
+  return Boolean(
+    adapter &&
+    typeof adapter.saveAttilaState === 'function' &&
+    typeof adapter.loadAttilaState === 'function' &&
+    adapter.saveAttilaState !== StorageAdapter.prototype.saveAttilaState &&
+    adapter.loadAttilaState !== StorageAdapter.prototype.loadAttilaState
+  );
 }
 
 /**
@@ -31,17 +47,9 @@ export async function dualWrite({ primary, mirror, kind, record }) {
   let mirrorError = null;
 
   if (mirror) {
-    try {
-      mirrorResult = await mirror[save](record);
-    } catch (error) {
-      mirrorError = error instanceof Error ? error.message : String(error);
-    }
+    try { mirrorResult = await mirror[save](record); }
+    catch (error) { mirrorError = error instanceof Error ? error.message : String(error); }
   }
 
-  return {
-    ok: true,
-    primary: primaryResult,
-    mirror: mirrorResult,
-    mirror_error: mirrorError
-  };
+  return {ok:true,primary:primaryResult,mirror:mirrorResult,mirror_error:mirrorError};
 }
