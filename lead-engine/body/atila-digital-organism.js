@@ -4,6 +4,7 @@ import {digest,excrete} from "./atila-digestion-excretion.js";
 import {coordinateLegs,hydraulicDrive} from "./atila-locomotion.js";
 import {spinSilk,sensorySetae} from "./atila-silk-sensory-capture.js";
 import {exoskeleton,development,homeostasis} from "./atila-integrity-development.js";
+import {autonomicGovernor} from "./atila-autonomic-governor.js";
 
 const C=v=>Math.max(0,Math.min(1,Number(v)||0));
 
@@ -14,6 +15,15 @@ export function createBodyState(seed={}){
 }
 
 export function runBodyCycle({body=createBodyState(),signals=[],inputs=[],context={},history={}}={}){
+ // Pre-action governor: survival limits are decided before expensive cognition/movement.
+ const preHomeostasis=homeostasis(body);
+ const preGovernor=autonomicGovernor({body,homeostasis:preHomeostasis,decision:{}});
+ if(preGovernor.mode==="SURVIVAL"){
+  const next={...body,cycle:body.cycle+1,load:C(body.load-.08),waste:C(body.waste-.04),energy:C(body.energy+.015)};
+  return {identity:"ATILA_DIGITAL_ORGANISM",cycle:next.cycle,pre_autonomic:preGovernor,pre_autonomic:preGovernor,
+   effective_action:"REST_REPAIR",homeostasis:homeostasis(next),next_body:next,
+   skipped:["FULL_COGNITION","LOCOMOTION","REPLICATION","EXPLORATION"]};
+ }
  const setae=sensorySetae(signals);
  const primary=setae.strongest||{strength:0,novelty:0};
  const cognition=arachnidLoop({state:{energy:body.energy},
