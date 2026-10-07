@@ -185,7 +185,8 @@ export async function runIntegratedAttilaCycle({storage=null,missionStorage=null
   usefulContent:true,claimsSourced:false,noFakeUrgency:true,noGuaranteedSavings:true,
   canonicalReady:false,internalLinksReady:repairs.length===0,measurementReady:true,humanReviewed:false
  });
- const feeding=attilaDecision({leads,open_leads:leads.length,capacity:Math.max(1,Number(context.capacity||10))});
+ const openLeads=leads.filter(l=>!["closed","won","lost","converted","sale"].includes(String(l.status||l.outcome||"").toLowerCase())).length;
+ const feeding=attilaDecision({leads,open_leads:openLeads,capacity:Math.max(1,Number(context.capacity||10))});
  const food_memory=foodMemory(leads.filter(l=>l.outcome).map(l=>({
   tenant_id:l.tenant_id||"bnh",project_id:l.project_id||"bnh-site",lead_id:l.lead_id,
   source:l.source,canal:l.canal,campagne:l.campagne,outcome:l.outcome,
