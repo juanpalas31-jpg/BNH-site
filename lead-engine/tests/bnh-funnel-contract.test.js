@@ -53,3 +53,14 @@ test('BNH lead API rejects missing contact consent server-side',()=>{
  assert.match(lead,/contact_consent/);
  assert.match(lead,/if\(!consent\) return res\.status\(400\)\.json\(\{ok:false,error:'Contact consent required'\}\)/);
 });
+
+
+test('BNH analytics API sanitizes identifiers and bounds browser metrics',()=>{
+ const event=fs.readFileSync(new URL('../../api/event.js',import.meta.url),'utf8');
+ assert.match(event,/event:clean\(b\.event,80\)/);
+ assert.match(event,/session_id:clean\(b\.session_id\)/);
+ assert.match(event,/Math\.min\(23,Number\(b\.local_hour\)\)/);
+ assert.match(event,/Math\.min\(6,Number\(b\.local_day\)\)/);
+ assert.match(event,/Math\.min\(86400,Number\(b\.duration_sec\)\)/);
+ assert.match(event,/if\(!payload\.event\) return res\.status\(400\)/);
+});
