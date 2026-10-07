@@ -63,3 +63,41 @@ export function missionDashboard(state={}){
   guardians:(state.nano||[]).length,next:nextMissionAction(state)
  };
 }
+
+
+export async function runMissionStep({state,evidence={},executors={}}={}){
+ if(!state?.ok)return{ok:false,state:"MISSION_REQUIRED"};
+ const next=nextMissionAction(state);
+ if(!next.ok)return{ok:false,state:next.state,mission:state};
+ const executor=executors[next.action];
+ if(typeof executor!=="function"){
+  return{ok:false,state:"EXECUTOR_REQUIRED",action:next.action,mission:state};
+ }
+ const result=await executor({mission:state,action:next.action});
+ const proof={
+  verified:result?.verified===true,
+  action:next.action,
+  artifact:result?.artifact||null,
+  at:new Date().toISOString()
+ };
+ return{
+  ok:proof.verified,
+  action:next.action,
+  result,
+  mission:advanceMission(state,proof)
+ };
+}
+
+export async function runMissionUntilBlocked({state,executors={},max_steps=12,onProgress=null}={}){
+ let current=state;
+ const trace=[];
+ for(let i=0;i<Math.max(1,Math.min(Number(max_steps)||12,12));i++){
+  if(current?.phase==="CLOSE")break;
+  const step=await runMissionStep({state:current,executors});
+  trace.push({phase:current?.phase,action:step.action||null,state:step.state||null,ok:step.ok});
+  if(!step.ok)return{ok:false,state:step.state||"BLOCKED",mission:step.mission||current,trace};
+  current=step.mission;
+  if(typeof onProgress==="function")await onProgress(current,step);
+ }
+ return{ok:true,state:current?.phase==="CLOSE"?"MISSION_COMPLETE":"STEP_LIMIT",mission:current,trace};
+}
