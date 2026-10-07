@@ -10,7 +10,7 @@ export default async function handler(req,res){
  try{
   const b=typeof req.body==='string'?JSON.parse(req.body):(req.body||{});
   const payload={
-   record_type:'event',schema_version:1,tenant_id:b.tenant_id||'bnh',project_id:b.project_id||'bnh-site',
+   record_type:'event',schema_version:1,tenant_id:'bnh',project_id:'bnh-site',
    event_id:b.event_id||safeId('EVT'),browser_timestamp:b.browser_timestamp||'',event:b.event||'',
    session_id:b.session_id||'',lead_id:clean(b.lead_id),intervention_id:clean(b.intervention_id),
    client_id:clean(b.client_id),qr_id:clean(b.qr_id),review_id:clean(b.review_id),
