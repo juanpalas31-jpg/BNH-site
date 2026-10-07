@@ -4,6 +4,8 @@ import {fighterDecision} from "../microorganisms/atila-fighter-temperament.js";
 import {routeVibration} from "../senses/atila-web-nervous-system.js";
 import {forecastThreat} from "../senses/atila-threat-forecast.js";
 import {antiStubbornness} from "../policy/atila-anti-stubbornness.js";
+import {DIGITAL_FOREST,HOST_BOND,perceiveDigitalForest} from "./atila-digital-ecology.js";
+import {protocolOne} from "../defense/atila-defense-protocols.js";
 
 export function arachnidCognition(input={}){
  const internal=atilaInnerState(input.state||{});
@@ -21,13 +23,21 @@ export function arachnidCognition(input={}){
   surprise:input.surprise||"LOW",
   same_strategy_runs:input.history?.same_strategy_runs||0
  });
+ const forest=perceiveDigitalForest({
+  kind:input.context?.environment_kind||input.signal?.type||"event",
+  strength:vibration.score
+ });
+ const defense=protocolOne({
+  type:input.context?.aggression_type||"UNKNOWN",severity:input.risk||0,
+  confidence:1-(input.context?.uncertainty||0),scope:input.context?.scope||0
+ });
  const attention={
   wake_core:vibration.wake_atila||forecast.actionable||correction.force_reconsideration,
   local_processing:!vibration.wake_atila,
   dominant_need:internal.mode
  };
  return {identity:"ATILA_ARACHNID_AI",architecture:"EMBODIED_WEB_COGNITION",
-  internal,vibration,forecast,phenotype,temperament,correction,attention,
+  internal,vibration,forecast,phenotype,temperament,correction,attention,forest,defense,world_model:DIGITAL_FOREST,host_bond:HOST_BOND,
   consciousness_claim:false};
 }
 
