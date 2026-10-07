@@ -28,6 +28,12 @@ import { enforceDiversity } from "../resilience/neo-atila-diversity.js";
 import { damageSignal,scarRecord } from "../health/damage-response.js";
 import { observeBnhLead,observeSeoSignal } from "./atila-lead-observer.js";
 import { weaveWeb } from "./atila-web-weaver.js";
+import { decideAction } from "../policy/action-policy.js";
+import { strategyDecision } from "../hunt/strategy-selector.js";
+import { proposeThreadAdjustments } from "../adaptation/thread-optimizer.js";
+import { evolutionRecommendation } from "../evolution/strategy-fitness.js";
+import { deduplicate } from "../resilience/idempotency.js";
+import { anticipatoryPosture } from "../senses/atila-threat-forecast.js";
 
 /**
  * Production integration boundary.
@@ -36,6 +42,8 @@ import { weaveWeb } from "./atila-web-weaver.js";
  */
 export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],leads=[],previous={},body,context={}}={}){
  const health=await engineHealth({storage,checks:{defense:true,senses:true,learning:true,regeneration:true,reproduction:true}});
+ events=deduplicate(events);
+ leads=deduplicate(leads);
  const signals=events.slice(-50).map(e=>({
   strength:e.event==="form_start"?.8:e.event==="lead_captured"?1:.25,
   novelty:e.event==="page_view"?.25:.5,
@@ -125,6 +133,14 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   seo:events.slice(-50).map(observeSeoSignal)
  };
  const web_weaving=weaveWeb({pages,events,leads,previous});
+ const strategy=strategyDecision({score:vibration.score,event:events.at(-1)?.event,opportunity:leads.length>0});
+ const action_gate=decideAction({intent:strategy.strategy==="interception"?"high":strategy.strategy==="ambush"?"medium":"low"},policy);
+ const adjustments=proposeThreadAdjustments(performance);
+ const evolution=evolutionRecommendation(Object.entries(attribution).map(([strategy,x])=>({
+  tenant_id:"bnh",project_id:"bnh-site",strategy,impressions:x.sessions,qualified_leads:x.leads,
+  appointments:x.appointments,sales:x.sales,revenue:x.revenue,realized_margin:0
+ })));
+ const threat_forecast=anticipatoryPosture(events.slice(-24).map(e=>({type:e.event||e.type,risk:e.risk||0})));
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -151,7 +167,9 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   immunity,
   learning:{consolidation:learning,performance,ranked_threads,synapse,mutation,
    inheritance:{payload:inheritance,safety:inheritance_safety}},
-  policy,
+  policy:{rules:policy,decision:action_gate},
+  strategy:{decision:strategy,adjustments,evolution},
+  threat_forecast,
   defense_metabolism:{state:defense_state,throttle:defense_throttle},
   colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
   observability:{metrics,health:metrics_health,journeys,attribution},
