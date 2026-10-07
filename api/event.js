@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { evaluateInbound } from '../lead-engine/orchestrator.js';
 import { createRuntimeStorage } from '../lead-engine/runtime.js';
+import { observeSeoSignal } from '../lead-engine/production/atila-lead-observer.js';
 
 const safeId=prefix=>`${prefix}-${randomUUID()}`;
 const clean=(v,max=100)=>String(v||'').trim().replace(/[^a-zA-Z0-9_.:-]/g,'').slice(0,max);
@@ -25,6 +26,7 @@ export default async function handler(req,res){
   const {primary,provider}=createRuntimeStorage();
   if(!primary) return res.status(503).json({ok:false,error:'Analytics storage not configured'});
   await primary.saveEvent(payload);
-  return res.status(200).json({ok:true,event_id:payload.event_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider});
+  const attila=observeSeoSignal(payload);
+  return res.status(200).json({ok:true,event_id:payload.event_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider,attila});
  }catch{return res.status(500).json({ok:false,error:'Event storage failed'});}
 }
