@@ -2,6 +2,7 @@ import { createAttilaHeartbeat } from "../lead-engine/production/atila-heartbeat
 import { plannerInputFromMemory,rememberAttilaHunt,rememberAttilaPosture,snapshotAttilaMemory,hydrateAttilaMemory } from "../lead-engine/production/atila-runtime-memory.js";
 import { createRuntimeStorage } from "../lead-engine/runtime.js";
 import { sanitizeAttilaState } from "../lead-engine/storage/attilla-state-sanitizer.js";
+import { runIntegratedAttilaCycle } from "../lead-engine/production/atila-integrated-runtime.js";
 
 const json=async r=>{try{return await r.json()}catch{return null}};
 async function readJson(url,secret){
@@ -39,13 +40,19 @@ export default async function handler(req,res){
    proposeAction:async plan=>{rememberAttilaHunt(plan);result={...(result||{}),proposal:plan}}
   });
   const beat=await heart.beat();
+  const plannerInput=plannerInputFromMemory();
+  const integrated=await runIntegratedAttilaCycle({
+   storage:storage.primary,
+   ...plannerInput,
+   context:{source:"heartbeat",durable_storage:storage.durable_attila}
+  });
 
   // Save again after proposal so the last hunt is not lost between serverless invocations.
   if(storage.durable_attila&&storage.primary){
    await storage.primary.saveAttilaState({tenant_id:"bnh",project_id:"bnh-site",...sanitizeAttilaState(snapshotAttilaMemory())});
   }
 
-  return res.status(200).json({ok:true,identity:"ATTILA",heartbeat:beat,proposal:result?.proposal||null,
+  return res.status(200).json({ok:true,identity:"ATTILA",heartbeat:beat,integrated,proposal:result?.proposal||null,
    memory:snapshotAttilaMemory(),storage:{provider:storage.provider,durable:storage.durable_attila,restored},
    autonomous_external_action:false});
  }catch(e){
