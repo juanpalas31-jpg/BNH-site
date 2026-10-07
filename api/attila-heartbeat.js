@@ -1,7 +1,7 @@
 import { createAttilaHeartbeat } from "../lead-engine/production/atila-heartbeat.js";
 import { plannerInputFromMemory,rememberAttilaHunt,rememberAttilaPosture,snapshotAttilaMemory,hydrateAttilaMemory } from "../lead-engine/production/atila-runtime-memory.js";
 import { createRuntimeStorage } from "../lead-engine/runtime.js";
-import { sanitizeAttilaState } from "../lead-engine/storage/attilla-state-sanitizer.js";
+import { sanitizeAttilaState } from "../lead-engine/storage/atila-state-sanitizer.js";
 import { runIntegratedAttilaCycle } from "../lead-engine/production/atila-integrated-runtime.js";
 
 const json=async r=>{try{return await r.json()}catch{return null}};
