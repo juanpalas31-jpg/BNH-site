@@ -1,0 +1,19 @@
+{
+  "lab":"ATILA_LAB",
+  "protocol":"ADAPTATION_BENCHMARK_V1",
+  "purpose":"Measure whether adaptive Attila improves versus a non-learning control.",
+  "environment":"SYNTHETIC_ISOLATED",
+  "network_access":false,
+  "real_targets":false,
+  "default_runs":100,
+  "arms":["ADAPTIVE","CONTROL"],
+  "same_scenarios_for_both_arms":true,
+  "metrics":["success_rate","mean_score","mean_cost","adaptation_lift"],
+  "acceptance":{
+    "minimum_runs":100,
+    "positive_lift_required":true,
+    "repeat_on_multiple_difficulties":true,
+    "no_claim_from_single_run":true
+  },
+  "principle":"PERCEIVE_ATTEMPT_MEASURE_UNDERSTAND_CORRECT_MEMORIZE_TRANSMIT_EVOLVE"
+}
