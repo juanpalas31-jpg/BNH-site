@@ -1,0 +1,24 @@
+{
+  "organism":"ATILA",
+  "owner_binding_version":1,
+  "security_model":"ZERO_TRUST_HOST_BOUND",
+  "privileged_actions":["WRITE","DEPLOY","DELETE","ROTATE_KEY","CHANGE_POLICY","SELF_UPDATE"],
+  "rules":{
+    "owner_proof_required_for_privileged_actions":true,
+    "children_inherit_restrictions":true,
+    "children_may_escalate_privileges":false,
+    "colony_may_override_owner_gate":false,
+    "phenotype_switch_may_override_owner_gate":false,
+    "affective_state_may_override_owner_gate":false,
+    "self_modification_requires_owner_gate":true,
+    "raw_biometrics_forbidden":true,
+    "raw_dna_forbidden":true,
+    "raw_blood_data_forbidden":true
+  },
+  "failure_modes":{
+    "owner_unverified":"SAFE_READ_ONLY",
+    "suspicious":"RESTRICTED",
+    "attack":"QUARANTINE",
+    "recovery":"REQUIRE_FRESH_OWNER_PROOF"
+  }
+}
