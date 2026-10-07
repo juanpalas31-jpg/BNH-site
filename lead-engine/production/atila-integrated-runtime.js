@@ -44,7 +44,7 @@ import { publicationGate } from "../content/publication-gate.js";
 import { attilaDecision } from "../commercial/attila-feeding-engine.js";
 import { foodMemory,nextHunt } from "../commercial/attila-assimilation.js";
 import { reviewMetrics } from "../observability/review-metrics.js";
-import { createMissionState,nextMissionAction,missionDashboard } from "./atila-mission-orchestrator.js";
+import { createMissionState,nextMissionAction,missionDashboard,runMissionUntilBlocked } from "./atila-mission-orchestrator.js";
 import { guardianPolicy } from "./nanotila-guardian-policy.js";
 import { createTurnkeyMission,spawnClientGuardians } from "./atila-turnkey-client-mission.js";
 import { createMissionPersistence } from "./atila-mission-persistence.js";
@@ -222,14 +222,26 @@ export async function runIntegratedAttilaCycle({storage=null,missionStorage=null
     sector:turnkey.client.sector,
     consent:true
    });
-   const persistence_result=missionPersistence?await missionPersistence.save(state):{ok:false,state:"MISSION_STORAGE_NOT_CONFIGURED"};
+   let activeState=state;
+   let execution={ok:false,state:"EXECUTION_NOT_REQUESTED"};
+   if(missionInput.execute===true){
+    execution=await runMissionUntilBlocked({
+     state:activeState,
+     executors:missionInput.executors||{},
+     max_steps:missionInput.max_steps||12,
+     onProgress:missionPersistence?async nextState=>missionPersistence.save(nextState):null
+    });
+    activeState=execution.mission||activeState;
+   }
+   const persistence_result=missionPersistence?await missionPersistence.save(activeState):{ok:false,state:"MISSION_STORAGE_NOT_CONFIGURED"};
    const guardians=spawnClientGuardians({mission:turnkey});
    mission_control={
     active:true,
     turnkey,
-    state,
-    next_action:nextMissionAction(state),
-    dashboard:missionDashboard(state),
+    state:activeState,
+    execution,
+    next_action:nextMissionAction(activeState),
+    dashboard:missionDashboard(activeState),
     guardians,
     guardian_policy:guardianPolicy({
      days:turnkey.term.guardian_days,
