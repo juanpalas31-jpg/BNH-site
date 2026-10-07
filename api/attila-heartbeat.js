@@ -1,4 +1,5 @@
 import { createAttilaHeartbeat } from "../lead-engine/production/atila-heartbeat.js";
+import { plannerInputFromMemory,rememberAttilaHunt,snapshotAttilaMemory } from "../lead-engine/production/atila-runtime-memory.js";
 
 const json=async r=>{try{return await r.json()}catch{return null}};
 async function readJson(url,secret){
@@ -16,13 +17,13 @@ export default async function handler(req,res){
   const heart=createAttilaHeartbeat({
    readSignals:async()=>{
     const data=await readJson(process.env.ATTILA_SIGNAL_SOURCE_URL,process.env.ATTILA_SIGNAL_SOURCE_SECRET);
-    return data||{pages:[],events:[],leads:[],previous:{}};
+    return data||plannerInputFromMemory();
    },
    saveState:async snapshot=>{result=snapshot},
-   proposeAction:async plan=>{result={...(result||{}),proposal:plan}}
+   proposeAction:async plan=>{rememberAttilaHunt(plan);result={...(result||{}),proposal:plan}}
   });
   const beat=await heart.beat();
   return res.status(200).json({ok:true,identity:"ATTILA",heartbeat:beat,proposal:result?.proposal||null,
-   autonomous_external_action:false});
+   memory:snapshotAttilaMemory(),autonomous_external_action:false});
  }catch(e){return res.status(500).json({ok:false,error:"Attila heartbeat failed"});}
 }
