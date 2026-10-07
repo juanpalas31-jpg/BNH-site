@@ -31,6 +31,16 @@ export function rememberAttilaPosture(posture,meta={}){
  s.updated_at=new Date().toISOString();return snapshotAttilaMemory();
 }
 export function snapshotAttilaMemory(){return JSON.parse(JSON.stringify(state()));}
+export function hydrateAttilaMemory(saved={}){
+ const s=state(); if(!saved||typeof saved!=="object")return snapshotAttilaMemory();
+ s.version=Number(saved.schema_version||saved.version||2);s.updated_at=saved.updated_at||s.updated_at;
+ s.events=Number(saved.counters?.events??saved.events??s.events)||0;s.leads=Number(saved.counters?.leads??saved.leads??s.leads)||0;
+ s.by_intent=saved.by_intent&&typeof saved.by_intent==="object"?JSON.parse(JSON.stringify(saved.by_intent)):s.by_intent;
+ s.by_path=saved.by_path&&typeof saved.by_path==="object"?JSON.parse(JSON.stringify(saved.by_path)):s.by_path;
+ s.posture=String(saved.posture||s.posture);s.posture_since=saved.posture_since||s.posture_since;
+ if(saved.last_hunt)s.last_hunt={at:saved.last_hunt.at||null,plan:{target_intent:saved.last_hunt.target_intent||null,action:saved.last_hunt.action||null,arachnid_state:saved.last_hunt.arachnid_state||null}};
+ return snapshotAttilaMemory();
+}
 export function rememberAttilaHunt(plan){const s=state();s.last_hunt={at:new Date().toISOString(),plan};s.updated_at=new Date().toISOString();return snapshotAttilaMemory();}
 export function plannerInputFromMemory(){
  const s=snapshotAttilaMemory(),events=[],leads=[],pages=[];
