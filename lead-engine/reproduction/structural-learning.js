@@ -18,11 +18,23 @@ export function buildStructuralInheritance(source = {}) {
 }
 
 export function assertNoTenantData(payload = {}) {
-  const forbidden = [
+  const forbidden = new Set([
     'leads','events','customers','contacts','emails','phones',
-    'credentials','tokens','secrets','private_notes'
-  ];
-
-  const violations = forbidden.filter(k => Object.prototype.hasOwnProperty.call(payload, k));
-  return { ok: violations.length === 0, violations };
+    'credentials','tokens','secrets','private_notes',
+    'password','passwords','api_key','api_keys','private_key','private_keys',
+    'raw_leads','customer_pii'
+  ]);
+  const violations=[];
+  const walk=(value,path=[])=>{
+    if(!value||typeof value!=='object') return;
+    if(Array.isArray(value)){ value.forEach((v,i)=>walk(v,[...path,String(i)])); return; }
+    for(const [key,val] of Object.entries(value)){
+      const normalized=String(key).toLowerCase();
+      const next=[...path,key];
+      if(forbidden.has(normalized)) violations.push(next.join('.'));
+      walk(val,next);
+    }
+  };
+  walk(payload);
+  return { ok: violations.length === 0, violations:[...new Set(violations)] };
 }
