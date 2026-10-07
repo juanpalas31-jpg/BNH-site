@@ -54,7 +54,7 @@ import { createMissionPersistence } from "./atila-mission-persistence.js";
  * Existing organs are composed here instead of being left as disconnected modules.
  * No external contact, spend, publication, replication or destructive action occurs here.
  */
-export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],leads=[],previous={},body,context={}}={}){
+export async function runIntegratedAttilaCycle({storage=null,missionStorage=null,pages=[],events=[],leads=[],previous={},body,context={}}={}){
  const health=await engineHealth({storage,checks:{defense:true,senses:true,learning:true,regeneration:true,reproduction:true}});
  events=deduplicate(events);
  leads=deduplicate(leads);
@@ -196,7 +196,17 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  const reviews=reviewMetrics(events);
  const missionInput=context.mission||null;
  let mission_control={active:false};
+ let missionPersistence=null;
+ if(missionStorage){
+  const p=createMissionPersistence(missionStorage);
+  if(p.ok) missionPersistence=p;
+ }
  if(missionInput){
+  let resumed=null;
+  if(missionPersistence&&missionInput.mission_id){
+   const loaded=await missionPersistence.resume(missionInput.mission_id);
+   if(loaded.ok) resumed=loaded.state;
+  }
   const turnkey=createTurnkeyMission({
    owner_verified:Boolean(missionInput.owner_verified),
    client_consent:Boolean(missionInput.client_consent),
@@ -205,12 +215,13 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
    term:missionInput.term||{}
   });
   if(turnkey.ok){
-   const state=createMissionState({
+   const state=resumed||createMissionState({
     mission_id:missionInput.mission_id||("mission-"+Date.now()),
     client_id:turnkey.client.id,
     sector:turnkey.client.sector,
     consent:true
    });
+   const persistence_result=missionPersistence?await missionPersistence.save(state):{ok:false,state:"MISSION_STORAGE_NOT_CONFIGURED"};
    const guardians=spawnClientGuardians({mission:turnkey});
    mission_control={
     active:true,
@@ -222,7 +233,9 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
     guardian_policy:guardianPolicy({
      days:turnkey.term.guardian_days,
      approved_budget:turnkey.financial_authority.ads_max
-    })
+    }),
+    resumed:Boolean(resumed),
+    persistence:persistence_result
    };
   }else mission_control={active:false,blocked:turnkey};
  }
@@ -265,7 +278,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   web_integrity:{graph:{nodes:graph.nodes.length,threads:graph.threads.length,invalid_threads:graph.invalid_threads},repairs,bottleneck},
   publication_gate:publish_gate,
   mission_control,
-  mission_persistence:{supported:true,adapter_required:true},
+  mission_persistence:{supported:true,configured:Boolean(missionPersistence),resume_enabled:Boolean(missionPersistence)},
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial:{...commercial,feeding,food_memory,next_hunt,reviews},
   content,
