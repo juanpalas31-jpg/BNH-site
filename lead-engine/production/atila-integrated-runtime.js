@@ -21,6 +21,10 @@ import { evaluateMutation } from "../evolution/mutation-guard.js";
 import { buildStructuralInheritance,assertNoTenantData } from "../reproduction/structural-learning.js";
 import { operationalMetrics,healthFromMetrics } from "../observability/metrics.js";
 import { attributeFunnel,summarizeAttribution } from "../observability/funnel-attribution.js";
+import { nervousCycle } from "../senses/nervous-system.js";
+import { fuseSignals } from "../senses/atila-web-nervous-system.js";
+import { reflexArc,reflexBudget } from "../microorganisms/neo-atila-reflex-arc.js";
+import { enforceDiversity } from "../resilience/neo-atila-diversity.js";
 
 /**
  * Production integration boundary.
@@ -93,6 +97,18 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  const metrics_health=healthFromMetrics(metrics);
  const journeys=attributeFunnel(normalizedEvents);
  const attribution=summarizeAttribution(journeys);
+ const fused=fuseSignals(signals.map(s=>({intensity:s.strength,novelty:s.novelty,repeat_rate:0,integrity_risk:health.status==="healthy"?0:.35})));
+ const nervous=nervousCycle({
+  self:{capabilities:["observe","measure","recommend"]},
+  health:{availability_pct:health.status==="healthy"?100:70,integrity_pct:100,restore_readiness_pct:storage?90:45,ingestion_health_pct:100,security_health_pct:100},
+  environment:{resource_pressure:organism.next_body?.load||0},
+  opportunity_score:Math.min(1,leads.length/10),evidence_confidence:Math.min(1,events.length/50),
+  resource_pressure:organism.next_body?.load||0
+ });
+ const reflexes=signals.slice(0,6).map(s=>reflexArc({intensity:s.strength,novelty:s.novelty,repeat_rate:0,integrity_risk:0}));
+ const neoNodes=reflexes.flatMap(x=>x.swarm?.replicants||x.swarm?.nodes||[]);
+ const neoDiversity=enforceDiversity(neoNodes);
+ const neoBudget=reflexBudget({energy:organism.next_body?.energy||.8,active_replicants:neoNodes.length});
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -123,6 +139,8 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   defense_metabolism:{state:defense_state,throttle:defense_throttle},
   colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
   observability:{metrics,health:metrics_health,journeys,attribution},
+  nervous_system:{fused,nervous},
+  neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial,
   content,
   hunt:blocked?{...hunt,state:"BODY_SURVIVAL_OVERRIDE",execute:false,commercial_reveal:false}:hunt,
