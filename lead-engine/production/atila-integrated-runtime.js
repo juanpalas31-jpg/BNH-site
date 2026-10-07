@@ -15,6 +15,10 @@ import { contentNextAction } from "../content/content-next-action.js";
 import { internalSilk } from "../content/internal-silk.js";
 import { defensiveMetabolism,defenseThrottle } from "../resilience/atila-defensive-metabolism.js";
 import { createColony,recruit,collectivePlan } from "../microorganisms/atila-colony-brain.js";
+import { aggregatePerformance,rankThreads } from "../memory/learning.js";
+import { synapticWeight } from "../memory/synaptic-plasticity.js";
+import { evaluateMutation } from "../evolution/mutation-guard.js";
+import { buildStructuralInheritance,assertNoTenantData } from "../reproduction/structural-learning.js";
 
 /**
  * Production integration boundary.
@@ -71,6 +75,17 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  const colony=createColony(6);
  const recruited=recruit(colony,{type:"WEB_VIBRATION",strength:Math.min(1,vibration.score/20)});
  const colony_plan=collectivePlan(recruited);
+ const performance=aggregatePerformance(leads.map(l=>({...l,record_type:"lead"})));
+ const ranked_threads=rankThreads(performance);
+ const synapse=synapticWeight({from:"qualified_signal",to:"lead",observations:events.length,successes:leads.length});
+ const mutation=evaluateMutation({
+  mutation_id:"runtime-current",control_samples:events.length,variant_samples:events.length,
+  control_fitness:0,variant_fitness:0,confidence:synapse.confidence
+ });
+ const inheritance=buildStructuralInheritance({
+  event_taxonomy:"runtime-v1",storage_contract_version:2,validated_patterns:ranked_threads.slice(0,5).map(x=>x.campagne)
+ });
+ const inheritance_safety=assertNoTenantData(inheritance);
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -95,7 +110,8 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   homeostasis,
   metabolism,
   immunity,
-  learning,
+  learning:{consolidation:learning,performance,ranked_threads,synapse,mutation,
+   inheritance:{payload:inheritance,safety:inheritance_safety}},
   policy,
   defense_metabolism:{state:defense_state,throttle:defense_throttle},
   colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
