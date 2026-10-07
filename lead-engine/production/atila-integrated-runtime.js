@@ -41,6 +41,9 @@ import { buildThreadGraph } from "../web/thread-graph.js";
 import { proposeWebRepairs } from "../web/web-repair.js";
 import { bottleneckAction } from "../commercial/bottleneck-controller.js";
 import { publicationGate } from "../content/publication-gate.js";
+import { attilaDecision } from "../commercial/attila-feeding-engine.js";
+import { foodMemory,nextHunt } from "../commercial/attila-assimilation.js";
+import { reviewMetrics } from "../observability/review-metrics.js";
 
 /**
  * Production integration boundary.
@@ -178,6 +181,15 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   usefulContent:true,claimsSourced:false,noFakeUrgency:true,noGuaranteedSavings:true,
   canonicalReady:false,internalLinksReady:repairs.length===0,measurementReady:true,humanReviewed:false
  });
+ const feeding=attilaDecision({leads,open_leads:leads.length,capacity:Math.max(1,Number(context.capacity||10))});
+ const food_memory=foodMemory(leads.filter(l=>l.outcome).map(l=>({
+  tenant_id:l.tenant_id||"bnh",project_id:l.project_id||"bnh-site",lead_id:l.lead_id,
+  source:l.source,canal:l.canal,campagne:l.campagne,outcome:l.outcome,
+  collected_revenue:l.collected_revenue,realized_margin:l.realized_margin,
+  intent_score:l.score,contact_consent:l.contact_consent
+ })));
+ const next_hunt=nextHunt(food_memory);
+ const reviews=reviewMetrics(events);
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -217,7 +229,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   web_integrity:{graph:{nodes:graph.nodes.length,threads:graph.threads.length,invalid_threads:graph.invalid_threads},repairs,bottleneck},
   publication_gate:publish_gate,
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
-  commercial,
+  commercial:{...commercial,feeding,food_memory,next_hunt,reviews},
   content,
   hunt:blocked?{...hunt,state:"BODY_SURVIVAL_OVERRIDE",execute:false,commercial_reveal:false}:hunt,
   doctrine:arachnidDoctrineSnapshot(),
