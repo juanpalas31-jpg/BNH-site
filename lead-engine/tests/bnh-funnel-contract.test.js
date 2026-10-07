@@ -64,3 +64,13 @@ test('BNH analytics API sanitizes identifiers and bounds browser metrics',()=>{
  assert.match(event,/Math\.min\(86400,Number\(b\.duration_sec\)\)/);
  assert.match(event,/if\(!payload\.event\) return res\.status\(400\)/);
 });
+
+
+test('Webhook storage has a bounded write timeout',()=>{
+ const storage=fs.readFileSync(new URL('../storage/webhook-adapter.js',import.meta.url),'utf8');
+ assert.match(storage,/new AbortController\(\)/);
+ assert.match(storage,/setTimeout\(\(\)=>controller\.abort\(\),8000\)/);
+ assert.match(storage,/signal:controller\.signal/);
+ assert.match(storage,/Webhook storage timeout/);
+ assert.match(storage,/finally\{clearTimeout\(timeout\);\}/);
+});
