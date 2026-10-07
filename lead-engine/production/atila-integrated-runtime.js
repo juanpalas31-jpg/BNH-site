@@ -25,6 +25,9 @@ import { nervousCycle } from "../senses/nervous-system.js";
 import { fuseSignals } from "../senses/atila-web-nervous-system.js";
 import { reflexArc,reflexBudget } from "../microorganisms/neo-atila-reflex-arc.js";
 import { enforceDiversity } from "../resilience/neo-atila-diversity.js";
+import { damageSignal,scarRecord } from "../health/damage-response.js";
+import { observeBnhLead,observeSeoSignal } from "./atila-lead-observer.js";
+import { weaveWeb } from "./atila-web-weaver.js";
 
 /**
  * Production integration boundary.
@@ -109,6 +112,19 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  const neoNodes=reflexes.flatMap(x=>x.swarm?.replicants||x.swarm?.nodes||[]);
  const neoDiversity=enforceDiversity(neoNodes);
  const neoBudget=reflexBudget({energy:organism.next_body?.energy||.8,active_replicants:neoNodes.length});
+ const damage=damageSignal({
+  error_rate:metrics.error_rate_last_hour,data_integrity_risk:storage?0:.35,
+  security_risk:immunity.mode==="NORMAL"?0:.4,restore_risk:storage?0:.45,customer_impact:0
+ });
+ const scar=damage.avoid_repeat?scarRecord({cause:"runtime_degradation",context:"heartbeat",damage:{
+  error_rate:metrics.error_rate_last_hour,data_integrity_risk:storage?0:.35,
+  security_risk:immunity.mode==="NORMAL"?0:.4,restore_risk:storage?0:.45
+ },lesson:"Preserve ingestion and restore path before nonessential activity"}):null;
+ const observers={
+  leads:leads.slice(-20).map(observeBnhLead),
+  seo:events.slice(-50).map(observeSeoSignal)
+ };
+ const web_weaving=weaveWeb({pages,events,leads,previous});
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -140,6 +156,9 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
   observability:{metrics,health:metrics_health,journeys,attribution},
   nervous_system:{fused,nervous},
+  damage:{signal:damage,scar},
+  observers,
+  web_weaving,
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial,
   content,
