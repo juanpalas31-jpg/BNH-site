@@ -1,5 +1,5 @@
 import { StorageAdapter } from './adapter.js';
-import { sanitizeAttilaState } from './attilla-state-sanitizer.js';
+import { sanitizeAttilaState } from './atila-state-sanitizer.js';
 
 /**
  * Portable PostgreSQL adapter.
@@ -18,7 +18,7 @@ export class PostgresStorageAdapter extends StorageAdapter {
   }
 
   async saveEvent(e){
-    await this.query(`INSERT INTO events (event_id,tenant_id,project_id,session_id,event,path,source,canal,campagne,local_day,local_hour,target,duration_seconds,browser_timestamp,received_at)
+    await this.query(`INSERT INTO events (event_id,tenant_id,project_id,session_id,event,path,source,canal,campagne,local_day,local_hour,target,duration_sec,browser_timestamp,received_at)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
       ON CONFLICT (event_id) DO NOTHING`,
       [e.event_id,e.tenant_id,e.project_id,e.session_id||null,e.event||null,e.path||null,e.source||null,e.canal||null,e.campagne||null,e.local_day||null,e.local_hour??null,e.target||null,e.duration_seconds??e.duration_sec??null,e.browser_timestamp||null,e.received_at]);
