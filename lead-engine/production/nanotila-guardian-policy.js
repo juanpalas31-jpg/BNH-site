@@ -1,0 +1,22 @@
+export function guardianPolicy({days=7,approved_budget=0}={}){
+ return{
+  protocol:"NANOTILA_GUARDIAN_POLICY_V1",
+  ttl_days:Math.max(1,Math.min(Number(days)||7,366)),
+  roles:["UPTIME","FUNNEL_QA","SEO_HEALTH","MEASUREMENT","LEAD_PIPELINE"],
+  permissions:{
+   observe:true,diagnose:true,recommend:true,
+   reversible_repair:"ONLY_IF_PREAUTHORIZED",
+   publish:"ONLY_IF_PREAUTHORIZED",
+   spend_max:Math.max(0,Number(approved_budget)||0),
+   privilege_escalation:false,security_bypass:false
+  },
+  exit:{
+   revoke_temporary_access:true,
+   remove_runtime:true,
+   preserve_client_assets:true,
+   preserve_legitimate_logs:true,
+   return_structural_learning:true,
+   return_raw_customer_data:false
+  }
+ };
+}
