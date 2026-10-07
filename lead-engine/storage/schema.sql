@@ -107,3 +107,19 @@ CREATE INDEX IF NOT EXISTS engine_snapshots_tenant_created_idx ON engine_snapsho
 
 -- Provider-neutral schema invariant: project and tenant must always belong together.
 -- Production migration also enforces this with composite foreign keys.
+
+
+-- Attila durable aggregate memory v2
+-- Stores operational posture and aggregate counters only. Raw PII is forbidden by application boundary.
+CREATE TABLE IF NOT EXISTS attila_states (
+  tenant_id text NOT NULL REFERENCES tenants(tenant_id),
+  project_id text NOT NULL REFERENCES projects(project_id),
+  identity text NOT NULL DEFAULT 'ATTILA_ARACHNID_AI',
+  posture text NOT NULL CHECK (posture IN ('IMMOBILE','AMBUSH','SIGNAL_DETECTED','PREPARE_POUNCE','POUNCE_PROPOSAL')),
+  posture_since timestamptz,
+  state jsonb NOT NULL DEFAULT '{}'::jsonb,
+  schema_version integer NOT NULL DEFAULT 2,
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (tenant_id, project_id)
+);
+CREATE INDEX IF NOT EXISTS attila_states_updated_idx ON attila_states(updated_at DESC);
