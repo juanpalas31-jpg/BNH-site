@@ -47,6 +47,7 @@ import { reviewMetrics } from "../observability/review-metrics.js";
 import { createMissionState,nextMissionAction,missionDashboard } from "./atila-mission-orchestrator.js";
 import { guardianPolicy } from "./nanotila-guardian-policy.js";
 import { createTurnkeyMission,spawnClientGuardians } from "./atila-turnkey-client-mission.js";
+import { createMissionPersistence } from "./atila-mission-persistence.js";
 
 /**
  * Production integration boundary.
@@ -264,6 +265,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   web_integrity:{graph:{nodes:graph.nodes.length,threads:graph.threads.length,invalid_threads:graph.invalid_threads},repairs,bottleneck},
   publication_gate:publish_gate,
   mission_control,
+  mission_persistence:{supported:true,adapter_required:true},
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial:{...commercial,feeding,food_memory,next_hunt,reviews},
   content,
