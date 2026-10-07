@@ -4,6 +4,7 @@ import { createRuntimeStorage } from '../lead-engine/runtime.js';
 import { evaluateBnhOpportunity } from '../lead-engine/adapters/bnh-opportunity-adapter.js';
 import { huntingCard } from '../lead-engine/commercial/hunting-board.js';
 import { observeBnhLead } from '../lead-engine/production/atila-lead-observer.js';
+import { absorbAttilaSignal } from '../lead-engine/production/atila-runtime-memory.js';
 
 const safeId = (prefix) => `${prefix}-${randomUUID()}`;
 const text=(v,max=160)=>String(v||'').trim().replace(/[<>]/g,'').slice(0,max);
@@ -29,6 +30,7 @@ export default async function handler(req,res){
       : null;
     const hunting_card=commercial?huntingCard({lead:{...body,...payload},opportunity:commercial}):null;
     const attila=observeBnhLead({...body,...payload});
+    absorbAttilaSignal(payload,attila);
     return res.status(200).json({ok:true,lead_id:payload.lead_id,tenant_id:payload.tenant_id,project_id:payload.project_id,schema_version:payload.schema_version,storage_provider:provider,commercial,hunting_card,attila});
   }catch{return res.status(500).json({ok:false,error:'Lead storage failed'});}
 }
