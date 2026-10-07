@@ -25,3 +25,22 @@ Production proof still depends on deployment environment:
 Freeze rule:
 Do not add new V1 organs before integration defects and deployment evidence are addressed.
 New capabilities belong to V1.x/V2.
+
+
+## Closure audit
+Verified in repository:
+- web weak-point contract repaired
+- structural inheritance tenant-data check is recursive
+- feeding capacity excludes closed/won/lost/converted leads
+- PostgreSQL mission persistence adapter and mission schema exist
+- mission resume + evidence-gated runner exist
+- autonomous owner-priced commerce boundary exists
+- paid rental/mission continuation exists
+
+Not claimed as production proof:
+- production database migration execution
+- live payment-provider settlement
+- live registrar/ad-platform purchase
+- external deployment success
+
+These require configured external infrastructure/provider evidence, not additional speculative V1 organs.
