@@ -44,6 +44,9 @@ import { publicationGate } from "../content/publication-gate.js";
 import { attilaDecision } from "../commercial/attila-feeding-engine.js";
 import { foodMemory,nextHunt } from "../commercial/attila-assimilation.js";
 import { reviewMetrics } from "../observability/review-metrics.js";
+import { createMissionState,nextMissionAction,missionDashboard } from "./atila-mission-orchestrator.js";
+import { guardianPolicy } from "./nanotila-guardian-policy.js";
+import { createTurnkeyMission,spawnClientGuardians } from "./atila-turnkey-client-mission.js";
 
 /**
  * Production integration boundary.
@@ -190,6 +193,38 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
  })));
  const next_hunt=nextHunt(food_memory);
  const reviews=reviewMetrics(events);
+ const missionInput=context.mission||null;
+ let mission_control={active:false};
+ if(missionInput){
+  const turnkey=createTurnkeyMission({
+   owner_verified:Boolean(missionInput.owner_verified),
+   client_consent:Boolean(missionInput.client_consent),
+   client:missionInput.client||{},
+   budget:missionInput.budget||{},
+   term:missionInput.term||{}
+  });
+  if(turnkey.ok){
+   const state=createMissionState({
+    mission_id:missionInput.mission_id||("mission-"+Date.now()),
+    client_id:turnkey.client.id,
+    sector:turnkey.client.sector,
+    consent:true
+   });
+   const guardians=spawnClientGuardians({mission:turnkey});
+   mission_control={
+    active:true,
+    turnkey,
+    state,
+    next_action:nextMissionAction(state),
+    dashboard:missionDashboard(state),
+    guardians,
+    guardian_policy:guardianPolicy({
+     days:turnkey.term.guardian_days,
+     approved_budget:turnkey.financial_authority.ads_max
+    })
+   };
+  }else mission_control={active:false,blocked:turnkey};
+ }
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -228,6 +263,7 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   web_weaving,
   web_integrity:{graph:{nodes:graph.nodes.length,threads:graph.threads.length,invalid_threads:graph.invalid_threads},repairs,bottleneck},
   publication_gate:publish_gate,
+  mission_control,
   neo:{reflexes,budget:neoBudget,diversity:neoDiversity.diversity,reseed_recommended:neoDiversity.reseed},
   commercial:{...commercial,feeding,food_memory,next_hunt,reviews},
   content,
