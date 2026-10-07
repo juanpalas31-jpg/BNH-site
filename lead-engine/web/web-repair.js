@@ -5,14 +5,16 @@ export function proposeWebRepairs(graph, performance=[]){
   const perf=new Map(performance.map(x=>[x.id,x]));
   const proposals=[];
 
-  for(const id of weak.orphans||[]) proposals.push({
-    type:"connect_orphan",node:id,priority:"high",
-    reason:"organic page has no usable thread",automatic_change:false
-  });
-  for(const id of weak.deadEnds||[]) proposals.push({
-    type:"add_next_step",node:id,priority:"medium",
-    reason:"visitor path ends without a useful next step",automatic_change:false
-  });
+  for(const point of weak){
+    if(point.orphan) proposals.push({
+      type:"connect_orphan",node:point.id,priority:"high",
+      reason:"organic page has no usable thread",automatic_change:false
+    });
+    if(point.dead_end) proposals.push({
+      type:"add_next_step",node:point.id,priority:"medium",
+      reason:"visitor path ends without a useful next step",automatic_change:false
+    });
+  }
   for(const [id,p] of perf){
     if((p.views||0)>=100 && (p.engagement_rate||0)>=0.2 && (p.cta_rate||0)<0.03)
       proposals.push({type:"review_contextual_cta",node:id,priority:"high",reason:"engagement_without_progression",automatic_change:false});
