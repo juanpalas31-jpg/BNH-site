@@ -5,12 +5,17 @@ import { evaluateBnhOpportunity } from '../lead-engine/adapters/bnh-opportunity-
 import { huntingCard } from '../lead-engine/commercial/hunting-board.js';
 
 const safeId = (prefix) => `${prefix}-${randomUUID()}`;
+const text=(v,max=160)=>String(v||'').trim().replace(/[<>]/g,'').slice(0,max);
+const email=v=>text(v,254).toLowerCase();
+const phone=v=>text(v,40).replace(/[^0-9+(). -]/g,'');
+const postal=v=>text(v,10).replace(/[^0-9]/g,'').slice(0,5);
 
 export default async function handler(req,res){
   if(req.method!=='POST') return res.status(405).json({ok:false,error:'Method not allowed'});
   try{
     const body=typeof req.body==='string'?JSON.parse(req.body):(req.body||{});
-    const payload={record_type:'lead',schema_version:1,tenant_id:body.tenant_id||'bnh',project_id:body.project_id||'bnh-site',session_id:body.session_id||'',content_page:body.content_page||body.path||'',lead_id:body.lead_id||body['Lead ID']||safeId('LEAD'),nom:body.nom||body.Nom||'',telephone:body.telephone||body['Téléphone']||'',email:body.email||body.Email||'',code_postal:body.code_postal||body['Code postal']||'',source:body.source||body.Source||'',canal:body.canal||body.Canal||'',campagne:body.campagne||body.Campagne||'',utm_source:body.utm_source||'',utm_medium:body.utm_medium||'',utm_campaign:body.utm_campaign||'',received_at:new Date().toISOString(),engine_version:'1'};
+    const payload={record_type:'lead',schema_version:1,tenant_id:body.tenant_id||'bnh',project_id:body.project_id||'bnh-site',session_id:body.session_id||'',content_page:body.content_page||body.path||'',lead_id:body.lead_id||body['Lead ID']||safeId('LEAD'),nom:text(body.nom||body.Nom,120),telephone:phone(body.telephone||body['Téléphone']),email:email(body.email||body.Email),code_postal:postal(body.code_postal||body['Code postal']),source:text(body.source||body.Source,120),canal:text(body.canal||body.Canal,80),campagne:text(body.campagne||body.Campagne,120),utm_source:text(body.utm_source||body['UTM source'],120),utm_medium:text(body.utm_medium||body['UTM medium'],80),utm_campaign:text(body.utm_campaign||body['UTM campaign'],120),received_at:new Date().toISOString(),engine_version:'1'};
+    if(!payload.nom||!payload.telephone||!/^[0-9]{5}$/.test(payload.code_postal)) return res.status(400).json({ok:false,error:'Missing or invalid required lead fields'});
     const evaluation=evaluateInbound(payload);
     if(!evaluation.accepted) return res.status(400).json({ok:false,error:'Invalid lead payload'});
     const {primary,provider}=createRuntimeStorage();
