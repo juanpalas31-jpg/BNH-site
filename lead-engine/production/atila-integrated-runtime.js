@@ -13,6 +13,8 @@ import { routeHighIntentThread } from "../commercial/high-intent-thread-router.j
 import { leadQuality } from "../commercial/lead-quality.js";
 import { contentNextAction } from "../content/content-next-action.js";
 import { internalSilk } from "../content/internal-silk.js";
+import { defensiveMetabolism,defenseThrottle } from "../resilience/atila-defensive-metabolism.js";
+import { createColony,recruit,collectivePlan } from "../microorganisms/atila-colony-brain.js";
 
 /**
  * Production integration boundary.
@@ -62,6 +64,13 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   contains_customer_data:false,policy_ok:true
  }]);
  const policy=defaultPolicy();
+ const defense_state=events.slice(-50).reduce((s,e)=>defensiveMetabolism(s,{
+  cost:e.event==="error"?.12:.02,duplicate:false
+ }),{energy:1,load:0,suppressed:0,handled:0});
+ const defense_throttle=defenseThrottle(defense_state);
+ const colony=createColony(6);
+ const recruited=recruit(colony,{type:"WEB_VIBRATION",strength:Math.min(1,vibration.score/20)});
+ const colony_plan=collectivePlan(recruited);
  const commercial={
   threads:pages.slice(0,50).map(p=>routeHighIntentThread({page:p.path||p.slug||"",topic:p.intent||p.topic||""})),
   lead_quality:leads.slice(-20).map(l=>({lead_id:l.lead_id||null,...leadQuality({
@@ -88,6 +97,8 @@ export async function runIntegratedAttilaCycle({storage=null,pages=[],events=[],
   immunity,
   learning,
   policy,
+  defense_metabolism:{state:defense_state,throttle:defense_throttle},
+  colony:{size:colony.length,recruited:recruited.length,plan:colony_plan},
   commercial,
   content,
   hunt:blocked?{...hunt,state:"BODY_SURVIVAL_OVERRIDE",execute:false,commercial_reveal:false}:hunt,
