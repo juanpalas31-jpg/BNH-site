@@ -42,6 +42,26 @@ export class PostgresStorageAdapter extends StorageAdapter {
     return rows[0]?.state||null;
   }
 
+  async saveMission(id,state){
+    if(!id||!state) throw new Error('mission id/state required');
+    await this.query('INSERT INTO attila_missions (mission_id,client_id,phase,state,updated_at) VALUES ($1,$2,$3,$4::jsonb,now()) ON CONFLICT (mission_id) DO UPDATE SET client_id=EXCLUDED.client_id,phase=EXCLUDED.phase,state=EXCLUDED.state,updated_at=now()',
+      [id,state.client_id||'unknown',state.phase||'CONSENT',JSON.stringify(state)]);
+    return {ok:true,id};
+  }
+
+  async loadMission(id){
+    const r=await this.query('SELECT state FROM attila_missions WHERE mission_id=$1 LIMIT 1',[id]);
+    const rows=r?.rows||r||[];
+    return rows[0]?.state||null;
+  }
+
+  missionPersistenceAdapter(){
+    return {
+      save:(id,state)=>this.saveMission(id,state),
+      load:(id)=>this.loadMission(id)
+    };
+  }
+
   async healthcheck(){ const r=await this.query('SELECT 1 AS ok',[]); return {ok:Boolean(r),provider:'postgres'}; }
   async exportLeads(t,p){ const r=await this.query('SELECT * FROM leads WHERE tenant_id=$1 AND project_id=$2 ORDER BY received_at',[t,p]); return r.rows||r; }
   async exportEvents(t,p){ const r=await this.query('SELECT * FROM events WHERE tenant_id=$1 AND project_id=$2 ORDER BY received_at',[t,p]); return r.rows||r; }
