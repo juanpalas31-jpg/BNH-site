@@ -1,3 +1,4 @@
+import {EVOLUTION_DNA,calculateEvolution,buildEvolutionTimeline} from './attila-generational-evolution.js';
 import {PATRIMONY_DNA,assessPatrimony} from './attila-patrimony-dna.js';
 import {defendAttila} from './attila-survival-protocol.js';
 import {planSilk,SILK_ARCHITECTURES} from './attila-silk-cognition.js';
@@ -23,7 +24,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -66,6 +67,11 @@ export function think(brain,signal){
    else if(intent==='PLAN_SILK'){result=planSilk(signal.payload||{});decision=result.build?'WEB_PLAN':'FREE_HUNT_OR_RETREAT';}
    else if(intent==='READ_SILK'){result=SILK_ARCHITECTURES;decision='SILK_ARCHITECTURES_READ';}
    else throw Error('UNSUPPORTED_BIOLOGY_INTENT');
+  }else if(organ==='EVOLUTION'){
+   if(intent==='READ_DNA'){result=EVOLUTION_DNA;decision='EVOLUTION_DNA_READ';}
+   else if(intent==='ASSESS'){result=calculateEvolution(signal.payload||{});decision='EVOLUTION_ASSESSED';}
+   else if(intent==='TIMELINE'){result=buildEvolutionTimeline(signal.payload||{});decision='EVOLUTION_TIMELINE';}
+   else throw Error('UNSUPPORTED_EVOLUTION_INTENT');
   }else if(organ==='PATRIMONY'){
    if(intent==='READ_DNA'){result=PATRIMONY_DNA;decision='PATRIMONY_DNA_READ';}
    else if(intent==='ASSESS'){result=assessPatrimony(signal.payload||{});decision=result.stage;}
@@ -85,4 +91,4 @@ export function think(brain,signal){
  if(decision==='FLEE'||decision==='RETRACT')next.compartments.survival.alerts.push('DANGER_RECOGNIZED');
  return {accepted:true,decision,result,brain:next};
 }
-export function getBrainBlueprint(){return {brain:BRAINS,family:FAMILY_BRAIN_POLICY,finance:ECOSYSTEM_DNA,habitat:HABITAT_DNA,genome:CHIMERA_GENOME,patrimony:PATRIMONY_DNA};}
+export function getBrainBlueprint(){return {brain:BRAINS,family:FAMILY_BRAIN_POLICY,finance:ECOSYSTEM_DNA,habitat:HABITAT_DNA,genome:CHIMERA_GENOME,patrimony:PATRIMONY_DNA,evolution:EVOLUTION_DNA};}
