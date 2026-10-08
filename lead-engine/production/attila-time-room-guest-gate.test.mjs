@@ -8,3 +8,5 @@ test('rejects without explicit invitation',()=>assert.equal(admit({...valid,foun
 test('rejects missing local-only assurance',()=>assert.equal(admit({...valid,localOnly:false}).allowed,false));
 test('terminates when founder leaves',()=>assert.equal(terminate({founderPresent:false,founderVerified:true,founderApprovalActive:true}),true));
 test('terminates when network access appears',()=>assert.equal(terminate({founderPresent:true,founderVerified:true,founderApprovalActive:true,remoteConnection:true}),true));
+
+test('family child cannot enter via guest invitation',()=>assert.equal(admit({...valid,guestIsFamilyChild:true}).allowed,false));
