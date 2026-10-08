@@ -1,0 +1,14 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {decideFounderTimeRoomEntry as check} from './attila-time-room-founder-gate.js';
+const founderId='founder_001',childIds=['child_001','child_002'];
+const founder={participantId:founderId,identityVerified:true,authorized:true};
+const children=childIds.map(participantId=>({participantId,identityVerified:true,authorized:true,ageVerified:true,age:40}));
+const go=(entrants,extra={})=>check({entrants,founderId,childIds,trustedVerification:true,founderAliveVerified:true,...extra});
+test('founder alone may enter',()=>assert.equal(go([founder]).action,'ADMIT_FOUNDER_SOLO'));
+test('child alone never enters',()=>assert.equal(go([children[0]]).allowed,false));
+test('founder and one child denied',()=>assert.equal(go([founder,children[0]]).allowed,false));
+test('siblings alone denied',()=>assert.equal(go(children).allowed,false));
+test('full trio denied if either under 40',()=>assert.equal(go([founder,children[0],{...children[1],age:39}]).allowed,false));
+test('full trio denied without verified founder life status',()=>assert.equal(go([founder,...children],{founderAliveVerified:false}).allowed,false));
+test('full trio allowed after both 40 with verified identities and founder alive',()=>assert.equal(go([founder,...children]).action,'ADMIT_COMPLETE_TRIO'));
+test('untrusted age and identity declarations are denied',()=>assert.equal(go([founder,...children],{trustedVerification:false}).allowed,false));
