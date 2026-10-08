@@ -1,3 +1,4 @@
+import {authorizeMemoryAction,evaluateMemoryIntegrity,planMemoryRecovery} from './spider-private-memory-guard.js';
 import {makeEggMemoryDraft,proposeEggActivities} from './attila-egg-memory.js';
 import {buildPosterFunnelBatch} from './attila-poster-batch.js';
 import {buildPosterLanding} from './attila-poster-web.js';
@@ -33,7 +34,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -74,6 +75,15 @@ export function think(brain,signal){
    if(intent==='DRAFT_EGG_MEMORY'){result=makeEggMemoryDraft({...signal.payload,workspaceId});decision='EGG_MEMORY_DRAFTED';}
    else if(intent==='PROPOSE_EGG_ACTIVITIES'){result=proposeEggActivities(signal.payload?.draft);decision='EGG_ACTIVITIES_SUGGESTED';}
    else throw Error('UNSUPPORTED_FAMILY_INTENT');
+  }else if(organ==='MEMORY'){
+   if(intent==='CHECK_ACCESS'){
+    result=authorizeMemoryAction({...signal.payload,actor:{...signal.payload?.actor,workspaceId},resource:{...signal.payload?.resource}});
+    decision=result.allowed?'MEMORY_POLICY_PASSED':'MEMORY_ACCESS_DENIED';
+   }else if(intent==='VERIFY_INTEGRITY'){
+    result=evaluateMemoryIntegrity(signal.payload||{});decision=result.verified?'MEMORY_HASH_MATCH':'MEMORY_HASH_REJECTED';
+   }else if(intent==='PLAN_RECOVERY'){
+    result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
+   }else throw Error('UNSUPPORTED_MEMORY_INTENT');
   }else if(organ==='BIOLOGY'){
    if(intent==='READ_GENOME'){result=CHIMERA_GENOME;decision='GENOME_READ';}
    else if(intent==='SELECT_HUNT'){result=selectChimeraStrategy(signal.payload||{});decision=result.strategy;}
