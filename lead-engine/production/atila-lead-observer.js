@@ -21,9 +21,14 @@ export function observeBnhLead(lead={}){
  if(txt(lead.email).includes("@")) score+=4;
  if(/urgent|panne|ne fonctionne plus|ne refroidit plus|fuite/i.test(hay)) score+=12;
  score=clamp(score,0,100);
- const urgency=score>=78?"HIGH":score>=58?"MEDIUM":"NORMAL";
+ const declaredTimeline=txt(lead.timeline||lead.delai,60).toLowerCase();
+ const declaredStage=txt(lead.project_stage,60).toLowerCase();
+ const declaredService=txt(lead.service,100).toLowerCase();
+ const isBooking=lead.booking_intent===true||lead.booking_intent==='true'||/entretien/.test(declaredService);
+ const urgency=declaredTimeline==='urgent'?'HIGH':declaredTimeline==='sous_7_jours'?'MEDIUM':declaredTimeline?'NORMAL':'UNCONFIRMED';
+ const prospect_type=isBooking?'ENTRETIEN':declaredStage==='projet_defini'?'PROJET_DEFINI':lead.requested_assessment===true||lead.requested_assessment==='true'?'BILAN':'A_QUALIFIER';
  return {
-  observer:"ATTILA_BNH_LEAD_OBSERVER",mode:"ADVISORY_ONLY",intent,score,urgency,
+  observer:"ATTILA_BNH_LEAD_OBSERVER",mode:"ADVISORY_ONLY",intent,score,urgency,prospect_type,declared_stage:declaredStage,declared_timeline:declaredTimeline,
   confidence:matches.length?Math.min(.95,.68+matches.length*.08):.45,
   reason_codes:[
    ...(matches.length?["INTENT_SIGNAL"]:["GENERIC_BILAN"]),
