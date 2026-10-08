@@ -1,3 +1,4 @@
+import {planSocialCampaign,summarizeSocialTraffic} from './attila-social-growth.js';
 import {SOCIAL_CONNECTOR_DNA,designSocialConnector} from './attila-social-connectors.js';
 import {MARKETPLACE_DNA,observeMarketplaceEvent,summarizeMarketplaceEvents} from './attila-marketplace-observer.js';
 import {generateTunnelSite,suggestDomains} from './attila-tunnel-builder.js';
@@ -75,6 +76,8 @@ export function think(brain,signal){
   }else if(organ==='SOCIAL'){
    if(intent==='READ_DNA'){result=SOCIAL_CONNECTOR_DNA;decision='SOCIAL_DNA_READ';}
    else if(intent==='DESIGN_CONNECTOR'){result=designSocialConnector({...signal.payload,workspaceId});decision='SOCIAL_CONNECTOR_DESIGNED';}
+   else if(intent==='PLAN_CAMPAIGN'){result=planSocialCampaign({...signal.payload,workspaceId});decision='SOCIAL_CAMPAIGN_DRAFTED';}
+   else if(intent==='SUMMARIZE_TRAFFIC'){result=summarizeSocialTraffic(signal.payload?.events||[]);decision='SOCIAL_TRAFFIC_SUMMARIZED';}
    else throw Error('UNSUPPORTED_SOCIAL_INTENT');
   }else if(organ==='MARKETPLACE'){
    if(intent==='READ_DNA'){result=MARKETPLACE_DNA;decision='MARKETPLACE_DNA_READ';}
