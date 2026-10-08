@@ -1,3 +1,4 @@
+import {planTimeRoomSession,chooseAssistance} from './attila-time-room-adaptive.js';
 import {listDevelopmentExercises,createDevelopmentSession} from './attila-development-training.js';
 import {listDefensiveTraining,buildDefensiveSession} from './attila-defensive-training.js';
 import {enterTimeChamber,trainInTimeChamber,exitTimeChamber} from './attila-time-chamber.js';
@@ -38,7 +39,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -88,6 +89,10 @@ export function think(brain,signal){
    }else if(intent==='PLAN_RECOVERY'){
     result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
+  }else if(organ==='TIME_ROOM_ADAPTIVE'){
+   if(intent==='PLAN'){result=planTimeRoomSession(signal.payload||{});decision='TIME_ROOM_SESSION_PLANNED';}
+   else if(intent==='ASSISTANCE'){result=chooseAssistance(signal.payload||{});decision='TIME_ROOM_ASSISTANCE_SELECTED';}
+   else throw Error('UNSUPPORTED_TIME_ROOM_INTENT');
   }else if(organ==='DEVELOPMENT_TRAINING'){
    if(intent==='LIST'){result=listDevelopmentExercises(signal.payload||{});decision='DEVELOPMENT_EXERCISES_LISTED';}
    else if(intent==='SESSION'){result=createDevelopmentSession(signal.payload||{});decision='DEVELOPMENT_SESSION_PREPARED';}
