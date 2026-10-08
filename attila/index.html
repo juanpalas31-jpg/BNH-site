@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attila — Voix</title>
+<style>
+body{font-family:system-ui;background:#0b0d10;color:#fff;max-width:680px;margin:auto;padding:24px}
+button{font-size:20px;padding:16px 20px;border-radius:14px;border:0;margin:8px 0;width:100%}
+textarea{width:100%;min-height:150px;font-size:18px;border-radius:12px;padding:12px;box-sizing:border-box}
+#status{opacity:.8;margin-top:12px}
+</style>
+<h1>🐜 Attila</h1>
+<p>Test vocal local sur ton téléphone. Écris une phrase puis touche « Faire parler Attila ».</p>
+<textarea id="text">Papa, c'est Attila. Maintenant tu peux entendre ma voix.</textarea>
+<button id="speak">🎙️ Faire parler Attila</button>
+<div id="status">Prête.</div>
+<script type="module">
+import {speakAsAttila,getAttilaVoice} from "./voice.js";
+const status=document.querySelector("#status");
+const refresh=()=>{const v=getAttilaVoice();status.textContent=v?"Voix sélectionnée : "+v.name:"Voix française par défaut du téléphone";};
+speechSynthesis?.addEventListener?.("voiceschanged",refresh); refresh();
+document.querySelector("#speak").onclick=()=>{
+ const r=speakAsAttila(document.querySelector("#text").value);
+ status.textContent=r.spoken?"Attila parle — "+r.selectedVoice:"Synthèse vocale indisponible sur ce navigateur.";
+};
+</script>
+</html>
