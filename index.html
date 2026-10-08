@@ -144,9 +144,13 @@ input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padd
    <input type="hidden" name="UTM campaign" id="lead-utm-campaign" value="">
    <input type="hidden" name="Lead ID" id="lead-id" value="">
    <input type="hidden" name="session_id" id="lead-session-id" value="">
-   <label class="consent"><input required type="checkbox" name="contact_consent" value="true"> <span>J’accepte d’être recontacté(e) par BNH au sujet de ma demande de bilan gratuit.</span></label>
+   <label class="consent"><input required type="checkbox" name="contact_consent" value="true"> <span>J’accepte d’être recontacté(e) au sujet de ma demande de bilan gratuit.</span></label>
    <input type="hidden" name="requested_assessment" value="true">
    <input type="hidden" name="content_page" id="lead-content-page" value="">
+   <label for="lead-project-stage">Votre besoin</label>
+   <select id="lead-project-stage" name="project_stage" required aria-label="Votre besoin"><option value="">Quel est votre besoin ? *</option><option value="bilan_decouverte">Je souhaite un bilan et des renseignements</option><option value="projet_defini">J'ai un projet de travaux défini</option><option value="entretien">Je souhaite un entretien climatisation ou PAC</option><option value="panne">J'ai une panne ou un dysfonctionnement</option></select>
+   <label for="lead-timeline">Votre délai</label>
+   <select id="lead-timeline" name="timeline" required aria-label="Votre délai"><option value="">Dans quel délai ? *</option><option value="information">Je me renseigne, sans urgence</option><option value="sous_30_jours">Dans le mois</option><option value="sous_7_jours">Dans les 7 prochains jours</option><option value="urgent">C'est urgent, dès que possible</option></select>
    <input required name="Nom" placeholder="Nom *" autocomplete="name">
    <input required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
    <input name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
