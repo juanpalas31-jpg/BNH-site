@@ -1,3 +1,4 @@
+import {createVideoMission,buildRenderJobs,acceptRenderedAsset} from './attila-ai-video.js';
 import {createOrganicCampaign,rankOrganicCreatives} from './attila-organic-creative-engine.js';
 import {newLocalSession,localSessionDecision} from './attila-local-session-controller.js';
 import {decideLocalGuestEntry,shouldTerminateGuestSession} from './attila-time-room-guest-gate.js';
@@ -45,7 +46,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE','TIME_ROOM_ADMISSION','TIME_ROOM_GUEST','ORGANIC_CREATIVE']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE','TIME_ROOM_ADMISSION','TIME_ROOM_GUEST','ORGANIC_CREATIVE','AI_VIDEO']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -69,7 +70,12 @@ export function think(brain,signal){
  if(DANGEROUS.has(intent))return {accepted:false,decision:'HUMAN_AUTHORIZATION_REQUIRED',reason:'PROTECTED_ACTION',brain};
  let result,decision='OBSERVE';
  try{
-  if(organ==='ORGANIC_CREATIVE'){
+  if(organ==='AI_VIDEO'){
+   if(intent==='CREATE_MISSION'){result=createVideoMission({...signal.payload,workspaceId});decision='AI_VIDEO_MISSION_CREATED';}
+   else if(intent==='BUILD_RENDER_JOBS'){result=buildRenderJobs(signal.payload?.mission,signal.payload?.options||{});decision='AI_VIDEO_RENDER_JOBS_BUILT';}
+   else if(intent==='ACCEPT_RENDER'){result=acceptRenderedAsset(signal.payload?.job,signal.payload?.render||{});decision='AI_VIDEO_RENDER_VERIFIED';}
+   else throw Error('UNSUPPORTED_AI_VIDEO_INTENT');
+  }else if(organ==='ORGANIC_CREATIVE'){
    if(intent==='CREATE_CAMPAIGN'){result=createOrganicCampaign({...signal.payload,workspaceId});decision='ORGANIC_CAMPAIGN_DRAFTED';}
    else if(intent==='RANK_RESULTS'){result=rankOrganicCreatives(signal.payload?.metrics||[]);decision='ORGANIC_RESULTS_RANKED';}
    else throw Error('UNSUPPORTED_ORGANIC_CREATIVE_INTENT');
