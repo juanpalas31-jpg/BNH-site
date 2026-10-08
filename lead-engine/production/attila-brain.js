@@ -17,7 +17,7 @@ const BRAINS=Object.freeze({
 /** Ownership policy: shared capabilities do not confer access to assets. */
 export const FAMILY_BRAIN_POLICY=Object.freeze({
  membership:'INVITATION_AND_VERIFIED_IDENTITY_ONLY',accounts:'ISOLATED',
- inheritance:{beneficiaries:'TWO_CHILDREN',shares:[0.5,0.5],status:'FOUNDER_INTENT_NOT_LEGAL_TRANSFER'},
+ inheritance:{beneficiaries:'TWO_CHILDREN',shares:[0.5,0.5],delivery:'SIMULTANEOUS_TO_BOTH',activation:'JOINT_RELEASE_AFTER_VERIFIED_AUTHORIZATION',status:'FOUNDER_INTENT_NOT_LEGAL_TRANSFER'},
  siblings:{access:'OWN_WORKSPACES_ONLY',assetSharing:false},
  descendants:{inherit:'CAPABILITIES_ONLY',inheritFinancialAssets:false},
  founderApprovalRequired:['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH'],
