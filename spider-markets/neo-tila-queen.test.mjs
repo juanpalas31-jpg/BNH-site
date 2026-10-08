@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {proposeQueenAllocation,authorizeQueenMessage} from './neo-tila-queen.js';
+const d={date:'2026-10-09',sourceId:'settlement-1',verified:true,settled:true,ownerApproved:true,netProfitCents:100000,taxReserveCents:0};
+assert.deepEqual([proposeQueenAllocation(d).proposedTotalCents,proposeQueenAllocation(d).lifetimeGiftCents,proposeQueenAllocation(d).legacyReserveCents],[1000,500,500]);
+assert.equal(proposeQueenAllocation({...d,netProfitCents:-1000}).proposedTotalCents,0);
+assert.equal(proposeQueenAllocation(d).moneyMoved,false);
+assert.throws(()=>proposeQueenAllocation(d,['settlement-1']));
+assert.throws(()=>proposeQueenAllocation({...d,verified:false}));
+assert.equal(authorizeQueenMessage({authenticated:true,fromDomain:'a',toDomain:'b',messageOnly:true}).crossDomainWriteAllowed,false);
+console.log('Neo-Tila Queen: accounting tests OK');
