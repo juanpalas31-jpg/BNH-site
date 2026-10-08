@@ -15,8 +15,8 @@ export function buildPosterFunnelBatch({workspaceId,posters,publicBaseUrl=null}=
   index.push({title:p.title,platform:page.platform,slug:page.slug,path:'/affiches/'+page.slug+'/',priceCents:p.priceCents});
  }
  const cards=index.map(p=>'<li><a href=".'+p.path+'">'+html(p.title)+'</a> — '+html(p.platform)+' — '+(p.priceCents/100).toFixed(2)+' €</li>').join('');
- files['index.html']='<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Affiches et posters | Sélection</title><meta name="description" content="Découvrez une sélection d’affiches et retrouvez les annonces disponibles sur les plateformes partenaires."></head><body><main><h1>Affiches et posters</h1><p>Consultez les disponibilités et commandez directement sur les plateformes indiquées.</p><ul>'+cards+'</ul></main></body></html>';
- files['robots.txt']='User-agent: *\nDisallow: /\n';
+ files['index.html']='<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="index,follow"><title>Affiches et posters | Sélection</title><meta name="description" content="Découvrez une sélection d’affiches et retrouvez les annonces disponibles sur les plateformes partenaires."></head><body><main><h1>Affiches et posters</h1><p>Consultez les disponibilités et commandez directement sur les plateformes indiquées.</p><ul>'+cards+'</ul></main></body></html>';
+ files['robots.txt']='User-agent: *\nAllow: /\n';
  if(base)files['sitemap.xml']='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+['/',...index.map(p=>p.path)].map(path=>'<url><loc>'+xml(base+path)+'</loc></url>').join('')+'</urlset>';
- return {agent:'ATTILA',workspaceId,status:'REVIEW_REQUIRED_NOT_DEPLOYED',pages:index.length,files,inventory:index,publicationAuthorized:false,indexingEnabled:false,ordersRoutedToMarketplaces:true,analyticsPersisted:false};
+ return {agent:'ATTILA',workspaceId,status:'SEO_BUILD_READY_FOR_OWNER_DEPLOYMENT',pages:index.length,files,inventory:index,publicationAuthorized:false,indexingEnabled:true,ordersRoutedToMarketplaces:true,analyticsPersisted:false};
 }
