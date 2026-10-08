@@ -1,3 +1,4 @@
+import {newLocalSession,localSessionDecision} from './attila-local-session-controller.js';
 import {decideLocalGuestEntry,shouldTerminateGuestSession} from './attila-time-room-guest-gate.js';
 import {decideFounderTimeRoomEntry} from './attila-time-room-founder-gate.js';
 import {decideTimeRoomAdmission} from './attila-time-room-pair-gate.js';
@@ -94,7 +95,9 @@ export function think(brain,signal){
     result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
   }else if(organ==='TIME_ROOM_GUEST'){
-   if(intent==='CHECK_INVITATION'){result=decideLocalGuestEntry(signal.payload||{});decision=result.allowed?'LOCAL_GUEST_INVITATION_APPROVED':'LOCAL_GUEST_INVITATION_DENIED';}
+   if(intent==='NEW_SESSION'){result=newLocalSession();decision='LOCAL_GUEST_SESSION_CREATED';}
+   else if(intent==='STEP_SESSION'){result=localSessionDecision(signal.payload?.state,signal.payload?.event);decision=result.decision==='REVOKE'?'LOCAL_GUEST_SESSION_REVOKED':'LOCAL_GUEST_SESSION_'+result.decision;}
+   else if(intent==='CHECK_INVITATION'){result=decideLocalGuestEntry(signal.payload||{});decision=result.allowed?'LOCAL_GUEST_INVITATION_APPROVED':'LOCAL_GUEST_INVITATION_DENIED';}
    else if(intent==='CHECK_TERMINATION'){result={terminate:shouldTerminateGuestSession(signal.payload||{})};decision=result.terminate?'TERMINATE_GUEST_SESSION':'KEEP_GUEST_SESSION';}
    else throw Error('UNSUPPORTED_TIME_ROOM_GUEST_INTENT');
   }else if(organ==='TIME_ROOM_ADMISSION'){
