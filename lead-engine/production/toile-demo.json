@@ -1,0 +1,14 @@
+{
+ "id":"toile-confort-energie-001",
+ "title":"Comprendre son confort thermique",
+ "topic":"renovation-energetique",
+ "brand":"Bilan Habitat",
+ "status":"draft",
+ "reviewedByHuman":false,
+ "nodes":[
+ {"id":"intro","type":"text","title":"Pourquoi une maison peut-elle être inconfortable ?","body":"Découvrez les points à examiner : isolation, ventilation, chauffage et usages. Ce guide est informatif et ne remplace pas un diagnostic sur place.","next":["questions","videos","contact"]},
+ {"id":"questions","type":"faq","title":"Les bonnes questions avant de rénover","body":"Quelles pièces sont inconfortables ? À quels moments ? Quels équipements sont présents ?","next":["intro","contact"]},
+ {"id":"videos","type":"text","title":"Vidéos et podcasts à sélectionner","body":"Emplacements prévus pour des contenus YouTube et podcasts vérifiés, avec leurs auteurs et sources. Aucun média fictif n'est publié.","next":["intro"]},
+ {"id":"contact","type":"cta","title":"Demander un bilan","body":"Vous pouvez demander à être recontacté pour discuter de votre projet.","url":"https://bnh-site.vercel.app/","disclosure":"Formulaire commercial de Bilan Habitat","next":[]}
+ ]
+}
