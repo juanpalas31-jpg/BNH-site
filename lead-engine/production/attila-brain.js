@@ -1,3 +1,4 @@
+import {decideTimeRoomAdmission} from './attila-time-room-pair-gate.js';
 import {requireTimeRoomEntry} from './attila-time-room-access.js';
 import {planTimeRoomSession,chooseAssistance} from './attila-time-room-adaptive.js';
 import {listDevelopmentExercises,createDevelopmentSession} from './attila-development-training.js';
@@ -40,7 +41,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE','TIME_ROOM_ADMISSION']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -90,6 +91,10 @@ export function think(brain,signal){
    }else if(intent==='PLAN_RECOVERY'){
     result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
+  }else if(organ==='TIME_ROOM_ADMISSION'){
+   if(intent!=='CHECK_ENTRY')throw Error('UNSUPPORTED_TIME_ROOM_ADMISSION_INTENT');
+   result=decideTimeRoomAdmission(signal.payload||{});
+   decision=result.allowed?'TIME_ROOM_ENTRY_APPROVED':'TIME_ROOM_ENTRY_DENIED';
   }else if(organ==='TIME_ROOM_ADAPTIVE'){
    if(intent==='PLAN'){requireTimeRoomEntry(signal.payload||{});result=planTimeRoomSession(signal.payload||{});decision='TIME_ROOM_SESSION_PLANNED';}
    else if(intent==='ASSISTANCE'){result=chooseAssistance(signal.payload||{});decision='TIME_ROOM_ASSISTANCE_SELECTED';}
