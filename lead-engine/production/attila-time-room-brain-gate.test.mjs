@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createBrain,think} from './attila-brain.js';
+const ownerId='owner_test',workspaceId='workspace_test';
+const a={participantId:'participant_A',age:40,ageVerified:true,authorized:true};
+const b={participantId:'participant_B',age:40,ageVerified:true,authorized:true};
+const run=payload=>think(createBrain({ownerId,workspaceId}),{ownerId,workspaceId,organ:'TIME_ROOM_ADMISSION',intent:'CHECK_ENTRY',payload});
+test('central brain rejects underage companion',()=>{const r=run({entrants:[a,{...b,age:39}],verifiedSoloAdmissions:['participant_A'],trustedVerification:true});assert.equal(r.decision,'TIME_ROOM_ENTRY_DENIED');assert.equal(r.result.action,'EJECT_ALL')});
+test('central brain rejects unverified pair',()=>assert.equal(run({entrants:[a,b],verifiedSoloAdmissions:['participant_A','participant_B']}).decision,'TIME_ROOM_ENTRY_DENIED'));
+test('central brain requires both prior solo admissions',()=>assert.equal(run({entrants:[a,b],verifiedSoloAdmissions:['participant_A'],trustedVerification:true}).decision,'TIME_ROOM_ENTRY_DENIED'));
+test('central brain approves verified independent pair',()=>assert.equal(run({entrants:[a,b],verifiedSoloAdmissions:['participant_A','participant_B'],trustedVerification:true}).decision,'TIME_ROOM_ENTRY_APPROVED'));
