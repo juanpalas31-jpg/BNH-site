@@ -12,7 +12,12 @@ export function vivariumTick(state,{world,stimuli=[]}={}){
  if(!state||state.schema!==1||!VIVARIUM_DNA.worlds.includes(state.world))throw Error('Invalid vivarium state');
  const next=structuredClone(state);
  if(world!==undefined){if(!VIVARIUM_DNA.worlds.includes(world))throw Error('Unknown vivarium');next.world=world;}
- const cycle=runCognitiveCycle({ownerId:next.ownerId,workspaceId:next.workspaceId,previousBrain:next.brain,stimuli});
+ const internalStimuli=[
+  {type:'BIOLOGICAL_HUNT',payload:{risk:next.alertness/100,energy:next.energy,terrain:next.world==='NEST'?'ANCHOR_POINTS':'OPEN'}},
+  {type:'SILK_PLANNING',payload:{risk:next.alertness/100,energy:next.energy,terrain:next.world==='NEST'?'ANCHOR_POINTS':'OPEN'}}
+ ];
+ if(!Array.isArray(stimuli)||stimuli.length>18)throw Error('Maximum 18 external stimuli per tick');
+ const cycle=runCognitiveCycle({ownerId:next.ownerId,workspaceId:next.workspaceId,previousBrain:next.brain,stimuli:[...internalStimuli,...stimuli]});
  next.brain=cycle.brain;next.ageTicks++;
  const strategy=selectChimeraStrategy({risk:next.alertness/100,energy:next.energy,terrain:next.world==='NEST'?'ANCHOR_POINTS':'OPEN',silkAvailable:true});
  next.huntingMode=strategy.strategy;
