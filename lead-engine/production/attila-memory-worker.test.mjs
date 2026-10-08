@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createMemoryWorker,runMemoryMission,runMemoryQueue,ATTILA_AUTONOMY} from './attila-memory-worker.js';
+test('worker runs without Jarvis',()=>assert.equal(ATTILA_AUTONOMY.jarvisRequired,false));
+test('duplicate missions are skipped',()=>{const w=createMemoryWorker({workspaceId:'family'});const m={id:'task1',workspaceId:'family',action:'VERIFY_INTEGRITY',payload:{expectedSha256:'a'.repeat(64),actualSha256:'a'.repeat(64)}};const first=runMemoryMission(w,m);const second=runMemoryMission(first.worker,m);assert.equal(first.outcome.status,'POLICY_CHECK_PASSED');assert.equal(second.outcome.status,'DUPLICATE_SKIPPED');assert.equal(second.worker.sequence,1)});
+test('workspace boundaries enforced',()=>assert.throws(()=>runMemoryMission(createMemoryWorker({workspaceId:'family'}),{id:'task1',workspaceId:'other',action:'PLAN_RECOVERY'})));
+test('queue is bounded and does not perform side effects',()=>{const w=createMemoryWorker({workspaceId:'family'});const tasks=Array.from({length:3},(_,i)=>({id:'t'+i,workspaceId:'family',action:'PLAN_RECOVERY'}));const r=runMemoryQueue(w,tasks,{maxPerRun:2});assert.equal(r.remaining,1);assert.equal(r.worker.sequence,2);assert.ok(r.outcomes.every(x=>x.sideEffects===false))});
