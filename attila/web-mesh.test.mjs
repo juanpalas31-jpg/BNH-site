@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import {createWebMesh,createSignal,DEFAULT_WEB_NODES} from "./web-mesh.mjs";
+const mesh=createWebMesh(DEFAULT_WEB_NODES);
+const s=createSignal({id:"s1",type:"SEO_INSIGHT",from:"MINI_TILA_VINTED",project:"vinted",payload:{finding:"title",token:"never-leak"},confidence:.9,evidenceStrength:.9,relevance:.9});
+assert.equal(s.payload.token,"[REDACTED]");
+const r=mesh.publish(s);assert.ok(r.delivered.some(x=>x.node==="ATTILA"));
+assert.equal(mesh.publish(s).reason,"DUPLICATE");
+const privateSignal=createSignal({id:"s2",type:"LESSON",from:"MINI_TILA_VINTED",project:"vinted",visibility:"PRIVATE",confidence:1,evidenceStrength:1,relevance:1});
+const p=mesh.publish(privateSignal);assert.equal(p.delivered.some(x=>x.node==="MINI_TILA_MPM"),false);
+console.log("Attila web mesh tests OK");
