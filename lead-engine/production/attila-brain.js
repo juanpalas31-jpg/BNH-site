@@ -1,3 +1,4 @@
+import {generateTunnelSite,suggestDomains} from './attila-tunnel-builder.js';
 import {TUNNEL_FACTORY_DNA,assignTunnelMission} from './attila-tunnel-factory.js';
 import {FIRST_FLIGHT_DNA,getFirstFlightStoryboard,requestFirstFlightActivation} from './attila-first-flight.js';
 import {EVOLUTION_DNA,calculateEvolution,buildEvolutionTimeline} from './attila-generational-evolution.js';
@@ -72,6 +73,8 @@ export function think(brain,signal){
   }else if(organ==='TUNNELS'){
    if(intent==='READ_FACTORY'){result=TUNNEL_FACTORY_DNA;decision='FACTORY_DNA_READ';}
    else if(intent==='PLAN_MISSION'){result=assignTunnelMission({...signal.payload,workspaceId});decision='TUNNEL_DRAFT_READY';}
+   else if(intent==='BUILD_SITE'){result=generateTunnelSite({...signal.payload,workspaceId});decision='SITE_FILES_GENERATED';}
+   else if(intent==='SUGGEST_DOMAINS'){result=suggestDomains(signal.payload?.brand);decision='DOMAIN_IDEAS_UNCHECKED';}
    else throw Error('UNSUPPORTED_TUNNEL_INTENT');
   }else if(organ==='LEGACY'){
    if(intent==='STORYBOARD'){result=getFirstFlightStoryboard();decision='STORYBOARD_PREVIEW';}
