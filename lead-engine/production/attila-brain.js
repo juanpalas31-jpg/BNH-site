@@ -1,3 +1,4 @@
+import {requireTimeRoomEntry} from './attila-time-room-access.js';
 import {planTimeRoomSession,chooseAssistance} from './attila-time-room-adaptive.js';
 import {listDevelopmentExercises,createDevelopmentSession} from './attila-development-training.js';
 import {listDefensiveTraining,buildDefensiveSession} from './attila-defensive-training.js';
@@ -90,7 +91,7 @@ export function think(brain,signal){
     result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
   }else if(organ==='TIME_ROOM_ADAPTIVE'){
-   if(intent==='PLAN'){result=planTimeRoomSession(signal.payload||{});decision='TIME_ROOM_SESSION_PLANNED';}
+   if(intent==='PLAN'){requireTimeRoomEntry(signal.payload||{});result=planTimeRoomSession(signal.payload||{});decision='TIME_ROOM_SESSION_PLANNED';}
    else if(intent==='ASSISTANCE'){result=chooseAssistance(signal.payload||{});decision='TIME_ROOM_ASSISTANCE_SELECTED';}
    else throw Error('UNSUPPORTED_TIME_ROOM_INTENT');
   }else if(organ==='DEVELOPMENT_TRAINING'){
