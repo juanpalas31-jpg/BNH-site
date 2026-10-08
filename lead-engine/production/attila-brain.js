@@ -1,3 +1,4 @@
+import {enterTimeChamber,trainInTimeChamber,exitTimeChamber} from './attila-time-chamber.js';
 import {createVivarium,simulateVivariumStep,assessVivarium} from './attila-vivarium.js';
 import {authorizeMemoryAction,evaluateMemoryIntegrity,planMemoryRecovery} from './spider-private-memory-guard.js';
 import {makeEggMemoryDraft,proposeEggActivities} from './attila-egg-memory.js';
@@ -35,7 +36,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -85,6 +86,11 @@ export function think(brain,signal){
    }else if(intent==='PLAN_RECOVERY'){
     result=planMemoryRecovery(signal.payload||{});decision=result.canRestore?'MEMORY_RECOVERY_ELIGIBLE':'MEMORY_RECOVERY_BLOCKED';
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
+  }else if(organ==='TIME_CHAMBER'){
+   if(intent==='ENTER'){result=enterTimeChamber({...signal.payload,workspaceId});decision='TIME_CHAMBER_ENTERED';}
+   else if(intent==='TRAIN'){result=trainInTimeChamber(signal.payload?.session,signal.payload?.options);decision='TIME_CHAMBER_TRAINED';}
+   else if(intent==='EXIT'){result=exitTimeChamber(signal.payload?.session);decision='TIME_CHAMBER_EXITED';}
+   else throw Error('UNSUPPORTED_TIME_CHAMBER_INTENT');
   }else if(organ==='VIVARIUM'){
    if(intent==='CREATE'){result=createVivarium({workspaceId,seed:signal.payload?.seed??1});decision='VIVARIUM_SIMULATION_CREATED';}
    else if(intent==='SIMULATE'){result=simulateVivariumStep(signal.payload?.state,signal.payload?.experiment);decision=result.outcome.status;}
