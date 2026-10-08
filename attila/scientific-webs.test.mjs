@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import {SPECIES_MODELS,interpretVibration,adaptiveRecruitment,routeWithAttenuation,classifySignal} from "./scientific-webs.mjs";
+assert.equal(Object.keys(SPECIES_MODELS).length,5);
+const s=interpretVibration({amplitude:1,pulses:5,noise:0,proximity:1,verified:true});
+assert.equal(s.recruit,true);
+assert.equal(adaptiveRecruitment({signal:s,availableWorkers:10,activeWorkers:2,maxWorkers:3}),1);
+assert.equal(adaptiveRecruitment({signal:s,availableWorkers:10,activeWorkers:3,maxWorkers:3}),0);
+assert.equal(classifySignal({type:"SEO_INSIGHT",privateData:true}).share,false);
+assert.equal(classifySignal({type:"SEO_INSIGHT"}).share,false);
+assert.equal(routeWithAttenuation({quality:1,hops:10}).deliver,false);
+console.log("Scientific web models OK");
