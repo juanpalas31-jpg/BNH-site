@@ -40,3 +40,17 @@ test('no financial orders permitted',()=>{
  assert.equal(r.accepted,false);
  assert.equal(r.decision,'HUMAN_AUTHORIZATION_REQUIRED');
 });
+
+test('vivarium instincts feed the central neural pathway every tick',()=>{
+ const initial=hatchVivarium({ownerId:'creator',workspaceId:'family'});
+ const tick=vivariumTick(initial);
+ assert.equal(tick.decisions.length,2);
+ assert.equal(tick.decisions[0].accepted,true);
+ assert.equal(tick.decisions[1].accepted,true);
+ assert.equal(tick.state.brain.compartments.learning.observations,2);
+ assert.equal(tick.state.brain.compartments.memory.events.at(-1).intent,'PLAN_SILK');
+});
+test('vivarium rejects excessive external stimuli',()=>{
+ const initial=hatchVivarium({ownerId:'creator',workspaceId:'family'});
+ assert.throws(()=>vivariumTick(initial,{stimuli:Array(19).fill({type:'FAMILY_RULES'})}),/Maximum 18/);
+});
