@@ -1,3 +1,4 @@
+import {makeEggMemoryDraft,proposeEggActivities} from './attila-egg-memory.js';
 import {buildPosterFunnelBatch} from './attila-poster-batch.js';
 import {buildPosterLanding} from './attila-poster-web.js';
 import {planSocialCampaign,summarizeSocialTraffic} from './attila-social-growth.js';
@@ -69,6 +70,10 @@ export function think(brain,signal){
   }else if(organ==='CONTENT'){
    if(intent!=='VALIDATE_WEB')throw Error('UNSUPPORTED_CONTENT_INTENT');
    result=validateWeb(signal.payload);decision=result.valid?'EDITORIAL_REVIEW':'REJECT_INVALID_WEB';
+  }else if(organ==='FAMILY'){
+   if(intent==='DRAFT_EGG_MEMORY'){result=makeEggMemoryDraft({...signal.payload,workspaceId});decision='EGG_MEMORY_DRAFTED';}
+   else if(intent==='PROPOSE_EGG_ACTIVITIES'){result=proposeEggActivities(signal.payload?.draft);decision='EGG_ACTIVITIES_SUGGESTED';}
+   else throw Error('UNSUPPORTED_FAMILY_INTENT');
   }else if(organ==='BIOLOGY'){
    if(intent==='READ_GENOME'){result=CHIMERA_GENOME;decision='GENOME_READ';}
    else if(intent==='SELECT_HUNT'){result=selectChimeraStrategy(signal.payload||{});decision=result.strategy;}
