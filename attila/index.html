@@ -1,37 +1,13 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Attila — Conversation vocale</title>
-<style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#07090c;color:#fff;font-family:system-ui;min-height:100dvh;display:grid;place-items:center}
-main{width:min(94vw,620px);text-align:center;padding:24px}.orb{width:170px;height:170px;border-radius:50%;margin:28px auto;background:radial-gradient(circle at 35% 30%,#fff 0 2%,#7d8590 4%,#242a32 30%,#0e1217 70%);box-shadow:0 0 55px #ffffff22;display:grid;place-items:center;font-size:54px}
-button{border:0;border-radius:999px;padding:18px 26px;font-size:18px;font-weight:700;width:100%;margin-top:16px}.secondary{opacity:.75;font-size:14px}#transcript{min-height:90px;margin:20px 0;text-align:left;background:#11151b;border-radius:18px;padding:16px}
-</style></head>
-<body><main>
-<h1>Attila</h1><div class="orb">🐜</div>
-<div id="state">Prête à parler.</div>
-<div id="transcript">Appuie sur le bouton et parle à Attila.</div>
-<button id="talk">🎙️ Parler à Attila</button>
-<p class="secondary">Conversation vocale Attila — indépendante de Spider Market.</p>
-<script type="module">
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="manifest" href="./manifest.webmanifest"><title>Attila — Direct</title><style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#07090c;color:#fff;font-family:system-ui;min-height:100dvh;display:grid;place-items:center}main{width:min(94vw,680px);padding:24px}.orb{width:150px;height:150px;border-radius:50%;margin:20px auto;background:radial-gradient(circle at 35% 30%,#fff 0 2%,#7d8590 4%,#242a32 30%,#0e1217 70%);display:grid;place-items:center;font-size:50px}h1,#state{text-align:center}button{border:0;border-radius:999px;padding:18px;font-size:18px;font-weight:700;width:100%}#chat{min-height:180px;max-height:42vh;overflow:auto;background:#11151b;border-radius:18px;padding:16px;margin:18px 0}.m{margin:10px 0}.a{opacity:.9}.meta{opacity:.6;font-size:12px}</style></head><body><main><h1>Attila</h1><div class="orb">🕷️</div><div id="state">Prête.</div><div id="chat"></div><button id="talk">🎙️ Parler à Attila</button><p class="meta">État conversationnel local. Les actions réelles doivent fournir leurs propres preuves.</p><script type="module">
 import {speakAsAttila} from "./voice.js";
+import {createStatusStore} from "./live-status.mjs";
+import {answerDeepQuestion,humanToWebSignal} from "./deep-dialogue.mjs";
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-const talk=document.querySelector("#talk"), state=document.querySelector("#state"), transcript=document.querySelector("#transcript");
-function answerFor(text){
- const q=text.toLowerCase();
- if(q.includes("qui es-tu")||q.includes("qui es tu")) return "Je suis Attila. Je t'écoute, Papa.";
- if(q.includes("bonjour")||q.includes("salut")) return "Bonjour Papa. Attila est là.";
- return "J'ai bien entendu : "+text+". Mon interface vocale fonctionne. Le raccordement à mon moteur de conversation sera l'étape suivante.";
-}
-talk.onclick=()=>{
- if(!SR){state.textContent="Reconnaissance vocale indisponible dans ce navigateur.";return;}
- speechSynthesis.cancel();
- const r=new SR(); r.lang="fr-FR"; r.interimResults=false; r.maxAlternatives=1;
- state.textContent="Attila écoute…";
- r.onresult=e=>{const t=e.results[0][0].transcript; transcript.textContent="Papa : "+t; const a=answerFor(t); state.textContent="Attila parle…"; speakAsAttila(a);};
- r.onerror=e=>state.textContent="Micro : "+e.error;
- r.onend=()=>setTimeout(()=>{if(!speechSynthesis.speaking)state.textContent="Prête à parler.";},250);
- r.start();
-};
+const talk=document.querySelector("#talk"),state=document.querySelector("#state"),chat=document.querySelector("#chat");
+const adapter={read:async()=>{try{return JSON.parse(localStorage.getItem("attila.status"))}catch{return null}},write:async v=>localStorage.setItem("attila.status",JSON.stringify(v))};
+const status=createStatusStore(adapter);
+const context={status:await status.read(),plan:[],projects:[],evidence:[]};
+function add(who,text){const p=document.createElement("div");p.className="m "+(who==="Attila"?"a":"");p.textContent=who+" : "+text;chat.append(p);chat.scrollTop=chat.scrollHeight}
+async function reply(text){context.status=await status.read();const signal=humanToWebSignal(text);const a=answerDeepQuestion(text,context);add("Attila",a);state.textContent="Attila parle · signal "+signal;speakAsAttila(a);return a}
+talk.onclick=()=>{if(!SR){state.textContent="Reconnaissance vocale indisponible.";return}speechSynthesis.cancel();const r=new SR();r.lang="fr-FR";r.interimResults=false;r.maxAlternatives=1;state.textContent="Attila écoute…";r.onresult=async e=>{const t=e.results[0][0].transcript;add("Papa",t);await reply(t)};r.onerror=e=>state.textContent="Micro : "+e.error;r.onend=()=>setTimeout(()=>{if(!speechSynthesis.speaking)state.textContent="Prête."},300);r.start()};
 </script></main></body></html>
