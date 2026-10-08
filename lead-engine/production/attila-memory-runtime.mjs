@@ -1,3 +1,4 @@
+import {validateMission} from './attila-mission-schema.js';
 /** Attila headless runtime (Node >=20, ESM).
  * Operates independently of Jarvis. Requires a PRIVATE host and private task input.
  * This runner only handles metadata checks; never put recordings or transcripts in tasks.
@@ -26,12 +27,8 @@ export async function executeMemoryCycle({workspaceId,queuePath,statePath,report
  if(!Array.isArray(tasks)||tasks.length>1000)throw Error('INVALID_QUEUE');
  const state=previous??createMemoryWorker({workspaceId});
  if(state.workspaceId!==workspaceId||!Array.isArray(state.processedIds)||!Array.isArray(state.history))throw Error('INVALID_STATE');
- // Validate ALL tasks before doing anything, and reject payload fields likely to contain private content.
- for(const task of tasks){
-  if(!task||!safeId(task.id)||task.workspaceId!==workspaceId||!['CHECK_ACCESS','VERIFY_INTEGRITY','PLAN_RECOVERY'].includes(task.action))throw Error('INVALID_TASK');
-  const json=JSON.stringify(task);
-  if(json.length>12000||/(transcript|recordingBytes|audioBase64|healthNotes|schoolReport|childName)/i.test(json))throw Error('SENSITIVE_PAYLOAD_FORBIDDEN');
- }
+ // Validate every task using an explicit metadata-only allowlist.
+ for(const task of tasks)validateMission(task,workspaceId);
  const {worker,outcomes,remaining}=runMemoryQueue(state,tasks,{maxPerRun:25});
  // Fail-closed: do not consume queue automatically; duplicate IDs are skipped on subsequent runs.
  // This allows operators to reconcile a crash without losing queued tasks.
