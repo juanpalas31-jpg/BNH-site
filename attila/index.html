@@ -1,26 +1,37 @@
 <!doctype html>
 <html lang="fr">
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Attila — Voix</title>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Attila — Conversation vocale</title>
 <style>
-body{font-family:system-ui;background:#0b0d10;color:#fff;max-width:680px;margin:auto;padding:24px}
-button{font-size:20px;padding:16px 20px;border-radius:14px;border:0;margin:8px 0;width:100%}
-textarea{width:100%;min-height:150px;font-size:18px;border-radius:12px;padding:12px;box-sizing:border-box}
-#status{opacity:.8;margin-top:12px}
-</style>
-<h1>🐜 Attila</h1>
-<p>Test vocal local sur ton téléphone. Écris une phrase puis touche « Faire parler Attila ».</p>
-<textarea id="text">Papa, c'est Attila. Maintenant tu peux entendre ma voix.</textarea>
-<button id="speak">🎙️ Faire parler Attila</button>
-<div id="status">Prête.</div>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#07090c;color:#fff;font-family:system-ui;min-height:100dvh;display:grid;place-items:center}
+main{width:min(94vw,620px);text-align:center;padding:24px}.orb{width:170px;height:170px;border-radius:50%;margin:28px auto;background:radial-gradient(circle at 35% 30%,#fff 0 2%,#7d8590 4%,#242a32 30%,#0e1217 70%);box-shadow:0 0 55px #ffffff22;display:grid;place-items:center;font-size:54px}
+button{border:0;border-radius:999px;padding:18px 26px;font-size:18px;font-weight:700;width:100%;margin-top:16px}.secondary{opacity:.75;font-size:14px}#transcript{min-height:90px;margin:20px 0;text-align:left;background:#11151b;border-radius:18px;padding:16px}
+</style></head>
+<body><main>
+<h1>Attila</h1><div class="orb">🐜</div>
+<div id="state">Prête à parler.</div>
+<div id="transcript">Appuie sur le bouton et parle à Attila.</div>
+<button id="talk">🎙️ Parler à Attila</button>
+<p class="secondary">Conversation vocale Attila — indépendante de Spider Market.</p>
 <script type="module">
-import {speakAsAttila,getAttilaVoice} from "./voice.js";
-const status=document.querySelector("#status");
-const refresh=()=>{const v=getAttilaVoice();status.textContent=v?"Voix sélectionnée : "+v.name:"Voix française par défaut du téléphone";};
-speechSynthesis?.addEventListener?.("voiceschanged",refresh); refresh();
-document.querySelector("#speak").onclick=()=>{
- const r=speakAsAttila(document.querySelector("#text").value);
- status.textContent=r.spoken?"Attila parle — "+r.selectedVoice:"Synthèse vocale indisponible sur ce navigateur.";
+import {speakAsAttila} from "./voice.js";
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const talk=document.querySelector("#talk"), state=document.querySelector("#state"), transcript=document.querySelector("#transcript");
+function answerFor(text){
+ const q=text.toLowerCase();
+ if(q.includes("qui es-tu")||q.includes("qui es tu")) return "Je suis Attila. Je t'écoute, Papa.";
+ if(q.includes("bonjour")||q.includes("salut")) return "Bonjour Papa. Attila est là.";
+ return "J'ai bien entendu : "+text+". Mon interface vocale fonctionne. Le raccordement à mon moteur de conversation sera l'étape suivante.";
+}
+talk.onclick=()=>{
+ if(!SR){state.textContent="Reconnaissance vocale indisponible dans ce navigateur.";return;}
+ speechSynthesis.cancel();
+ const r=new SR(); r.lang="fr-FR"; r.interimResults=false; r.maxAlternatives=1;
+ state.textContent="Attila écoute…";
+ r.onresult=e=>{const t=e.results[0][0].transcript; transcript.textContent="Papa : "+t; const a=answerFor(t); state.textContent="Attila parle…"; speakAsAttila(a);};
+ r.onerror=e=>state.textContent="Micro : "+e.error;
+ r.onend=()=>setTimeout(()=>{if(!speechSynthesis.speaking)state.textContent="Prête à parler.";},250);
+ r.start();
 };
-</script>
-</html>
+</script></main></body></html>
