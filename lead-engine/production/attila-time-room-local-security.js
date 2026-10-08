@@ -15,5 +15,5 @@ export const TIME_ROOM_LOCAL_SECURITY_REQUIREMENTS=Object.freeze({
 export function assessLocalSecurityReadiness(evidence={}){
  const checks=['trustedController','verifiedIdentity','localPresenceSensor','networkIsolation','revocationEnforced','familyRelationshipVerified'];
  const missing=checks.filter(k=>evidence[k]!==true);
- return {ready:missing.length===0,missing,mode:missing.length?'DESIGN_ONLY':'REQUIRES_INDEPENDENT_VERIFICATION'};
+ return {ready:false,declaredComplete:missing.length===0,missing,mode:missing.length?'DESIGN_ONLY':'REQUIRES_INDEPENDENT_VERIFICATION',reason:'NO_HARDWARE_ATTESTATION_OR_ENFORCEMENT'};
 }
