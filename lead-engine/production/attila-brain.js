@@ -1,3 +1,4 @@
+import {planViralVideo,evaluateViralVideos} from './attila-viral-video-playbook.js';
 import {createEditProject,planCinematicEdit,buildEditManifest} from './attila-cinematic-editor.js';
 import {createVideoMission,buildRenderJobs,acceptRenderedAsset} from './attila-ai-video.js';
 import {createOrganicCampaign,rankOrganicCreatives} from './attila-organic-creative-engine.js';
@@ -47,7 +48,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE','TIME_ROOM_ADMISSION','TIME_ROOM_GUEST','ORGANIC_CREATIVE','AI_VIDEO','CINEMATIC_EDITOR']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE','SOCIAL','MEMORY','VIVARIUM','TIME_CHAMBER','DEFENSIVE_TRAINING','DEVELOPMENT_TRAINING','TIME_ROOM_ADAPTIVE','TIME_ROOM_ADMISSION','TIME_ROOM_GUEST','ORGANIC_CREATIVE','AI_VIDEO','CINEMATIC_EDITOR','VIRAL_VIDEO']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -71,7 +72,11 @@ export function think(brain,signal){
  if(DANGEROUS.has(intent))return {accepted:false,decision:'HUMAN_AUTHORIZATION_REQUIRED',reason:'PROTECTED_ACTION',brain};
  let result,decision='OBSERVE';
  try{
-  if(organ==='CINEMATIC_EDITOR'){
+  if(organ==='VIRAL_VIDEO'){
+   if(intent==='PLAN'){result=planViralVideo({...signal.payload,workspaceId});decision='VIRAL_VIDEO_DRAFTED';}
+   else if(intent==='EVALUATE'){result=evaluateViralVideos(signal.payload?.rows||[]);decision='VIRAL_VIDEO_RESULTS_EVALUATED';}
+   else throw Error('UNSUPPORTED_VIRAL_VIDEO_INTENT');
+  }else if(organ==='CINEMATIC_EDITOR'){
    if(intent==='CREATE_PROJECT'){result=createEditProject({...signal.payload,workspaceId});decision='CINEMATIC_PROJECT_CREATED';}
    else if(intent==='PLAN_EDIT'){result=planCinematicEdit(signal.payload?.project,signal.payload?.options||{});decision='CINEMATIC_EDIT_PLANNED';}
    else if(intent==='BUILD_MANIFEST'){result=buildEditManifest(signal.payload?.plan);decision='CINEMATIC_RENDER_MANIFEST_BUILT';}
