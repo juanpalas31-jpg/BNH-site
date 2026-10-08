@@ -1,3 +1,4 @@
+import {runCognitiveCycle} from '../lead-engine/production/attila-autonomy-loop.js';
 import {authorizeFamilyRequest} from '../lead-engine/production/attila-private-family-access.js';
 import {createBrain,think,getBrainBlueprint} from '../lead-engine/production/attila-brain.js';
 export default async function handler(req,res){
@@ -9,6 +10,11 @@ export default async function handler(req,res){
  try{
   if(!b||typeof b!=='object')throw Error('INVALID_BODY');
   const ownerId=String(b.ownerId||''),workspaceId=String(b.workspaceId||'');
+  if(b.action==='cycle'){
+   if(!Array.isArray(b.stimuli)||b.stimuli.length>20)return res.status(400).json({error:'INVALID_STIMULI'});
+   const cycle=runCognitiveCycle({ownerId,workspaceId,stimuli:b.stimuli});
+   return res.status(200).json({mode:cycle.mode,decisions:cycle.decisions,brain:cycle.brain,externalActions:0,persistent:false});
+  }
   const brain=createBrain({ownerId,workspaceId});
   const signal=b.signal||{};
   // Caller-supplied workspace is not a verified identity. Do not store or expose private data.
