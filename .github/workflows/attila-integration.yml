@@ -1,0 +1,17 @@
+name: Attila cognitive integration
+on:
+  push:
+    paths:
+      - 'lead-engine/production/**'
+      - '.github/workflows/attila-integration.yml'
+  workflow_dispatch:
+jobs:
+  cognitive-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run cognitive integration tests
+        run: node --test lead-engine/production/attila-integration.test.js
