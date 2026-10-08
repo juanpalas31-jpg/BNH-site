@@ -1,3 +1,4 @@
+import {defendAttila} from './attila-survival-protocol.js';
 import {planSilk,SILK_ARCHITECTURES} from './attila-silk-cognition.js';
 import {CHIMERA_GENOME,selectChimeraStrategy} from './attila-chimera-genome.js';
 /** Spider Engine — Attila central brain. Pure, auditable orchestration; no external side effects. */
@@ -37,6 +38,8 @@ export function think(brain,signal){
  if(!brain?.compartments||!signal||typeof signal!=='object')throw Error('Brain and signal required');
  const {ownerId,workspaceId}=brain;
  if(signal.ownerId!==ownerId||signal.workspaceId!==workspaceId)return {accepted:false,decision:'REJECT',reason:'WORKSPACE_BOUNDARY',brain};
+ if(brain.compartments.survival.halted)return {accepted:false,decision:'QUARANTINE',reason:'SECURITY_LOCKDOWN',brain};
+ if(signal.type==='SECURITY_ALERT'){const response=defendAttila(brain,{signals:signal.payload?.signals||[]});return {accepted:true,decision:response.threat.mode,brain:response.state,result:response.threat};}
  const organ=String(signal.organ||'');
  if(!MODULES.has(organ))return {accepted:false,decision:'REJECT',reason:'UNKNOWN_ORGAN',brain};
  const intent=String(signal.intent||'');
