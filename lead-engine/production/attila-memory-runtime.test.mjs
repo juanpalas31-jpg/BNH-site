@@ -19,7 +19,7 @@ test('executes independent cycle and persists deduplication state',async()=>{
 test('refuses content resembling private transcript before writing state',async()=>{
  const o=await setup();try{
  await writeFile(o.queuePath,JSON.stringify([{id:'mission1',workspaceId:'family',action:'PLAN_RECOVERY',transcript:'secret'}]));
- await assert.rejects(()=>executeMemoryCycle(o),/SENSITIVE_PAYLOAD_FORBIDDEN/);
+ await assert.rejects(()=>executeMemoryCycle(o),/INVALID_MISSION_SCHEMA/);
  await assert.rejects(()=>readFile(o.statePath,'utf8'),{code:'ENOENT'});
  }finally{await rm(o.dir,{recursive:true,force:true});}
 });
