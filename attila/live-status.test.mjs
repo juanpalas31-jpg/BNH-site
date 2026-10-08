@@ -1,0 +1,13 @@
+import assert from "node:assert/strict";
+import {createStatusStore,answerWhatAreYouDoing,isLiveStatusQuestion} from "./live-status.mjs";
+const s=createStatusStore();
+assert.equal((await s.read()).state,"IDLE");
+await s.start({title:"Optimiser Vinted"});
+assert.equal((await s.read()).state,"WORKING");
+assert.match(answerWhatAreYouDoing(await s.read()),/Optimiser Vinted/);
+assert.equal(isLiveStatusQuestion("Attila, qu'est-ce que tu fais là en ce moment ?"),true);
+await s.evidence({type:"commit",id:"abc"});
+assert.equal((await s.read()).lastEvidence.id,"abc");
+await s.idle();
+assert.equal((await s.read()).state,"IDLE");
+console.log("Attila live-status tests OK");
