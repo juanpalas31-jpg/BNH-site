@@ -1,3 +1,4 @@
+import {planSilk,SILK_ARCHITECTURES} from './attila-silk-cognition.js';
 import {CHIMERA_GENOME,selectChimeraStrategy} from './attila-chimera-genome.js';
 /** Spider Engine — Attila central brain. Pure, auditable orchestration; no external side effects. */
 import {ECOSYSTEM_DNA,classifyHabitat,hatchNeoAttila,fourmiTilaBlueprint} from './attila-financial-ecosystem.js';
@@ -58,6 +59,8 @@ export function think(brain,signal){
   }else if(organ==='BIOLOGY'){
    if(intent==='READ_GENOME'){result=CHIMERA_GENOME;decision='GENOME_READ';}
    else if(intent==='SELECT_HUNT'){result=selectChimeraStrategy(signal.payload||{});decision=result.strategy;}
+   else if(intent==='PLAN_SILK'){result=planSilk(signal.payload||{});decision=result.build?'WEB_PLAN':'FREE_HUNT_OR_RETREAT';}
+   else if(intent==='READ_SILK'){result=SILK_ARCHITECTURES;decision='SILK_ARCHITECTURES_READ';}
    else throw Error('UNSUPPORTED_BIOLOGY_INTENT');
   }else if(organ==='FAMILY'){
    if(intent!=='READ_POLICY')throw Error('UNSUPPORTED_FAMILY_INTENT');
