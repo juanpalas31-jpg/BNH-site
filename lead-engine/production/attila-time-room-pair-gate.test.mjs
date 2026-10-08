@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {decideTimeRoomAdmission as gate} from './attila-time-room-pair-gate.js';
+const a={participantId:'participant_A',age:40,ageVerified:true,authorized:true};
+const b={participantId:'participant_B',age:40,ageVerified:true,authorized:true};
+test('denies untrusted claims',()=>assert.equal(gate({entrants:[a],trustedVerification:false}).action,'EJECT_ALL'));
+test('denies any underage companion',()=>assert.equal(gate({entrants:[a,{...b,age:39}],trustedVerification:true,verifiedSoloAdmissions:['participant_A']}).action,'EJECT_ALL'));
+test('allows eligible solo entrance',()=>assert.equal(gate({entrants:[a],trustedVerification:true}).action,'ADMIT_SOLO'));
+test('denies pair until both solo entries independently recorded',()=>assert.equal(gate({entrants:[a,b],trustedVerification:true,verifiedSoloAdmissions:['participant_A']}).action,'EJECT_ALL'));
+test('allows pair after independent solo validation',()=>assert.equal(gate({entrants:[a,b],trustedVerification:true,verifiedSoloAdmissions:['participant_A','participant_B']}).action,'ADMIT_TOGETHER'));
+test('rejects duplicate identity',()=>assert.equal(gate({entrants:[a,a],trustedVerification:true,verifiedSoloAdmissions:['participant_A']}).action,'EJECT_ALL'));
