@@ -1,3 +1,4 @@
+import {planSilk} from './attila-silk-cognition.js';
 import {CHIMERA_GENOME,selectChimeraStrategy} from './attila-chimera-genome.js';
 /** Attila's simulated embodied world: no claim of biological life or consciousness. */
 import {runCognitiveCycle} from './attila-autonomy-loop.js';
@@ -15,6 +16,8 @@ export function vivariumTick(state,{world,stimuli=[]}={}){
  next.brain=cycle.brain;next.ageTicks++;
  const strategy=selectChimeraStrategy({risk:next.alertness/100,energy:next.energy,terrain:next.world==='NEST'?'ANCHOR_POINTS':'OPEN',silkAvailable:true});
  next.huntingMode=strategy.strategy;
+ const silk=planSilk({terrain:next.world==='NEST'?'ANCHOR_POINTS':'OPEN',risk:next.alertness/100,energy:next.energy});
+ if(silk.build&&!next.webs.some(w=>w.world===next.world&&w.kind===silk.kind))next.webs.push({world:next.world,kind:silk.kind,createdAtTick:next.ageTicks,profile:silk.profile});
  const threat=cycle.decisions.some(d=>['FLEE','RETRACT','REJECT'].includes(d.decision));
  next.alertness=clamp(next.alertness+(threat?30:-8),0,100);
  next.energy=clamp(next.energy-(next.world==='NEST'?0.2:1.5),0,100);
