@@ -1,3 +1,4 @@
+import {buildPosterFunnelBatch} from './attila-poster-batch.js';
 import {buildPosterLanding} from './attila-poster-web.js';
 import {planSocialCampaign,summarizeSocialTraffic} from './attila-social-growth.js';
 import {SOCIAL_CONNECTOR_DNA,designSocialConnector} from './attila-social-connectors.js';
@@ -80,6 +81,7 @@ export function think(brain,signal){
    else if(intent==='PLAN_CAMPAIGN'){result=planSocialCampaign({...signal.payload,workspaceId});decision='SOCIAL_CAMPAIGN_DRAFTED';}
    else if(intent==='SUMMARIZE_TRAFFIC'){result=summarizeSocialTraffic(signal.payload?.events||[]);decision='SOCIAL_TRAFFIC_SUMMARIZED';}
    else if(intent==='BUILD_POSTER_PAGE'){result=buildPosterLanding({...signal.payload,workspaceId});decision='POSTER_PAGE_DRAFTED';}
+   else if(intent==='BUILD_POSTER_BATCH'){result=buildPosterFunnelBatch({...signal.payload,workspaceId});decision='POSTER_BATCH_DRAFTED';}
    else throw Error('UNSUPPORTED_SOCIAL_INTENT');
   }else if(organ==='MARKETPLACE'){
    if(intent==='READ_DNA'){result=MARKETPLACE_DNA;decision='MARKETPLACE_DNA_READ';}
