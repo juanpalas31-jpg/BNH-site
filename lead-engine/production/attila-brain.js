@@ -1,10 +1,11 @@
+import {CHIMERA_GENOME,selectChimeraStrategy} from './attila-chimera-genome.js';
 /** Spider Engine — Attila central brain. Pure, auditable orchestration; no external side effects. */
 import {ECOSYSTEM_DNA,classifyHabitat,hatchNeoAttila,fourmiTilaBlueprint} from './attila-financial-ecosystem.js';
 import {HABITAT_DNA,evaluateProperty,scoutListing,defineNestRequirements} from './attila-habitat.js';
 import {validateWeb,buildWeb} from './attila-web-weaver.js';
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 const BRAINS=Object.freeze({
- identity:'ATTILA',engine:'SPIDER_ENGINE',version:1,
+ identity:'ATTILA',engine:'SPIDER_ENGINE',version:2,genome:CHIMERA_GENOME,
  compartments:['IDENTITY','MEMORY','FAMILY','PERCEPTION','SURVIVAL','DECISION','EXECUTION','LEARNING'],
  organs:{FINANCE:'attila-financial-ecosystem',HABITAT:'attila-habitat',CONTENT:'attila-web-weaver'},
  defaultMode:'SIMULATION_AND_RESEARCH',liveFinancialOrders:false,realEstatePurchases:false,autoPublishing:false
@@ -19,12 +20,12 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
  return {brain:BRAINS,ownerId,workspaceId,compartments:{
-  identity:{species:'ATTILA',ownerId,workspaceId},memory:{events:[],maxEvents:200},
+  identity:{species:'DIGITAL_ARANEAE_CHIMERA',genome:CHIMERA_GENOME,ownerId,workspaceId},memory:{events:[],maxEvents:200},
   family:{policy:FAMILY_BRAIN_POLICY,workspaceId},
   perception:{lastSignals:[]},survival:{halted:false,alerts:[]},
   decision:{last:null},execution:{mode:'RESEARCH_ONLY',completed:0},
@@ -54,6 +55,10 @@ export function think(brain,signal){
   }else if(organ==='CONTENT'){
    if(intent!=='VALIDATE_WEB')throw Error('UNSUPPORTED_CONTENT_INTENT');
    result=validateWeb(signal.payload);decision=result.valid?'EDITORIAL_REVIEW':'REJECT_INVALID_WEB';
+  }else if(organ==='BIOLOGY'){
+   if(intent==='READ_GENOME'){result=CHIMERA_GENOME;decision='GENOME_READ';}
+   else if(intent==='SELECT_HUNT'){result=selectChimeraStrategy(signal.payload||{});decision=result.strategy;}
+   else throw Error('UNSUPPORTED_BIOLOGY_INTENT');
   }else if(organ==='FAMILY'){
    if(intent!=='READ_POLICY')throw Error('UNSUPPORTED_FAMILY_INTENT');
    result=FAMILY_BRAIN_POLICY;decision='READ_ONLY';
@@ -69,4 +74,4 @@ export function think(brain,signal){
  if(decision==='FLEE'||decision==='RETRACT')next.compartments.survival.alerts.push('DANGER_RECOGNIZED');
  return {accepted:true,decision,result,brain:next};
 }
-export function getBrainBlueprint(){return {brain:BRAINS,family:FAMILY_BRAIN_POLICY,finance:ECOSYSTEM_DNA,habitat:HABITAT_DNA};}
+export function getBrainBlueprint(){return {brain:BRAINS,family:FAMILY_BRAIN_POLICY,finance:ECOSYSTEM_DNA,habitat:HABITAT_DNA,genome:CHIMERA_GENOME};}
