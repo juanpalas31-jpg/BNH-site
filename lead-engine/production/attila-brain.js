@@ -1,3 +1,4 @@
+import {decideFounderTimeRoomEntry} from './attila-time-room-founder-gate.js';
 import {decideTimeRoomAdmission} from './attila-time-room-pair-gate.js';
 import {requireTimeRoomEntry} from './attila-time-room-access.js';
 import {planTimeRoomSession,chooseAssistance} from './attila-time-room-adaptive.js';
@@ -93,7 +94,7 @@ export function think(brain,signal){
    }else throw Error('UNSUPPORTED_MEMORY_INTENT');
   }else if(organ==='TIME_ROOM_ADMISSION'){
    if(intent!=='CHECK_ENTRY')throw Error('UNSUPPORTED_TIME_ROOM_ADMISSION_INTENT');
-   result=decideTimeRoomAdmission(signal.payload||{});
+   result=decideFounderTimeRoomEntry(signal.payload||{});
    decision=result.allowed?'TIME_ROOM_ENTRY_APPROVED':'TIME_ROOM_ENTRY_DENIED';
   }else if(organ==='TIME_ROOM_ADAPTIVE'){
    if(intent==='PLAN'){requireTimeRoomEntry(signal.payload||{});result=planTimeRoomSession(signal.payload||{});decision='TIME_ROOM_SESSION_PLANNED';}
