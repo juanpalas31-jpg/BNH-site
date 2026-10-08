@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {authorizeMemoryAction,evaluateMemoryIntegrity,planMemoryRecovery} from './spider-private-memory-guard.js';
+const actor={id:'guardian',workspaceId:'family',role:'PARENT_GUARDIAN'};
+const resource={id:'memory1',workspaceId:'family',classification:'CHILD_PRIVATE',ownerSlot:'CHILD_A',participantSlots:['PARENT','CHILD_A']};
+const check=(changes={})=>authorizeMemoryAction({actor,resource,operation:'READ',authenticated:true,...changes});
+test('deny without authentication',()=>assert.equal(check({authenticated:false}).allowed,false));
+test('deny cross-workspace',()=>assert.equal(check({resource:{...resource,workspaceId:'other'}}).allowed,false));
+test('deny sibling access',()=>assert.equal(check({actor:{id:'child',role:'CHILD_SELF',workspaceId:'family',childSlot:'CHILD_B'}}).allowed,false));
+test('deny podcasts without every participant consent',()=>assert.equal(check({operation:'PODCAST_PREPARE',consents:{PARENT:{podcast:true}}}).allowed,false));
+test('deny health information podcast even with consent',()=>assert.equal(check({operation:'PODCAST_PREPARE',resource:{...resource,classification:'HEALTH_RESTRICTED'},consents:{PARENT:{podcast:true},CHILD_A:{podcast:true}}}).allowed,false));
+test('accept policy check without claiming storage authorization',()=>{const r=check();assert.equal(r.allowed,true);assert.equal(r.requiresStorageAdapter,true)});
+test('detect mismatched hashes',()=>assert.equal(evaluateMemoryIntegrity({expectedSha256:'a'.repeat(64),actualSha256:'b'.repeat(64)}).verified,false));
+test('restore requires backup and key recovery',()=>{assert.equal(planMemoryRecovery({encryptedBackupVerified:true,keyRecoveryVerified:false}).canRestore,false);assert.equal(planMemoryRecovery({encryptedBackupVerified:true,keyRecoveryVerified:true}).canRestore,true)});
