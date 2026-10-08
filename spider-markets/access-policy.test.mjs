@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import { authorizePalasMarkets, PALAS_MARKETS_ACCESS } from './access-policy.js';
+assert.equal(PALAS_MARKETS_ACCESS.publicAccess,false);
+assert.equal(PALAS_MARKETS_ACCESS.anonymousAccess,false);
+assert.equal(PALAS_MARKETS_ACCESS.defaultDecision,'DENY');
+assert.equal(authorizePalasMarkets({}).allowed,false);
+assert.equal(authorizePalasMarkets({authenticated:true,role:'FOUNDER',palasFamilyMember:true}).allowed,true);
+assert.equal(authorizePalasMarkets({authenticated:true,role:'CHILD',palasFamilyMember:true}).allowed,true);
+assert.equal(authorizePalasMarkets({authenticated:true,role:'GUARDIAN',guardianAuthorized:true}).allowed,true);
+assert.equal(authorizePalasMarkets({authenticated:true,role:'GUARDIAN'}).allowed,false);
+assert.equal(authorizePalasMarkets({authenticated:true,role:'CHILD'}).allowed,false);
+console.log('Palas Markets access policy: OK');
