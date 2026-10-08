@@ -1,0 +1,9 @@
+{
+  "name": "Spider Engine — Marchés",
+  "short_name": "Spider Markets",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "description": "Centre mobile Spider Engine pour l'observation et l'analyse des marchés financiers."
+}
