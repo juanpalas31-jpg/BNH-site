@@ -1,3 +1,4 @@
+import {MARKETPLACE_DNA,observeMarketplaceEvent,summarizeMarketplaceEvents} from './attila-marketplace-observer.js';
 import {generateTunnelSite,suggestDomains} from './attila-tunnel-builder.js';
 import {TUNNEL_FACTORY_DNA,assignTunnelMission} from './attila-tunnel-factory.js';
 import {FIRST_FLIGHT_DNA,getFirstFlightStoryboard,requestFirstFlightActivation} from './attila-first-flight.js';
@@ -27,7 +28,7 @@ export const FAMILY_BRAIN_POLICY=Object.freeze({
  legalDocumentsRequiredForInheritance:true
 });
 const DANGEROUS=new Set(['LIVE_TRADE','PROPERTY_OFFER','ASSET_TRANSFER','PUBLISH','EXTERNAL_SEND']);
-const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS']);
+const MODULES=new Set(['FINANCE','HABITAT','CONTENT','FAMILY','BIOLOGY','PATRIMONY','EVOLUTION','LEGACY','TUNNELS','MARKETPLACE']);
 export function createBrain({ownerId,workspaceId}={}){
  if(typeof ownerId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(ownerId))throw Error('Valid ownerId required');
  if(typeof workspaceId!=='string'||!/^[a-zA-Z0-9_-]{1,64}$/.test(workspaceId))throw Error('Valid workspaceId required');
@@ -70,6 +71,11 @@ export function think(brain,signal){
    else if(intent==='PLAN_SILK'){result=planSilk(signal.payload||{});decision=result.build?'WEB_PLAN':'FREE_HUNT_OR_RETREAT';}
    else if(intent==='READ_SILK'){result=SILK_ARCHITECTURES;decision='SILK_ARCHITECTURES_READ';}
    else throw Error('UNSUPPORTED_BIOLOGY_INTENT');
+  }else if(organ==='MARKETPLACE'){
+   if(intent==='READ_DNA'){result=MARKETPLACE_DNA;decision='MARKETPLACE_DNA_READ';}
+   else if(intent==='OBSERVE_EVENT'){result=observeMarketplaceEvent({...signal.payload,workspaceId});decision='MARKETPLACE_EVENT_VALIDATED';}
+   else if(intent==='SUMMARIZE'){result=summarizeMarketplaceEvents(signal.payload?.events);decision='MARKETPLACE_EVENTS_SUMMARIZED';}
+   else throw Error('UNSUPPORTED_MARKETPLACE_INTENT');
   }else if(organ==='TUNNELS'){
    if(intent==='READ_FACTORY'){result=TUNNEL_FACTORY_DNA;decision='FACTORY_DNA_READ';}
    else if(intent==='PLAN_MISSION'){result=assignTunnelMission({...signal.payload,workspaceId});decision='TUNNEL_DRAFT_READY';}
