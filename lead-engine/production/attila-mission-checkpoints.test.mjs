@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {mkdtemp,rm,writeFile} from 'node:fs/promises';
+import {join} from 'node:path';import {tmpdir} from 'node:os';
+import {appendMissionCheckpoint,readMissionCheckpoints} from './attila-mission-checkpoints.mjs';
+test('records and recovers mission checkpoints',async()=>{const d=await mkdtemp(join(tmpdir(),'attila-checkpoints-'));try{const path=join(d,'journal');await appendMissionCheckpoint(path,{workspaceId:'family',missionId:'m1',status:'DONE'});await appendMissionCheckpoint(path,{workspaceId:'family',missionId:'m2',status:'BLOCKED'});const result=await readMissionCheckpoints(path,'family');assert.equal(result.get('m1'),'DONE');assert.equal(result.get('m2'),'BLOCKED');}finally{await rm(d,{recursive:true,force:true})}});
+test('fails closed on corrupt journal',async()=>{const d=await mkdtemp(join(tmpdir(),'attila-checkpoints-'));try{const path=join(d,'journal');await writeFile(path,'not-json\n');await assert.rejects(()=>readMissionCheckpoints(path,'family'),/CORRUPT_CHECKPOINT_JOURNAL/);}finally{await rm(d,{recursive:true,force:true})}});
+test('rejects foreign workspace checkpoints',async()=>{const d=await mkdtemp(join(tmpdir(),'attila-checkpoints-'));try{const path=join(d,'journal');await appendMissionCheckpoint(path,{workspaceId:'other',missionId:'m1',status:'DONE'});await assert.rejects(()=>readMissionCheckpoints(path,'family'),/INVALID_CHECKPOINT_ENTRY/);}finally{await rm(d,{recursive:true,force:true})}});
