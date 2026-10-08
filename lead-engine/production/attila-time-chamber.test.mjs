@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {enterTimeChamber,trainInTimeChamber,exitTimeChamber} from './attila-time-chamber.js';
+test('time chamber executes bounded simulated training',()=>{const s=enterTimeChamber({workspaceId:'lab',sessionId:'training1',maxSteps:30});const trained=trainInTimeChamber(s,{steps:100});assert.equal(trained.stepsCompleted,30);assert.equal(trained.status,'COMPLETED');assert.equal(trained.simulatedMinutes,1800)});
+test('multiple sessions preserve cumulative progress',()=>{const s=enterTimeChamber({workspaceId:'lab',sessionId:'training2',maxSteps:30});const a=trainInTimeChamber(s,{steps:10});const b=trainInTimeChamber(a,{steps:20});assert.equal(b.stepsCompleted,30);assert.equal(b.state.generation,30)});
+test('exit reports simulation without claiming real learning',()=>{const s=trainInTimeChamber(enterTimeChamber({workspaceId:'lab',sessionId:'training3',maxSteps:5}),{steps:5});const report=exitTimeChamber(s);assert.equal(report.report.modelWeightsChanged,false);assert.equal(report.promotionStatus,'NOT_APPROVED')});
+test('rejects unbounded sessions',()=>assert.throws(()=>enterTimeChamber({workspaceId:'lab',sessionId:'bad',maxSteps:10001}),/INVALID_TIME_CHAMBER_SESSION/));
