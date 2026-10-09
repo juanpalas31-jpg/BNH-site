@@ -4,12 +4,15 @@ import json, pathlib, html, urllib.parse
 root=pathlib.Path(__file__).resolve().parent
 config=json.loads((root/"vinted-funnel.json").read_text(encoding="utf-8"))
 cards=[]
+seen=set()
 for item in config["catalog"]:
+    if item["id"] in seen: raise ValueError("Duplicate poster id")
+    seen.add(item["id"])
     url=item["vinted_url"]
     title=html.escape(item["title"])
     if url:
         parsed=urllib.parse.urlsplit(url)
-        if parsed.scheme!="https" or parsed.hostname not in {"vinted.fr","www.vinted.fr","vinted.com","www.vinted.com"}:
+        if parsed.scheme!="https" or parsed.hostname not in {"vinted.fr","www.vinted.fr","vinted.com","www.vinted.com"} or parsed.username or parsed.password or parsed.port or not parsed.path.startswith("/items/"):
             raise ValueError("Unverified Vinted host: "+str(url))
         link=html.escape(url,quote=True)
         cards.append(f'<article><h2>{title}</h2><a href="{link}" rel="noopener noreferrer nofollow" target="_blank" data-poster="{html.escape(item["id"])}">Voir sur Vinted</a></article>')
