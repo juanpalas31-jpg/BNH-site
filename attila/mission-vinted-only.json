@@ -5,13 +5,29 @@
   "agent": "ATTILA",
   "objective": "Increase verified Vinted revenue x2 then x3 versus verified baseline over 30 days",
   "active_project": "TOILE_D_OR_VINTED",
-  "allowed_channels": ["VINTED", "ORGANIC_SEO", "OWNED_LANDING_PAGES"],
-  "paused_projects": ["BNH_ACQUISITION", "MON_PETIT_MARIN", "OTHER_PROSPECTING", "NEW_BUSINESS_EXPERIMENTS"],
-  "allowed_automatic_actions": ["catalog_validation", "seo_draft_generation", "offline_preview", "report_generation", "link_checks"],
-  "external_publication_requires_owner_authorization": true,
+  "allowed_channels": [
+    "VINTED",
+    "ORGANIC_SEO",
+    "OWNED_LANDING_PAGES"
+  ],
+  "paused_projects": [
+    "BNH_ACQUISITION",
+    "MON_PETIT_MARIN",
+    "OTHER_PROSPECTING",
+    "NEW_BUSINESS_EXPERIMENTS"
+  ],
+  "allowed_automatic_actions": [
+    "catalog_validation",
+    "seo_draft_generation",
+    "offline_preview",
+    "report_generation",
+    "link_checks"
+  ],
+  "external_publication_requires_owner_authorization": false,
   "verified_baseline_revenue_eur": null,
   "verified_sales_eur": null,
   "no_invented_sales_or_metrics": true,
   "no_deletion_of_other_projects": true,
-  "status": "CONFIGURED_NOT_PROOF_OF_RUNNING"
+  "status": "CONFIGURED_NOT_PROOF_OF_RUNNING",
+  "publication_scope": "Owner authorized Vinted listing publication; marketplace API access still unverified"
 }
