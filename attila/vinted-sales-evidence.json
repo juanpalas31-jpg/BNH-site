@@ -1,0 +1,70 @@
+{
+  "source": "captures de commandes Vinted fournies par le propriétaire, 2026-10-09",
+  "profile_url": "https://www.vinted.fr/member/279658359-juanpalas",
+  "historical_completed_sample": {
+    "count": 61,
+    "amount_eur": 859,
+    "scope": "captures visibles, non représentatives d'une période précise"
+  },
+  "additional_status": {
+    "refunded_count": 2,
+    "refunded_amount_eur": 13,
+    "shipped_not_completed_count": 1,
+    "shipped_amount_eur": 35
+  },
+  "observed_prices_eur": {
+    "Pink Floyd": [
+      30,
+      11
+    ],
+    "Marilyn Monroe": [
+      24,
+      15,
+      10,
+      8,
+      6,
+      5
+    ],
+    "Egon Schiele": [
+      35,
+      30,
+      25,
+      16,
+      15,
+      10,
+      7
+    ],
+    "Jim Morrison": [
+      20
+    ],
+    "Bob Marley": [
+      10,
+      9,
+      8
+    ],
+    "Dexter Gordon": [
+      6
+    ],
+    "Miles Davis": [
+      36
+    ],
+    "Jimi Hendrix": [
+      22,
+      15,
+      10
+    ],
+    "lots": [
+      40,
+      35,
+      25,
+      24,
+      18
+    ]
+  },
+  "cautions": [
+    "Ne pas présenter l'échantillon comme CA mensuel",
+    "Ne pas assimiler les commandes expédiées aux finalisées",
+    "Ne pas publier sans VALIDÉ",
+    "Ne pas inventer de liens d'annonces"
+  ]
+}
