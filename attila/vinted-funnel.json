@@ -29,10 +29,11 @@
       "id": "sigmund-freud",
       "title": "Sigmund Freud — What's on a Man's Mind?",
       "landing_page": "/affiche-sigmund-freud.html",
-      "vinted_url": null,
+      "vinted_url": "https://www.vinted.fr/items/7734542199-freud",
       "visual_status": "illustration_non_contractuelle",
       "real_product_photo_verified": false,
-      "price_verified": false
+      "price_verified": false,
+      "vinted_url_source": "user_provided"
     }
   ],
   "tracking": {
