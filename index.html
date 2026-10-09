@@ -26,6 +26,7 @@ header{height:78px;padding:12px clamp(18px,4vw,70px);display:flex;align-items:ce
 .form h2{font-size:34px;line-height:1.02;margin:0 0 18px} .form h2 span{color:var(--green)}
 input{width:100%;min-height:54px;border:1px solid #cbd9e2;border-radius:9px;padding:13px 14px;margin:6px 0;font-size:17px}
 .form .cta{width:100%;margin-top:8px;font-size:17px}
+.form .field-label{display:block;margin:10px 0 2px;color:var(--blue);font-size:14px;font-weight:700}
 .form input:focus-visible,.form select:focus-visible,.form .cta:focus-visible{outline:3px solid #082b63;outline-offset:3px}
 .privacy{font-size:12px;color:#64778c;text-align:center;margin:10px 0 0}
 .consent{display:flex;align-items:flex-start;gap:9px;margin:10px 0 4px;font-size:13px;line-height:1.35;color:#51657a}.consent input{width:18px;min-height:18px;height:18px;margin:1px 0 0;flex:0 0 18px}
@@ -155,10 +156,14 @@ a.skip-link{position:absolute;left:12px;top:-100px;z-index:100;background:#fff;c
    <select id="lead-project-stage" name="project_stage" required aria-label="Votre besoin"><option value="">Quel est votre besoin ? *</option><option value="bilan_decouverte">Je souhaite un bilan et des renseignements</option><option value="projet_defini">J'ai un projet de travaux défini</option><option value="entretien">Je souhaite un entretien climatisation ou PAC</option><option value="panne">J'ai une panne ou un dysfonctionnement</option></select>
    <label for="lead-timeline">Votre délai</label>
    <select id="lead-timeline" name="timeline" required aria-label="Votre délai"><option value="">Dans quel délai ? *</option><option value="information">Je me renseigne, sans urgence</option><option value="sous_30_jours">Dans le mois</option><option value="sous_7_jours">Dans les 7 prochains jours</option><option value="urgent">C'est urgent, dès que possible</option></select>
-   <input aria-label="Nom" required name="Nom" placeholder="Nom *" autocomplete="name">
-   <input aria-label="Téléphone" required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
-   <input aria-label="Email" name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
-   <input aria-label="Code postal" required name="Code postal" pattern="[0-9]{5}" maxlength="5" placeholder="Code postal *" inputmode="numeric" autocomplete="postal-code">
+   <label class="field-label" for="lead-name">Nom *</label>
+   <input id="lead-name" required name="Nom" placeholder="Nom *" autocomplete="name">
+   <label class="field-label" for="lead-phone">Téléphone *</label>
+   <input id="lead-phone" type="tel" required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
+   <label class="field-label" for="lead-email">Email (facultatif)</label>
+   <input id="lead-email" name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
+   <label class="field-label" for="lead-postal">Code postal *</label>
+   <input id="lead-postal" required name="Code postal" pattern="[0-9]{5}" maxlength="5" placeholder="Code postal *" inputmode="numeric" autocomplete="postal-code">
    <button class="cta" type="submit">Je demande mon bilan gratuit →</button>
    <p class="privacy">🔒 Vos informations restent confidentielles.</p>
   </form>
