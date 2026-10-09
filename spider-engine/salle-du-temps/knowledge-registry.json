@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "system": "Spider Engine",
+  "executor": "Attila",
+  "module": "Salle du Temps / Matrix",
+  "status": "preview_knowledge_registry",
+  "policy": {
+    "projects_separate": true,
+    "source_required": true,
+    "never_claim_test_without_execution": true,
+    "publication_requires": "VALIDÉ",
+    "safety_review_for_hazardous_builds": true
+  },
+  "domains": [
+    {
+      "id": "habitat-plomberie",
+      "project": "Bilan Habitat",
+      "topics": [
+        "désembouage chauffage",
+        "désinfection eau sanitaire",
+        "désoxydation corrosion",
+        "reminéralisation eau",
+        "remplacement cuivre"
+      ],
+      "artifact": "modules/plomberie-desembouage-traitement-eau.html",
+      "state": "guide_preview_created",
+      "sources": [
+        "https://sante.gouv.fr/sante-et-environnement/eaux/article/nettoyage-et-desinfection-des-installations-d-eau-destinee-a-la-consommation-211460",
+        "https://sante.gouv.fr/sante-et-environnement/eaux/article/eau-et-plomb"
+      ]
+    },
+    {
+      "id": "mecanique-vehicules",
+      "project": "Bibliothèque transversale",
+      "topics": [
+        "changer une roue",
+        "diagnostic automobile",
+        "conception d'un véhicule"
+      ],
+      "state": "knowledge_requested_not_yet_built",
+      "requirements": [
+        "manuel du modèle",
+        "procédure de sécurité",
+        "outillage",
+        "contrôles de validation"
+      ]
+    },
+    {
+      "id": "aeronautique-jetpack",
+      "project": "Bibliothèque transversale",
+      "topics": [
+        "principes de sustentation",
+        "propulsion",
+        "stabilité",
+        "sécurité aéronautique",
+        "cadre réglementaire"
+      ],
+      "state": "knowledge_requested_not_yet_built",
+      "requirements": [
+        "étude de faisabilité",
+        "simulation",
+        "analyse de risques",
+        "validation par ingénieurs qualifiés",
+        "aucun essai humain improvisé"
+      ]
+    }
+  ],
+  "note": "Registre initial des demandes explicites, pas une indexation de tous les prompts historiques ni une automatisation active."
+}
