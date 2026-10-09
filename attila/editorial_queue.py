@@ -20,7 +20,7 @@ campaigns = []
 for item in catalog["catalog"]:
     title = item["title"]
     campaigns.append({"poster": title, **priority(title),
-        "search_intents": [f"affiche {title}", f"poster {title} décoration", f"idée cadeau fan {title}"],
+        "search_intents": [f"affiche {title}", f"poster {title} décoration", f"idée cadeau fan {title}", f"cadeau Noël affiche {title}"],
         "landing_heading": f"Affiche {title} : une idée déco à découvrir",
         "draft_caption": f"Envie d'une décoration inspirée de {title} ? Découvrez notre sélection et consultez l'annonce pour connaître les détails.",
         "vinted_destination": item.get("vinted_url"),
