@@ -10,7 +10,7 @@ export function verifyFinisherPreflight(preflight) {
   const scoped = sources.filter(source => source.project === project);
   const hasRepo = scoped.some(source => source.kind === "REPOSITORY_CODE" && githubReference(source));
   const hasDecisions = scoped.some(source => source.kind === "VALIDATED_DECISIONS" && source.validated === true && githubReference(source));
-  const hasEvidence = scoped.some(source => ["TEST_EVIDENCE", "DEPLOYMENT_EVIDENCE"].includes(source.kind) && githubReference(source));
+  const hasEvidence = scoped.some(source => (source.kind === "TEST_EVIDENCE" && githubReference(source)) || (source.kind === "DEPLOYMENT_EVIDENCE" && (githubReference(source) || (typeof source.deploymentId === "string" && source.deploymentId.startsWith("dpl_") && source.readyState === "READY"))));
   const hasTheme = typeof preflight?.intent?.theme === "string" && preflight.intent.theme.trim().length > 0;
   const hasRequirements = Array.isArray(preflight?.audit?.required) && preflight.audit.required.length > 0;
   const reasons = [];
