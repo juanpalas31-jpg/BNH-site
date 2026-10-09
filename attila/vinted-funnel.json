@@ -10,14 +10,31 @@
     "no_public_commercial_actions": true
   },
   "catalog": [
-    {"id":"pink-floyd","title":"Pink Floyd","vinted_url":null},
-    {"id":"jim-morrison","title":"Jim Morrison","vinted_url":null},
-    {"id":"marilyn-monroe","title":"Marilyn Monroe","vinted_url":null}
+    {
+      "id": "pink-floyd",
+      "title": "Pink Floyd",
+      "vinted_url": null
+    },
+    {
+      "id": "jim-morrison",
+      "title": "Jim Morrison",
+      "vinted_url": null
+    },
+    {
+      "id": "marilyn-monroe",
+      "title": "Marilyn Monroe",
+      "vinted_url": null
+    }
   ],
   "tracking": {
-    "events":["poster_view","vinted_outbound_click"],
-    "utm_source":"toile_dor",
-    "utm_medium":"organic",
-    "privacy":"no_personal_data"
-  }
+    "events": [
+      "poster_view",
+      "vinted_outbound_click"
+    ],
+    "utm_source": "toile_dor",
+    "utm_medium": "organic",
+    "privacy": "no_personal_data"
+  },
+  "seller_profile_url": "https://www.vinted.fr/member/279658359-juanpalas",
+  "seller_profile_source": "user_provided"
 }
