@@ -154,10 +154,10 @@ a.skip-link{position:absolute;left:12px;top:-100px;z-index:100;background:#fff;c
    <select id="lead-project-stage" name="project_stage" required aria-label="Votre besoin"><option value="">Quel est votre besoin ? *</option><option value="bilan_decouverte">Je souhaite un bilan et des renseignements</option><option value="projet_defini">J'ai un projet de travaux défini</option><option value="entretien">Je souhaite un entretien climatisation ou PAC</option><option value="panne">J'ai une panne ou un dysfonctionnement</option></select>
    <label for="lead-timeline">Votre délai</label>
    <select id="lead-timeline" name="timeline" required aria-label="Votre délai"><option value="">Dans quel délai ? *</option><option value="information">Je me renseigne, sans urgence</option><option value="sous_30_jours">Dans le mois</option><option value="sous_7_jours">Dans les 7 prochains jours</option><option value="urgent">C'est urgent, dès que possible</option></select>
-   <input required name="Nom" placeholder="Nom *" autocomplete="name">
-   <input required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
-   <input name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
-   <input required name="Code postal" pattern="[0-9]{5}" maxlength="5" placeholder="Code postal *" inputmode="numeric" autocomplete="postal-code">
+   <input aria-label="Nom" required name="Nom" placeholder="Nom *" autocomplete="name">
+   <input aria-label="Téléphone" required name="Téléphone" placeholder="Téléphone *" inputmode="tel" autocomplete="tel">
+   <input aria-label="Email" name="Email" type="email" placeholder="Email" inputmode="email" autocomplete="email">
+   <input aria-label="Code postal" required name="Code postal" pattern="[0-9]{5}" maxlength="5" placeholder="Code postal *" inputmode="numeric" autocomplete="postal-code">
    <button class="cta" type="submit">Je demande mon bilan gratuit →</button>
    <p class="privacy">🔒 Vos informations restent confidentielles.</p>
   </form>
