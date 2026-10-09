@@ -2,12 +2,12 @@
   "engine": "Spider Engine",
   "agent": "Attila",
   "project": "Toile d'Or / Vinted",
-  "status": "preview",
+  "status": "approved_landing_page_pending_deployment",
   "rules": {
     "production_requires": "VALIDÉ",
     "use_verified_vinted_urls_only": true,
     "no_fabricated_prices": true,
-    "no_public_commercial_actions": true
+    "no_public_commercial_actions": false
   },
   "catalog": [
     {
@@ -24,6 +24,15 @@
       "id": "marilyn-monroe",
       "title": "Marilyn Monroe",
       "vinted_url": null
+    },
+    {
+      "id": "sigmund-freud",
+      "title": "Sigmund Freud — What's on a Man's Mind?",
+      "landing_page": "/affiche-sigmund-freud.html",
+      "vinted_url": null,
+      "visual_status": "illustration_non_contractuelle",
+      "real_product_photo_verified": false,
+      "price_verified": false
     }
   ],
   "tracking": {
