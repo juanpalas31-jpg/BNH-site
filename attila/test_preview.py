@@ -23,7 +23,9 @@ assert "overflow-wrap:anywhere" in page, "Long titles must wrap"
 assert "min-height:48px" in page, "Mobile CTA touch target must be >= 48px"
 assert ".profile-cta a{width:100%}" in page, "CTA must span narrow screens"
 assert original["seller_profile_url"] in page, "Only owner-provided profile URL is used"
-assert page.count("Annonce Vinted à vérifier") == len(original["catalog"])
+assert page.count("Annonce individuelle non vérifiée.") == len(original["catalog"])
+assert page.count('href="#acces-vinted"') == len(original["catalog"])
+assert 'id="acces-vinted"' in page, "Internal CTA target must exist"
 assert 'data-poster=' not in page
 good=[{"id":"test","title":"Test & Poster","vinted_url":"https://www.vinted.fr/items/12345-test"}]
 p,page=run(good)
