@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""Safe, offline regression tests for Attila Vinted Preview."""
+import json, pathlib, subprocess, sys, tempfile, shutil
+source=pathlib.Path(__file__).resolve().parent
+builder=(source/"build_preview.py").read_text(encoding="utf-8")
+original=json.loads((source/"vinted-funnel.json").read_text(encoding="utf-8"))
+def run(catalog):
+    with tempfile.TemporaryDirectory() as td:
+        d=pathlib.Path(td)
+        (d/"build_preview.py").write_text(builder,encoding="utf-8")
+        (d/"vinted-funnel.json").write_text(json.dumps({**original,"catalog":catalog}),encoding="utf-8")
+        p=subprocess.run([sys.executable,str(d/"build_preview.py")],capture_output=True,text=True)
+        html=(d/"preview.html").read_text(encoding="utf-8") if (d/"preview.html").exists() else ""
+        return p,html
+p,page=run(original["catalog"])
+assert p.returncode==0,p.stderr
+assert "noindex,nofollow,noarchive" in page
+assert page.count("Annonce Vinted à vérifier") == len(original["catalog"])
+assert 'data-poster=' not in page
+good=[{"id":"test","title":"Test & Poster","vinted_url":"https://www.vinted.fr/items/12345-test"}]
+p,page=run(good)
+assert p.returncode==0,p.stderr
+assert 'data-poster="test"' in page
+assert "Test &amp; Poster" in page
+for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345","https://www.vinted.fr/member/123","https://www.vinted.fr.evil.example/items/123"]:
+    p,_=run([{"id":"bad","title":"bad","vinted_url":bad}])
+    assert p.returncode!=0,bad
+p,_=run(good+good)
+assert p.returncode!=0,"Duplicate IDs must be rejected"
+print("PASS: empty catalog, noindex, escaped titles, item URL, four bad URLs, duplicate IDs")
