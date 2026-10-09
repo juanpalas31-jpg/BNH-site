@@ -1,0 +1,34 @@
+name: Toile d'Or offline preview checks
+on:
+  push:
+    branches:
+      - preview/toile-dor-pink-floyd
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Security unit tests
+        run: python -m unittest discover -s attila -p 'test_organic_preview_security.py' -v
+      - name: Generate offline preview
+        run: python attila/organic_preview.py --output /tmp/toile-dor-preview-check
+      - name: Assert private artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/toile-dor-preview-check')
+          manifest=json.loads((root/'experiment-manifest.json').read_text())
+          assert len(manifest['experiments'])==6
+          assert all(e['published'] is False and e['impressions'] is None and e['outbound_clicks'] is None for e in manifest['experiments'])
+          for name in ('organic-a.html','organic-b.html'):
+              page=(root/name).read_text()
+              assert 'noindex,nofollow,noarchive' in page
+              assert 'Annonce individuelle non vérifiée' in page
+          PY
