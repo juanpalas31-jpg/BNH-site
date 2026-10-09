@@ -17,6 +17,9 @@ assert p.returncode==0,p.stderr
 assert "noindex,nofollow,noarchive" in page
 assert 'class="profile-cta"' in page, "Profile CTA must appear in Preview"
 assert 'aria-label="Accès à la boutique Vinted"' in page
+assert 'href="#catalogue"' in page and 'id="catalogue"' in page, "Skip link target must exist"
+assert "minmax(min(100%,250px),1fr)" in page, "Narrow viewport columns must not overflow"
+assert "overflow-wrap:anywhere" in page, "Long titles must wrap"
 assert "min-height:48px" in page, "Mobile CTA touch target must be >= 48px"
 assert ".profile-cta a{width:100%}" in page, "CTA must span narrow screens"
 assert original["seller_profile_url"] in page, "Only owner-provided profile URL is used"
