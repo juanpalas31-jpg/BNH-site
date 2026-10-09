@@ -1,0 +1,23 @@
+{
+  "engine": "Spider Engine",
+  "agent": "Attila",
+  "project": "Toile d'Or / Vinted",
+  "status": "preview",
+  "rules": {
+    "production_requires": "VALIDÉ",
+    "use_verified_vinted_urls_only": true,
+    "no_fabricated_prices": true,
+    "no_public_commercial_actions": true
+  },
+  "catalog": [
+    {"id":"pink-floyd","title":"Pink Floyd","vinted_url":null},
+    {"id":"jim-morrison","title":"Jim Morrison","vinted_url":null},
+    {"id":"marilyn-monroe","title":"Marilyn Monroe","vinted_url":null}
+  ],
+  "tracking": {
+    "events":["poster_view","vinted_outbound_click"],
+    "utm_source":"toile_dor",
+    "utm_medium":"organic",
+    "privacy":"no_personal_data"
+  }
+}
