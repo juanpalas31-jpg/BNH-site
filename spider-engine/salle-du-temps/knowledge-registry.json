@@ -30,6 +30,25 @@
       ]
     },
     {
+      "id": "habitat-borne-recharge",
+      "project": "Bilan Habitat",
+      "topics": [
+        "borne de recharge électrique",
+        "dimensionnement IRVE",
+        "protection électrique",
+        "copropriété",
+        "visite technique"
+      ],
+      "artifact": "modules/borne-recharge-electrique.html",
+      "state": "guide_preview_created",
+      "sources": [],
+      "review_required": [
+        "vérification réglementaire IRVE",
+        "vérification des références officielles",
+        "revue par un professionnel qualifié"
+      ]
+    },
+    {
       "id": "mecanique-vehicules",
       "project": "Bibliothèque transversale",
       "topics": [
