@@ -56,12 +56,17 @@
         "diagnostic automobile",
         "conception d'un véhicule"
       ],
-      "state": "knowledge_requested_not_yet_built",
+      "state": "knowledge_article_preview_created",
       "requirements": [
         "manuel du modèle",
         "procédure de sécurité",
         "outillage",
         "contrôles de validation"
+      ],
+      "artifact": "spider-engine/salle-du-temps/guides/changer-une-roue.md",
+      "review_required": [
+        "confronter au manuel constructeur pour chaque modèle",
+        "revue de sécurité avant utilisation"
       ]
     },
     {
