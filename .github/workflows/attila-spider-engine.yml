@@ -1,0 +1,34 @@
+name: Attila Spider Engine autonomous preview audit
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: attila-preview-audit
+  cancel-in-progress: false
+jobs:
+  attila:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit preview without external publishing
+        shell: bash
+        run: |
+          mkdir -p attila-evidence
+          python3 - <<'PY'
+          import json, pathlib, datetime, subprocess
+          root=pathlib.Path('.')
+          files=[str(p) for p in root.rglob('*') if p.is_file() and '.git' not in p.parts]
+          candidates=[p for p in files if 'vinted' in p.lower() or 'toile' in p.lower()]
+          report={'engine':'Spider Engine','agent':'Attila','mode':'read-only-preview-audit','timestamp_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'candidate_files':candidates[:100],'candidate_count':len(candidates),'publication':'forbidden','commercial_actions':'forbidden','next_task':'review preview source and click instrumentation'}
+          pathlib.Path('attila-evidence/audit.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: attila-audit
+          path: attila-evidence/audit.json
+          retention-days: 30
