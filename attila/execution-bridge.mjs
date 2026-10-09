@@ -14,14 +14,17 @@ export async function runFinisherFleet({connectorsByProject={},statesByProject={
     currentState:statesByProject[id]||{}
    });
    if(!preflight.ready){
-    report.push({project:id,status:"CONTEXT_INCOMPLETE",confidence:preflight.intent.confidence,next:preflight.next});
+    const item={project:id,status:"CONTEXT_INCOMPLETE",confidence:preflight.intent.confidence,next:preflight.next,productionPublished:false};
+    await evidenceSink(item); report.push(item);
     continue;
    }
    const result=await executeFinisher({preflight,executor:executorByProject[id]});
    const item={project:id,status:result.status,evidence:result.evidence??null,productionPublished:false};
    await evidenceSink(item); report.push(item);
   }catch(error){
-   report.push({project:id,status:"BLOCKED",error:String(error?.message||error),productionPublished:false});
+   const item={project:id,status:"BLOCKED",error:String(error?.message||error),productionPublished:false};
+   report.push(item);
+   try{await evidenceSink(item)}catch{}
   }
  }
  return Object.freeze({worker:"ATTILA_FINISHER_FLEET",executedAt:new Date().toISOString(),report});
