@@ -3,6 +3,7 @@
 import argparse
 import html
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -14,7 +15,8 @@ def profile_is_allowed(value):
     p = urlsplit(value)
     return (p.scheme == "https" and p.hostname == "www.vinted.fr"
             and p.username is None and p.password is None and p.port is None
-            and p.path.startswith("/member/") and not p.query and not p.fragment)
+            and re.fullmatch(r"/member/[0-9]+(?:-[A-Za-z0-9_-]+)?", p.path) is not None
+            and not p.query and not p.fragment)
 
 def build(catalog_path, output_dir):
     data = json.loads(Path(catalog_path).read_text(encoding="utf-8"))
