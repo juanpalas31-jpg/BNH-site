@@ -1,0 +1,15 @@
+name: Spider Engine Preview Checks
+on:
+  push:
+    branches:
+      - preview/bnh-securite-co-chaudiere
+  workflow_dispatch:
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check registry and guide links
+        run: python3 spider-engine/salle-du-temps/run_checks.py
