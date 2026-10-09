@@ -15,6 +15,11 @@ def run(catalog):
 p,page=run(original["catalog"])
 assert p.returncode==0,p.stderr
 assert "noindex,nofollow,noarchive" in page
+assert 'class="profile-cta"' in page, "Profile CTA must appear in Preview"
+assert 'aria-label="Accès à la boutique Vinted"' in page
+assert "min-height:48px" in page, "Mobile CTA touch target must be >= 48px"
+assert ".profile-cta a{width:100%}" in page, "CTA must span narrow screens"
+assert original["seller_profile_url"] in page, "Only owner-provided profile URL is used"
 assert page.count("Annonce Vinted à vérifier") == len(original["catalog"])
 assert 'data-poster=' not in page
 good=[{"id":"test","title":"Test & Poster","vinted_url":"https://www.vinted.fr/items/12345-test"}]
@@ -27,4 +32,4 @@ for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345
     assert p.returncode!=0,bad
 p,_=run(good+good)
 assert p.returncode!=0,"Duplicate IDs must be rejected"
-print("PASS: empty catalog, noindex, escaped titles, item URL, four bad URLs, duplicate IDs")
+print("PASS: preview CTA, 48px touch target, mobile width, owner profile, noindex, escaped titles, item URL, four bad URLs, duplicate IDs")
