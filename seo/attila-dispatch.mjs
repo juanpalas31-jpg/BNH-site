@@ -25,6 +25,7 @@ function run(agent,task){
    add(path+':exists',!!html,'file present');
    add(path+':indexable',!!html&&!/noindex/i.test(html),'no noindex');
    add(path+':title',/<title>[^<]+<\/title>/i.test(html),'HTML title');
+   add(path+':analytics', (html.match(/id="toile-dor-analytics"/g)||[]).length===1, 'exactly one analytics script');
   }
  }
  const result={run_id:randomUUID(),at:new Date().toISOString(),agent,task,project:'toile-dor',passed:checks.filter(x=>x.ok).length,failed:checks.filter(x=>!x.ok).length,checks,mode:'local-static-audit',sales_attribution:'not-connected'};
