@@ -1,0 +1,33 @@
+name: Attila SEO audit
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 7 * * *'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: SEO Neo-Tila
+        run: node seo/attila-dispatch.mjs neo-attila-seo seo-audit
+      - name: Editorial Neo-Tila
+        if: always()
+        run: node seo/attila-dispatch.mjs neo-attila-editorial content-inventory
+      - name: Mini-Tila recovery check
+        if: always()
+        run: node seo/attila-dispatch.mjs mini-attila-recovery file-recovery-check
+      - name: Micro-Tila links
+        if: always()
+        run: node seo/attila-dispatch.mjs micro-attila-integrity link-integrity
+      - name: Preserve reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: attila-seo-reports
+          path: seo/reports/*.json
+          if-no-files-found: warn
