@@ -16,6 +16,10 @@ jobs:
           python-version: '3.12'
       - name: Security unit tests
         run: python -m unittest discover -s attila -p 'test_organic_preview_security.py' -v
+      - name: Vinted funnel regression tests
+        run: python attila/test_preview.py
+      - name: Vinted catalog integrity checks
+        run: python attila/check_catalog.py
       - name: Generate offline preview
         run: python attila/organic_preview.py --output /tmp/toile-dor-preview-check
       - name: Assert private artifacts
