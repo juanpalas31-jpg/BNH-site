@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Attila / Spider Engine: validate catalog and produce local Preview only."""
-import json, pathlib, html, urllib.parse
+import json, pathlib, html, urllib.parse, re
 root=pathlib.Path(__file__).resolve().parent
 config=json.loads((root/"vinted-funnel.json").read_text(encoding="utf-8"))
 profile=config.get("seller_profile_url")
 if profile:
     parsed_profile=urllib.parse.urlsplit(profile)
-    if parsed_profile.scheme!="https" or parsed_profile.hostname!="www.vinted.fr" or not parsed_profile.path.startswith("/member/") or parsed_profile.username or parsed_profile.password or parsed_profile.port:
+    if parsed_profile.scheme!="https" or parsed_profile.hostname!="www.vinted.fr" or not re.fullmatch(r"/member/[0-9]+(?:-[A-Za-z0-9_-]+)?", parsed_profile.path) or parsed_profile.username or parsed_profile.password or parsed_profile.port or parsed_profile.query or parsed_profile.fragment or config.get("seller_profile_source")!="user_provided":
         raise ValueError("Invalid seller profile URL")
 profile_cta=('<nav id="acces-vinted" class="profile-cta" aria-label="Accès à la boutique Vinted"><a href="'+html.escape(profile,quote=True)+'" rel="noopener noreferrer nofollow" target="_blank" data-outbound="seller-profile">Voir toutes les annonces sur Vinted</a></nav>') if profile else ""
 cards=[]
