@@ -35,7 +35,7 @@ for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345
     assert p.returncode!=0,bad
 p,_=run(good+good)
 assert p.returncode!=0,"Duplicate IDs must be rejected"
-assert "refined_art_gallery" not in page or "Toile d’Or" in page
+assert "Toile d’Or" in page
 assert "color-scheme:dark" in page and "--gold:#bca17b" in page
 assert "prefers-reduced-motion:reduce" in page
 assert "<h1>Toile d’Or</h1>" in page
