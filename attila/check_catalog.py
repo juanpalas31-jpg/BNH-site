@@ -14,5 +14,7 @@ for item in catalog:
     parsed=urllib.parse.urlsplit(url)
     assert parsed.scheme=="https" and parsed.hostname in {"www.vinted.fr","vinted.fr","www.vinted.com","vinted.com"}
     assert parsed.path.startswith("/items/"), "Link must target an item"
+    assert parsed.path[len("/items/"):].split("/")[0].split("-")[0].isdigit(), "Item ID must be numeric"
+    assert not parsed.query and not parsed.fragment, "Unexpected URL parameters"
     assert not parsed.username and not parsed.password and not parsed.port
 print(f"Attila catalog check: {len(catalog)} listings, {sum(bool(x.get('vinted_url')) for x in catalog)} linked")
