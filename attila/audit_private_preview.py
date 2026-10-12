@@ -26,6 +26,9 @@ assert page.count('class="art-card"') == len(config["catalog"])
 assert 'sessionStorage' in page
 assert 'data-outbound="seller-profile"' in page
 assert 'data-poster=' in page
+assert '<meta name="description"' in page
+assert '<meta name="viewport"' in page
+assert page.count("<h1>") == 1
 print("PASS: private release guard, catalog cards, profile link, local click tracking")
 print("LIMITATION: sessionStorage is not server analytics; no verified unique visitor count.")
 print("LIMITATION: poster artwork and live Vinted availability are not validated.")
