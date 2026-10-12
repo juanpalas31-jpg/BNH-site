@@ -11,6 +11,8 @@ assert config["rules"]["freeze_existing_catalog"] is True
 assert config["rules"]["freeze_existing_images"] is True
 assert config["rules"]["freeze_existing_links"] is True
 assert config["rules"]["no_public_commercial_actions"] is True
+assert config["rules"]["no_automatic_listing_additions"] is True
+assert config["rules"]["keep_projects_separate"] is True
 result = subprocess.run([sys.executable, str(root / "test_preview.py")], capture_output=True, text=True)
 if result.returncode:
     print(result.stdout, result.stderr, file=sys.stderr)
@@ -23,6 +25,7 @@ if result.returncode:
 page = (root / "preview.html").read_text(encoding="utf-8")
 assert 'noindex,nofollow,noarchive' in page
 assert page.count('class="art-card"') == len(config["catalog"])
+assert page.count('data-poster=') == sum(bool(item.get("vinted_url")) for item in config["catalog"])
 assert 'sessionStorage' in page
 assert 'data-outbound="seller-profile"' in page
 assert 'data-poster=' in page
