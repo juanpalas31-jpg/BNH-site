@@ -1,0 +1,70 @@
+{
+  "affiche-bob-marley.html": {
+    "photos_liees": 1,
+    "annonces_directes_existantes": [
+      "https://www.vinted.fr/items/7253608361-bob-marley-intime"
+    ]
+  },
+  "affiche-charlie-chaplin.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-jim-morrison.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-jimi-hendrix.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-marilyn-monroe.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-miles-davis.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-pink-floyd.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "affiche-sigmund-freud.html": {
+    "photos_liees": 1,
+    "annonces_directes_existantes": [
+      "https://www.vinted.fr/items/7734542199-freud",
+      "https://www.vinted.fr/items/7734542199-freud"
+    ]
+  },
+  "cadeau-passionne-psychologie-freud.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": [
+      "https://www.vinted.fr/items/9735021900-sigmund-freud"
+    ]
+  },
+  "index.html": {
+    "photos_liees": 10,
+    "annonces_directes_existantes": [
+      "https://www.vinted.fr/items/7253608361-bob-marley-intime",
+      "https://www.vinted.fr/items/7734542199-freud"
+    ]
+  },
+  "journal-freud.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": [
+      "https://www.vinted.fr/items/7734542199-freud"
+    ]
+  },
+  "journal-jim-morrison.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "journal-marilyn-monroe.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  },
+  "journal-pink-floyd.html": {
+    "photos_liees": 0,
+    "annonces_directes_existantes": []
+  }
+}

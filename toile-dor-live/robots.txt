@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://toile-dor-preview.vercel.app/sitemap.xml

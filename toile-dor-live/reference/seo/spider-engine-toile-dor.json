@@ -1,0 +1,76 @@
+{
+  "schema": "spider-engine/seo-web-v1",
+  "project": "toile-dor",
+  "orchestrator": "Spider Engine",
+  "executor": "Attila",
+  "modules": [
+    "neo-attila-seo",
+    "neo-attila-editorial",
+    "mini-attila-recovery",
+    "micro-attila-integrity",
+    "salle-du-temps",
+    "vivarium"
+  ],
+  "home": "https://toile-dor-preview.vercel.app/",
+  "destination": "https://www.vinted.fr/member/279658359-juanpalas",
+  "webs": [
+    {
+      "id": "freud",
+      "article": "journal-freud.html",
+      "product": "affiche-sigmund-freud.html",
+      "objective": "organic-search-to-vinted",
+      "events": [
+        "page_view",
+        "vinted_click"
+      ],
+      "salesMeasurement": "not_connected"
+    },
+    {
+      "id": "pink-floyd",
+      "article": "journal-pink-floyd.html",
+      "product": "affiche-pink-floyd.html",
+      "objective": "organic-search-to-vinted",
+      "events": [
+        "page_view",
+        "vinted_click"
+      ],
+      "salesMeasurement": "not_connected"
+    },
+    {
+      "id": "jim-morrison",
+      "article": "journal-jim-morrison.html",
+      "product": "affiche-jim-morrison.html",
+      "objective": "organic-search-to-vinted",
+      "events": [
+        "page_view",
+        "vinted_click"
+      ],
+      "salesMeasurement": "not_connected"
+    },
+    {
+      "id": "marilyn-monroe",
+      "article": "journal-marilyn-monroe.html",
+      "product": "affiche-marilyn-monroe.html",
+      "objective": "organic-search-to-vinted",
+      "events": [
+        "page_view",
+        "vinted_click"
+      ],
+      "salesMeasurement": "not_connected"
+    }
+  ],
+  "rules": {
+    "publishRequiresReview": true,
+    "noFabricatedMetrics": true,
+    "noAutomatedVintedPurchases": true,
+    "noScrapingPrivateData": true,
+    "noSpam": true
+  },
+  "status": {
+    "seoPages": "in_repository",
+    "searchConsole": "verification_pending",
+    "organicTraffic": "unverified",
+    "conversionToSales": "not_connected"
+  }
+}
+

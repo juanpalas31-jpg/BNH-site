@@ -1,0 +1,10 @@
+{
+  "source": "C70, copie locale",
+  "pages_html": 14,
+  "bob_direct_index": 1,
+  "freud_direct_index": 1,
+  "photos_index": 10,
+  "robots_txt": "User-agent: *\nDisallow: /\n",
+  "publication": "NON",
+  "seo": "noindex maintenu pour copie privee; canonical et sitemap necessitent URL publique verifiee"
+}
