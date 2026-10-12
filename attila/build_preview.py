@@ -6,7 +6,7 @@ config=json.loads((root/"vinted-funnel.json").read_text(encoding="utf-8"))
 profile=config.get("seller_profile_url")
 if profile:
     parsed_profile=urllib.parse.urlsplit(profile)
-    if parsed_profile.scheme!="https" or parsed_profile.hostname!="www.vinted.fr" or not parsed_profile.path.startswith("/member/") or parsed_profile.username or parsed_profile.password or parsed_profile.port:
+    if parsed_profile.scheme!="https" or parsed_profile.hostname!="www.vinted.fr" or not parsed_profile.path.startswith("/member/") or parsed_profile.username or parsed_profile.password or parsed_profile.port or parsed_profile.query or parsed_profile.fragment:
         raise ValueError("Invalid seller profile URL")
 profile_cta=('<nav class="profile-cta" aria-label="Accès à la boutique Vinted"><a href="'+html.escape(profile,quote=True)+'" rel="noopener noreferrer nofollow" target="_blank" data-outbound="seller-profile">Voir toutes les annonces sur Vinted</a></nav>') if profile else ""
 cards=[]
@@ -18,7 +18,7 @@ for item in config["catalog"]:
     title=html.escape(item["title"])
     if url:
         parsed=urllib.parse.urlsplit(url)
-        if parsed.scheme!="https" or parsed.hostname not in {"vinted.fr","www.vinted.fr","vinted.com","www.vinted.com"} or parsed.username or parsed.password or parsed.port or not parsed.path.startswith("/items/"):
+        if parsed.scheme!="https" or parsed.hostname not in {"vinted.fr","www.vinted.fr","vinted.com","www.vinted.com"} or parsed.username or parsed.password or parsed.port or not parsed.path.startswith("/items/") or parsed.query or parsed.fragment or not parsed.path[len("/items/"):].split("/")[0].split("-")[0].isdigit():
             raise ValueError("Unverified Vinted host: "+str(url))
         link=html.escape(url,quote=True)
         cards.append(f'<article class="art-card"><div class="art-mat" aria-hidden="true"><span>TOILE D’OR</span></div><div class="art-info"><p class="eyebrow">Collection privée</p><h2>{title}</h2><a href="{link}" rel="noopener noreferrer nofollow" target="_blank" data-poster="{html.escape(item["id"])}">Découvrir sur Vinted <span aria-hidden="true">↗</span></a></div></article>')
