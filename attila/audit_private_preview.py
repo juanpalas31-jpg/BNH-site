@@ -13,6 +13,7 @@ assert config["rules"]["freeze_existing_links"] is True
 assert config["rules"]["no_public_commercial_actions"] is True
 assert config["rules"]["no_automatic_listing_additions"] is True
 assert config["rules"]["keep_projects_separate"] is True
+assert config["rules"]["production_requires"] == "VALIDÉ"
 result = subprocess.run([sys.executable, str(root / "test_preview.py")], capture_output=True, text=True)
 if result.returncode:
     print(result.stdout, result.stderr, file=sys.stderr)
@@ -29,6 +30,7 @@ assert page.count('data-poster=') == sum(bool(item.get("vinted_url")) for item i
 assert 'sessionStorage' in page
 assert 'data-outbound="seller-profile"' in page
 assert 'data-poster=' in page
+assert 'a[data-poster],a[data-outbound]' in page
 assert '<meta name="description"' in page
 assert '<meta name="viewport"' in page
 assert page.count("<h1>") == 1
