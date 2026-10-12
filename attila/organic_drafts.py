@@ -18,7 +18,7 @@ for item in catalog:
       "destination_url":url,
       "ready_for_linked_preview":bool(url),
       "published":False,
-      "status":"link_verified_in_catalog" if url else "awaiting_verified_vinted_item_url"
+      "status":"configured_url_not_live_verified" if url else "awaiting_verified_vinted_item_url"
     })
 out=root/"organic-drafts.json"
 out.write_text(json.dumps({"agent":"Attila","engine":"Spider Engine","drafts":campaigns,"published":False},ensure_ascii=False,indent=2),encoding="utf-8")
