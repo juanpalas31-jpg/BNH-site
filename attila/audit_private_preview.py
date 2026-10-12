@@ -14,6 +14,8 @@ assert config["rules"]["no_public_commercial_actions"] is True
 assert config["rules"]["no_automatic_listing_additions"] is True
 assert config["rules"]["keep_projects_separate"] is True
 assert config["rules"]["production_requires"] == "VALIDÉ"
+assert config["rules"]["no_fabricated_prices"] is True
+assert config["rules"]["use_verified_vinted_urls_only"] is True
 result = subprocess.run([sys.executable, str(root / "test_preview.py")], capture_output=True, text=True)
 if result.returncode:
     print(result.stdout, result.stderr, file=sys.stderr)
