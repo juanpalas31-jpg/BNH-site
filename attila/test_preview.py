@@ -20,6 +20,7 @@ assert "prefers-reduced-motion:reduce" in page
 assert "<h1>Toile d’Or</h1>" in page
 assert "noindex,nofollow,noarchive" in page
 assert 'class="profile-cta"' in page, "Profile CTA must appear in Preview"
+assert 'a[data-poster],a[data-outbound]' in page, "Poster and profile CTA click handlers must both be present"
 assert 'aria-label="Accès à la boutique Vinted"' in page
 assert 'href="#catalogue"' in page and 'id="catalogue"' in page, "Skip link target must exist"
 assert "minmax(min(100%,260px),1fr)" in page, "Narrow viewport columns must not overflow"
