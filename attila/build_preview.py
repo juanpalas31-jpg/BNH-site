@@ -18,7 +18,13 @@ seen=set()
 for item in config["catalog"]:
     if item["id"] in seen: raise ValueError("Duplicate poster id")
     seen.add(item["id"])
-    url=item["vinted_url"]
+    url=item.get("vinted_url")
+    if not isinstance(item.get("id"), str) or not item["id"].strip():
+        raise ValueError("Poster ID must be a nonempty string")
+    if not isinstance(item.get("title"), str) or not item["title"].strip():
+        raise ValueError("Poster title must be a nonempty string")
+    if url is not None and not isinstance(url, str):
+        raise ValueError("Poster URL must be a string or null")
     title=html.escape(item["title"])
     if url:
         parsed=urllib.parse.urlsplit(url)
