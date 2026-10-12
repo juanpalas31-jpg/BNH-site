@@ -2,12 +2,19 @@
   "engine": "Spider Engine",
   "agent": "Attila",
   "project": "Toile d'Or / Vinted",
-  "status": "preview",
+  "status": "private_reconciliation",
   "rules": {
     "production_requires": "VALIDÉ",
     "use_verified_vinted_urls_only": true,
     "no_fabricated_prices": true,
-    "no_public_commercial_actions": true
+    "no_public_commercial_actions": true,
+    "public_release_blocked": true,
+    "freeze_existing_catalog": true,
+    "freeze_existing_images": true,
+    "freeze_existing_links": true,
+    "no_automatic_listing_additions": true,
+    "other_project_name": "Bilan Habitat",
+    "keep_projects_separate": true
   },
   "catalog": [
     {
@@ -41,5 +48,20 @@
     "privacy": "no_personal_data"
   },
   "seller_profile_url": "https://www.vinted.fr/member/279658359-juanpalas",
-  "seller_profile_source": "user_provided"
+  "seller_profile_source": "user_provided",
+  "exercise_1": {
+    "status": "frozen_pending_design_reconciliation",
+    "design_reference": "refined_art_gallery",
+    "organic_seo_checkpoint_visits": 100,
+    "verified_unique_visitors_goal": 1000,
+    "bob_marley_reference_url": "https://www.vinted.fr/items/7253608361",
+    "bob_marley_reference_status": "historical_user_provided_not_live_verified",
+    "do_not_add_to_catalog_until_existing_selection_reconciled": true
+  },
+  "reconciliation": {
+    "source_branch": "preview/attila-vinted-freud-link-20261010",
+    "preserve_existing_code": true,
+    "do_not_merge_unrelated_projects": true,
+    "require_verified_design_assets_before_publication": true
+  }
 }
