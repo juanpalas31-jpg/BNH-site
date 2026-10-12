@@ -1,5 +1,8 @@
 name: Attila Spider Engine autonomous preview audit
 on:
+  push:
+    branches:
+      - work/toile-dor-reconciliation-20261012
   schedule:
     - cron: '17 * * * *'
   workflow_dispatch:
@@ -29,6 +32,7 @@ jobs:
           PY
       - name: Build Vinted Preview and verify guarded links
         run: |
+          python3 attila/audit_private_preview.py
           python3 attila/check_catalog.py
           python3 attila/test_preview.py
           python3 attila/build_preview.py
