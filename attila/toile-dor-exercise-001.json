@@ -1,0 +1,20 @@
+{
+  "exercise": "TOILE_DOR_VISITOR_OBSERVATION_001",
+  "status": "FROZEN_FOR_VALIDATION",
+  "goal_unique_visitors": 1000,
+  "primary_metric": "unique_page_view_visitors",
+  "source_of_truth": "supabase.toile_dor_analytics_events",
+  "event_type": "page_view",
+  "rules": {
+    "observe_visits_only": true,
+    "ignore_clicks_for_success": true,
+    "ignore_sales_for_success": true,
+    "freeze_current_photos": true,
+    "freeze_current_links": true,
+    "add_no_photos": true,
+    "add_no_links": true,
+    "expand_only_after_goal": true
+  },
+  "next_gate": "1000_VERIFIED_UNIQUE_VISITORS",
+  "note": "L'araignée fait son nid : observer d'abord, enrichir ensuite."
+}

@@ -1,0 +1,35 @@
+{
+  "exercise": "TOILE_DOR_SEO_OBSERVATION_001",
+  "project": "TOILE_D_OR_VINTED",
+  "engine": "SPIDER_ENGINE",
+  "agent": "ATTILA",
+  "status": "OBSERVATION_GATE",
+  "goal_verified_seo_visits": 100,
+  "primary_metric": "verified_organic_search_visits",
+  "source_of_truth": "supabase.toile_dor_analytics_events",
+  "qualification": {
+    "event_type": "page_view",
+    "organic_search_only": true,
+    "exclude_owner_and_test_traffic_when_identifiable": true,
+    "no_invented_metrics": true
+  },
+  "quality_gate_before_observation": [
+    "unique_title",
+    "meta_description",
+    "index_follow",
+    "canonical",
+    "useful_original_content",
+    "internal_links",
+    "vinted_cta_where_existing",
+    "analytics",
+    "sitemap_entry",
+    "robots_crawlable",
+    "mobile_rendering"
+  ],
+  "freeze": {
+    "new_photos": true,
+    "new_commercial_links": true
+  },
+  "validation_rule": "SEO is not declared complete before 100 verified organic-search visits are observed.",
+  "next_gate": "100_VERIFIED_ORGANIC_SEARCH_VISITS"
+}
