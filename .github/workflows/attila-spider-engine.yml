@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - work/toile-dor-reconciliation-20261012
-  schedule:
-    - cron: '17 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -55,6 +53,7 @@ jobs:
           name: attila-audit
           path: |
             attila-evidence/audit.json
+            attila/private-audit-status.json
             attila/preview.html
             attila/coverage-report.json
             attila/organic-drafts.json
