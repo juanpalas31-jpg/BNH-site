@@ -14,6 +14,10 @@ def run(catalog):
         return p,html
 p,page=run(original["catalog"])
 assert p.returncode==0,p.stderr
+assert "Toile d’Or" in page
+assert "color-scheme:dark" in page and "--gold:#bca17b" in page
+assert "prefers-reduced-motion:reduce" in page
+assert "<h1>Toile d’Or</h1>" in page
 assert "noindex,nofollow,noarchive" in page
 assert 'class="profile-cta"' in page, "Profile CTA must appear in Preview"
 assert 'aria-label="Accès à la boutique Vinted"' in page
@@ -35,8 +39,4 @@ for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345
     assert p.returncode!=0,bad
 p,_=run(good+good)
 assert p.returncode!=0,"Duplicate IDs must be rejected"
-assert "Toile d’Or" in page
-assert "color-scheme:dark" in page and "--gold:#bca17b" in page
-assert "prefers-reduced-motion:reduce" in page
-assert "<h1>Toile d’Or</h1>" in page
 print("PASS: private gallery design, mobile grid, accessibility, existing catalog, noindex, escaped titles, guarded item URLs, duplicate IDs")
