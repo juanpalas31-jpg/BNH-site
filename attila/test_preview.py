@@ -12,6 +12,17 @@ def run(catalog):
         p=subprocess.run([sys.executable,str(d/"build_preview.py")],capture_output=True,text=True)
         html=(d/"preview.html").read_text(encoding="utf-8") if (d/"preview.html").exists() else ""
         return p,html
+# A private preview must reject configurations with release safeguards removed.
+for guard in ("public_release_blocked", "no_public_commercial_actions"):
+    with tempfile.TemporaryDirectory() as td:
+        d=pathlib.Path(td)
+        (d/"build_preview.py").write_text(builder,encoding="utf-8")
+        altered=json.loads(json.dumps(original))
+        altered["rules"][guard]=False
+        (d/"vinted-funnel.json").write_text(json.dumps(altered),encoding="utf-8")
+        rejected=subprocess.run([sys.executable,str(d/"build_preview.py")],capture_output=True,text=True)
+        assert rejected.returncode!=0, f"Missing guard was accepted: {guard}"
+        assert not (d/"preview.html").exists(), f"Unsafe preview created: {guard}"
 p,page=run(original["catalog"])
 assert p.returncode==0,p.stderr
 assert "Toile d’Or" in page
