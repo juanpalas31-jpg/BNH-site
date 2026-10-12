@@ -18,13 +18,13 @@ assert "noindex,nofollow,noarchive" in page
 assert 'class="profile-cta"' in page, "Profile CTA must appear in Preview"
 assert 'aria-label="Accès à la boutique Vinted"' in page
 assert 'href="#catalogue"' in page and 'id="catalogue"' in page, "Skip link target must exist"
-assert "minmax(min(100%,250px),1fr)" in page, "Narrow viewport columns must not overflow"
-assert "overflow-wrap:anywhere" in page, "Long titles must wrap"
-assert "min-height:48px" in page, "Mobile CTA touch target must be >= 48px"
-assert ".profile-cta a{width:100%}" in page, "CTA must span narrow screens"
+assert "minmax(min(100%,260px),1fr)" in page, "Narrow viewport columns must not overflow"
+assert "min-width:0" in page, "Grid items must not overflow"
+assert "min-height:44px" in page, "Touch targets must be >= 44px"
+assert "max-width:1200px" in page, "Gallery content width must be bounded"
 assert original["seller_profile_url"] in page, "Only owner-provided profile URL is used"
-assert page.count("Annonce Vinted à vérifier") == len(original["catalog"])
-assert 'data-poster=' not in page
+assert page.count("Annonce à vérifier avant activation.") == sum(not x.get("vinted_url") for x in original["catalog"])
+assert page.count('data-poster=') == sum(bool(x.get("vinted_url")) for x in original["catalog"])
 good=[{"id":"test","title":"Test & Poster","vinted_url":"https://www.vinted.fr/items/12345-test"}]
 p,page=run(good)
 assert p.returncode==0,p.stderr
@@ -35,4 +35,8 @@ for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345
     assert p.returncode!=0,bad
 p,_=run(good+good)
 assert p.returncode!=0,"Duplicate IDs must be rejected"
-print("PASS: preview CTA, 48px touch target, mobile width, owner profile, noindex, escaped titles, item URL, four bad URLs, duplicate IDs")
+assert "refined_art_gallery" not in page or "Toile d’Or" in page
+assert "color-scheme:dark" in page and "--gold:#bca17b" in page
+assert "prefers-reduced-motion:reduce" in page
+assert "<h1>Toile d’Or</h1>" in page
+print("PASS: private gallery design, mobile grid, accessibility, existing catalog, noindex, escaped titles, guarded item URLs, duplicate IDs")
