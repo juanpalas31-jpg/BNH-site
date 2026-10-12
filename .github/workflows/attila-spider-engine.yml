@@ -39,7 +39,9 @@ jobs:
           from pathlib import Path
           p=Path('attila/preview.html').read_text(encoding='utf-8')
           assert 'noindex,nofollow,noarchive' in p
-          assert '<h1>Toile d’Or — affiches</h1>' in p
+          assert '<h1>Toile d’Or</h1>' in p
+          assert 'color-scheme:dark' in p
+          assert '--gold:#bca17b' in p
           assert '<meta name="robots" content="noindex,nofollow,noarchive">' in p
           assert 'href="None"' not in p
           print('Attila Preview checks: passed')
