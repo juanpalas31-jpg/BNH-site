@@ -7,6 +7,9 @@ if config.get("rules", {}).get("public_release_blocked") is not True:
     raise ValueError("Private preview requires public_release_blocked=true")
 if config.get("rules", {}).get("no_public_commercial_actions") is not True:
     raise ValueError("Private preview requires no_public_commercial_actions=true")
+for guard in ("freeze_existing_catalog", "freeze_existing_images", "freeze_existing_links", "no_automatic_listing_additions", "keep_projects_separate"):
+    if config.get("rules", {}).get(guard) is not True:
+        raise ValueError("Private preview requires "+guard+"=true")
 profile=config.get("seller_profile_url")
 if profile:
     parsed_profile=urllib.parse.urlsplit(profile)
