@@ -13,7 +13,7 @@ def run(catalog):
         html=(d/"preview.html").read_text(encoding="utf-8") if (d/"preview.html").exists() else ""
         return p,html
 # A private preview must reject configurations with release safeguards removed.
-for guard in ("public_release_blocked", "no_public_commercial_actions"):
+for guard in ("public_release_blocked", "no_public_commercial_actions", "freeze_existing_catalog", "freeze_existing_images", "freeze_existing_links", "no_automatic_listing_additions", "keep_projects_separate"):
     with tempfile.TemporaryDirectory() as td:
         d=pathlib.Path(td)
         (d/"build_preview.py").write_text(builder,encoding="utf-8")
