@@ -56,6 +56,14 @@ assert 'data-poster="poster&quot; onclick=&quot;alert(1)"' in page
 for bad in ["https://evil.example/items/12345","http://www.vinted.fr/items/12345","https://www.vinted.fr/member/123","https://www.vinted.fr.evil.example/items/123","https://www.vinted.fr/items/not-an-id","https://www.vinted.fr/items/123?utm_source=unknown","https://www.vinted.fr/items/123#fragment"]:
     p,_=run([{"id":"bad","title":"bad","vinted_url":bad}])
     assert p.returncode!=0,bad
+for invalid in [
+    {"id":"","title":"Empty ID","vinted_url":None},
+    {"id":"missing-title","title":"","vinted_url":None},
+    {"id":"wrong-type","title":42,"vinted_url":None},
+    {"id":"bad-url-type","title":"Invalid URL","vinted_url":123},
+]:
+    p,_=run([invalid])
+    assert p.returncode!=0, f"Malformed catalog entry accepted: {invalid}"
 p,_=run(good+good)
 assert p.returncode!=0,"Duplicate IDs must be rejected"
 print("PASS: private gallery design, mobile grid, accessibility, existing catalog, noindex, escaped titles, guarded item URLs, duplicate IDs")
