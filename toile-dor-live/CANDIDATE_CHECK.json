@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "html_pages": 14,
+  "unique_titles": 14,
+  "unique_descriptions": 14,
+  "photo_files": 10,
+  "pages_with_photos": 7,
+  "photos_unchanged": true,
+  "commercial_destinations_unchanged": true,
+  "repeated_article_product_paragraphs": false,
+  "issues": [],
+  "browser_mobile_check": "not_completed",
+  "public_tracking_test": "not_completed",
+  "production_publication": "suspended"
+}

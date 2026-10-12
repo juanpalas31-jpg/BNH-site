@@ -4,5 +4,10 @@
     "api/toile-dor-observe.js": {
       "memory": 256
     }
+  },
+  "git": {
+    "deploymentEnabled": {
+      "review/toile-dor-checked-20261012": false
+    }
   }
 }

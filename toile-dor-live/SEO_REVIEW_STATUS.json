@@ -1,0 +1,17 @@
+{
+  "status": "content_revised_pending_visual_review",
+  "html_pages": 14,
+  "new_photos": 0,
+  "publication": "suspended",
+  "changes": [
+    "unique and descriptive title/meta descriptions",
+    "duplicate meta descriptions removed",
+    "draft labels removed",
+    "unsupported Freud price/frame/size claims removed",
+    "unverified Freud artwork title removed",
+    "distinct decoration guidance and internal linking added"
+  ],
+  "visual_browser_check": "not_completed",
+  "vinted_listing_availability": "not_verified",
+  "indexation": "not_verified"
+}
