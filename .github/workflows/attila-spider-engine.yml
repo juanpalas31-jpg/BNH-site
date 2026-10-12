@@ -49,6 +49,7 @@ jobs:
           print('Attila Preview checks: passed')
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: attila-audit
           path: |
