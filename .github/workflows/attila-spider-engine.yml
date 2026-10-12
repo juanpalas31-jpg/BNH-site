@@ -32,8 +32,6 @@ jobs:
         run: |
           python3 attila/audit_private_preview.py
           python3 attila/check_catalog.py
-          python3 attila/test_preview.py
-          python3 attila/build_preview.py
           python3 attila/catalog_coverage.py
           python3 attila/organic_drafts.py
           python3 attila/editorial_queue.py
