@@ -16,11 +16,11 @@ profile_cta=('<nav class="profile-cta" aria-label="Accès à la boutique Vinted"
 cards=[]
 seen=set()
 for item in config["catalog"]:
+    if not isinstance(item.get("id"), str) or not item["id"].strip():
+        raise ValueError("Poster ID must be a nonempty string")
     if item["id"] in seen: raise ValueError("Duplicate poster id")
     seen.add(item["id"])
     url=item.get("vinted_url")
-    if not isinstance(item.get("id"), str) or not item["id"].strip():
-        raise ValueError("Poster ID must be a nonempty string")
     if not isinstance(item.get("title"), str) or not item["title"].strip():
         raise ValueError("Poster title must be a nonempty string")
     if url is not None and not isinstance(url, str):
