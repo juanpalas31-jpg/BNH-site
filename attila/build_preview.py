@@ -3,6 +3,10 @@
 import json, pathlib, html, urllib.parse
 root=pathlib.Path(__file__).resolve().parent
 config=json.loads((root/"vinted-funnel.json").read_text(encoding="utf-8"))
+if config.get("rules", {}).get("public_release_blocked") is not True:
+    raise ValueError("Private preview requires public_release_blocked=true")
+if config.get("rules", {}).get("no_public_commercial_actions") is not True:
+    raise ValueError("Private preview requires no_public_commercial_actions=true")
 profile=config.get("seller_profile_url")
 if profile:
     parsed_profile=urllib.parse.urlsplit(profile)
