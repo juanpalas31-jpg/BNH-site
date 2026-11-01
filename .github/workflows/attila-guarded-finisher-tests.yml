@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - name: Finisher execution bridge tests
         run: node attila/execution-bridge.test.mjs
+      - name: Bamak Event read-only integration tests
+        run: node attila/bamak-event-readonly.test.mjs
       - name: Mini-Tila colony tests
         run: node attila/mini-tila-colony.test.mjs
       - name: Cognitive runtime tests
