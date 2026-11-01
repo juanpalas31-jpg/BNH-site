@@ -20,6 +20,8 @@ jobs:
         run: node attila/project-source-isolation.test.mjs
       - name: Bamak Event read-only integration tests
         run: node attila/bamak-event-readonly.test.mjs
+      - name: Bamak Event fleet health tests
+        run: node attila/bamak-event-health.test.mjs
       - name: Mini-Tila colony tests
         run: node attila/mini-tila-colony.test.mjs
       - name: Cognitive runtime tests
