@@ -7,7 +7,7 @@ export async function inspectBamakBooths({adapter,boothIds=[],authorized=false}=
  if(authorized!==true) return Object.freeze({project:"bamak-event",status:"AUTHORIZATION_REQUIRED",booths:[]});
  if(typeof adapter?.getStatus!=="function") return Object.freeze({project:"bamak-event",status:"ADAPTER_INCOMPLETE",missing:["getStatus"],booths:[]});
  if(!Array.isArray(boothIds)) return Object.freeze({project:"bamak-event",status:"INVALID_BOOTH_IDS",booths:[]});
- const ids=[...new Set(boothIds.filter(id=>typeof id==="string"&&id.trim()).map(id=>id.trim()))].slice(0,100);
+ const ids=[...new Set(boothIds.filter(id=>typeof id==="string"&&id.trim()).map(id=>id.trim().slice(0,128)))].slice(0,100);
  const booths=[];
  for(const id of ids){
   try{
