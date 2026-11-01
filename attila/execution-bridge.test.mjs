@@ -9,12 +9,12 @@ const mk=id=>({
  CHAT_HISTORY:async()=>[{project:id,content:"prompt context"}],
  AUTHORIZED_EMAIL:async()=>[{project:id,content:"mail context"}]
 });
-const ids=["mon-petit-marin","mes-petites-affiches","le-bilan"];
+const ids=["mon-petit-marin","mes-petites-affiches","le-bilan","bamak-event"];
 const connectorsByProject=Object.fromEntries(ids.map(id=>[id,mk(id)]));
 const statesByProject=Object.fromEntries(ids.map(id=>[id,{proven:["mobile"]}]));
 const executorByProject=Object.fromEntries(ids.map(id=>[id,async task=>({evidence:{project:id,gaps:task.gaps}})]));
 const out=await runFinisherFleet({connectorsByProject,statesByProject,executorByProject});
-assert.equal(out.report.length,3);
+assert.equal(out.report.length,4);
 assert.ok(out.report.every(x=>x.status==="FINISHER_EXECUTED"));
 assert.ok(out.report.every(x=>x.productionPublished===false));
 console.log("Attila execution bridge tests OK");
