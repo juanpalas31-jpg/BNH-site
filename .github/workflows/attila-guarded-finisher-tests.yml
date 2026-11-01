@@ -22,6 +22,8 @@ jobs:
         run: node attila/bamak-event-readonly.test.mjs
       - name: Bamak Event fleet health tests
         run: node attila/bamak-event-health.test.mjs
+      - name: Bamak Event supervision cycle tests
+        run: node attila/bamak-event-supervision.test.mjs
       - name: Mini-Tila colony tests
         run: node attila/mini-tila-colony.test.mjs
       - name: Cognitive runtime tests
