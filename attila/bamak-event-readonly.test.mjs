@@ -10,6 +10,12 @@ const adapter={
 const unauthorized=await inspectBamakBooths({adapter,boothIds:["booth-1"],authorized:false});
 assert.equal(unauthorized.status,"AUTHORIZATION_REQUIRED");
 assert.equal(reads,0);
+const stringAuth=await inspectBamakBooths({adapter,boothIds:["booth-1"],authorized:"true"});
+assert.equal(stringAuth.status,"AUTHORIZATION_REQUIRED");
+assert.equal(reads,0);
+const invalidIds=await inspectBamakBooths({adapter,boothIds:null,authorized:true});
+assert.equal(invalidIds.status,"INVALID_BOOTH_IDS");
+assert.equal(reads,0);
 const result=await inspectBamakBooths({adapter,boothIds:["booth-1","booth-1","booth-2"],authorized:true});
 assert.equal(result.status,"READ_ONLY");
 assert.equal(result.booths.length,2);
