@@ -1,12 +1,11 @@
 // Bamak Event read-only integration: reuses the existing photobooth adapter contract.
 // Never sends commands to devices. A real adapter must be injected by an authorized caller.
-import {validatePhotoboothAdapter} from "../lead-engine/photobooth/photobooth-adapter-interface.js";
+// Read-only access requires getStatus only; command methods are deliberately not required.
 
 const safeText=(value,max=128)=>String(value??"").slice(0,max);
 export async function inspectBamakBooths({adapter,boothIds=[],authorized=false}={}){
  if(!authorized) return Object.freeze({project:"bamak-event",status:"AUTHORIZATION_REQUIRED",booths:[]});
- const validation=validatePhotoboothAdapter(adapter);
- if(!validation.ok) return Object.freeze({project:"bamak-event",status:"ADAPTER_INCOMPLETE",missing:validation.missing,booths:[]});
+ if(typeof adapter?.getStatus!=="function") return Object.freeze({project:"bamak-event",status:"ADAPTER_INCOMPLETE",missing:["getStatus"],booths:[]});
  const ids=[...new Set(boothIds.filter(id=>typeof id==="string"&&id.trim()).map(id=>id.trim()))].slice(0,100);
  const booths=[];
  for(const id of ids){
