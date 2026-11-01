@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import {FINISHER_REGISTRY,finisherAssignments} from "./finisher-registry.mjs";
+assert.equal(FINISHER_REGISTRY.priorityOwner,"ATTILA");
+assert.equal(FINISHER_REGISTRY.priorityProject,"toile-dor");
+assert.equal(FINISHER_REGISTRY.priorityMode,"PRIMARY_FOCUS");
+const secondary=FINISHER_REGISTRY.secondaryProjects;
+assert.ok(secondary.includes("bamak-event"));
+assert.ok(secondary.includes("mon-petit-marin"));
+assert.equal(secondary.includes("toile-dor"),false);
+assert.deepEqual(finisherAssignments().map(a=>a.project.id),secondary);
+console.log("Attila project priority tests OK");
