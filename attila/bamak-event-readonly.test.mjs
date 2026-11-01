@@ -19,6 +19,7 @@ assert.equal(reads,0);
 const result=await inspectBamakBooths({adapter,boothIds:["booth-1","booth-1","booth-2"],authorized:true});
 assert.equal(result.status,"READ_ONLY");
 assert.equal(result.booths.length,2);
+assert.deepEqual(result.summary,{total:2,reachable:1,unreachable:1});
 assert.equal(reads,2);
 assert.equal(sends,0);
 assert.equal(result.commandsSent,0);
