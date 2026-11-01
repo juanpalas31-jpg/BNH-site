@@ -29,7 +29,7 @@ export async function collectProjectMemory({project,adapters={}}={}){
     if(typeof read!=="function") continue;
     const items=await read(project);
     for(const item of (Array.isArray(items)?items:[items]).filter(Boolean))
-      sources.push(Object.freeze({kind,project:project.id,...redact(item)}));
+      sources.push(Object.freeze({...redact(item),kind,project:project.id}));
   }
   return Object.freeze({project:project.id,sources,collectedAt:new Date().toISOString()});
 }
