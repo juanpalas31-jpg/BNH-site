@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import {assessBamakFleet} from "./bamak-event-health.mjs";
+const inspect=booths=>({project:"bamak-event",status:"READ_ONLY",booths});
+assert.equal(assessBamakFleet(null).status,"INSPECTION_REQUIRED");
+assert.equal(assessBamakFleet(inspect([])).health,"UNKNOWN");
+const good=assessBamakFleet(inspect([{id:"a",reachable:true}]));
+assert.equal(good.health,"HEALTHY");
+assert.equal(good.alerts.length,0);
+const mixed=assessBamakFleet(inspect([{id:"a",reachable:true},{id:"b",reachable:false}]));
+assert.equal(mixed.health,"DEGRADED");
+assert.deepEqual(mixed.summary,{total:2,reachable:1,unreachable:1});
+assert.equal(mixed.alerts[0].boothId,"b");
+assert.equal(mixed.requiresHumanReview,true);
+assert.equal(mixed.commandsSent,0);
+const down=assessBamakFleet(inspect([{id:"a",reachable:false}]));
+assert.equal(down.health,"OFFLINE");
+assert.equal(assessBamakFleet({project:"other",status:"READ_ONLY",booths:[]}).status,"INSPECTION_REQUIRED");
+console.log("Bamak Event fleet health tests OK");
