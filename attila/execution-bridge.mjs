@@ -2,6 +2,7 @@
 // External source readers/executors remain injected so the runtime cannot invent access.
 import {runFinisherPreflight,executeFinisher} from "./mini-tila-finisher.mjs";
 import {finisherAssignments} from "./finisher-registry.mjs";
+import {verifyFinisherPreflight} from "./preflight-guard.mjs";
 
 export async function runFinisherFleet({connectorsByProject={},statesByProject={},executorByProject={},evidenceSink=async()=>{}}={}){
  const report=[];
@@ -13,6 +14,12 @@ export async function runFinisherFleet({connectorsByProject={},statesByProject={
     adapters:connectorsByProject[id]||{},
     currentState:statesByProject[id]||{}
    });
+   const guard=verifyFinisherPreflight(preflight);
+   if(!guard.allowed){
+    const item={project:id,status:"PREFLIGHT_BLOCKED",reasons:guard.reasons,productionPublished:false};
+    await evidenceSink(item); report.push(item);
+    continue;
+   }
    if(!preflight.ready){
     const item={project:id,status:"CONTEXT_INCOMPLETE",confidence:preflight.intent.confidence,next:preflight.next,productionPublished:false};
     await evidenceSink(item); report.push(item);
