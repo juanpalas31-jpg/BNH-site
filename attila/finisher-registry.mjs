@@ -3,7 +3,9 @@
 
 export const FINISHER_REGISTRY=Object.freeze({
  priorityOwner:"ATTILA",
- priorityProject:"VINTED_TOILE_DOR",
+ priorityProject:"toile-dor",
+ priorityMode:"PRIMARY_FOCUS",
+ secondaryProjects:Object.freeze(["mon-petit-marin","mes-petites-affiches","le-bilan","bamak-event"]),
  projects:Object.freeze([
   {id:"mon-petit-marin",worker:"MINI_TILA_FINISHER_MPM",state:"UNFINISHED",preflight:"REQUIRED"},
   {id:"mes-petites-affiches",worker:"MINI_TILA_FINISHER_MPA",state:"UNFINISHED",preflight:"REQUIRED"},
