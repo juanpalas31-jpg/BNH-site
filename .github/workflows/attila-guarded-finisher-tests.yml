@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - name: Finisher execution bridge tests
         run: node attila/execution-bridge.test.mjs
+      - name: Project priority tests
+        run: node attila/project-priority.test.mjs
       - name: Project source isolation tests
         run: node attila/project-source-isolation.test.mjs
       - name: Bamak Event read-only integration tests
