@@ -17,5 +17,6 @@ export async function inspectBamakBooths({adapter,boothIds=[],authorized=false}=
    booths.push({id:safeText(id),reachable:false,deviceState:"STATUS_ERROR"});
   }
  }
- return Object.freeze({project:"bamak-event",status:"READ_ONLY",booths,commandsSent:0,productionChanged:false});
+ const summary={total:booths.length,reachable:booths.filter(b=>b.reachable).length,unreachable:booths.filter(b=>!b.reachable).length};
+ return Object.freeze({project:"bamak-event",status:"READ_ONLY",booths,summary,commandsSent:0,productionChanged:false});
 }
